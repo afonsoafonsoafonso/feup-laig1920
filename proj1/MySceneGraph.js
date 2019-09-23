@@ -227,9 +227,26 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
+        /* this.onXMLMinorError("To do: Parse views and create cameras."); */
+        var dflt = this.reader.getString(viewsNode, 'default')
+        if (dflt == null)
+            return "no default defined for views";
 
-        return null;
+        this.idDefault = dflt
+
+        //checking cameras (child nodes)
+        var children = viewsNode.children;
+            
+        this.createCamera(children[0]);
+    }
+
+    /**
+     * Para já só dá print da info para ver se o parsing está bem
+     * Falta meter a informação no sistema n sei como
+     * @param {view node element} viewNode 
+     */
+    createCamera(viewNode) {
+        console.log("persp ", viewNode);
     }
 
     /**

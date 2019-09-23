@@ -3,7 +3,7 @@
 */
 class MyInterface extends CGFinterface {
     /**
-     * @constructor
+     * @construcr
      */
     constructor() {
         super();
