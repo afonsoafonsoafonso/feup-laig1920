@@ -687,12 +687,18 @@ class MySceneGraph {
 
             this.onXMLMinorError("To do: Parse components.");
             // Transformations
-
+            var transfChildren=[] 
+            transfChildren = grandChildren[transformationIndex].children
             // Materials
-
+            var mateChildren=[]
+            mateChildren = grandChildren[materialsIndex].children
             // Texture
-
+            var texChildren=[]
+            texChildren = grandChildren[textureIndex].children
             // Children
+            var childIndex=[]
+            childIndex = grandChildren[childrenIndex].children
+
         }
     }
 
