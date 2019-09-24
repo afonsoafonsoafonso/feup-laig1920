@@ -1,4 +1,4 @@
-var DEGREE_TO_RAD = Math.PI / 180;
+    var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
 var SCENE_INDEX = 0;
@@ -227,17 +227,33 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        /* this.onXMLMinorError("To do: Parse views and create cameras."); */
+        /* TODO: checkcar se o id dado como default coincide mesmo com o nome de alguma camera */
         var dflt = this.reader.getString(viewsNode, 'default')
         if (dflt == null)
             return "no default defined for views";
 
         this.idDefault = dflt
+        console.log("dflt:", dflt)
 
         //checking cameras (child nodes)
         var children = viewsNode.children;
-            
-        this.createCamera(children[0]);
+        if (children.length===0)
+            return "no view given"; 
+
+        /* talvez desncessario chegar a guardar nomes dos child nodes*/
+        var childNames = []
+        var childIDs = []
+        for (var i = 0; i < children.length; i++) {
+            console.log("child-name:", children[i].getAttribute("id"))
+            childNames.push(children[i].nodeName);
+            childIDs.push(children[i].getAttribute("id"))
+        }
+
+        /*ver se um node coincide com o nome do dado como default*/
+        if(!childIDs.includes(dflt))
+            return "no view corresponds to given default view"
+
+        console.log("dflt-presence-check:", childIDs.includes(dflt))
     }
 
     /**
