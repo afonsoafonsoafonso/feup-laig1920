@@ -27,7 +27,7 @@ class MySceneGraph {
 
         this.nodes = [];
 
-        this.views = [];
+        //this.views = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -246,8 +246,6 @@ class MySceneGraph {
         var childNames = []
         var childIDs = []
         for (var i = 0; i < children.length; i++) {
-            console.log("child-name:", children[i].getAttribute("id"))
-
             if(children[i].nodeName != "perspective" && children[i].nodeName != "ortho")
                 return "invalid view tag"
 
@@ -258,9 +256,14 @@ class MySceneGraph {
         if(!childIDs.includes(dflt))
             return "no view corresponds to given default view"
 
-        this.createCamera(children[0])
-
-        
+        for (var i = 0; i < children.length; i++) {
+            if(children[i].nodeName=="perspective") {
+                this.createCamera(children[i])
+            }
+            else {
+                this.createCamera(children[i])
+            }
+        }
     }
 
     /**
@@ -283,20 +286,9 @@ class MySceneGraph {
         const to_y = children[1].getAttribute("y")
         const to_z = children[1].getAttribute("z")
 
-        /*
-        console.log("id:", id)
-        console.log("near:", near)
-        console.log("far:", far)
-        console.log("angle:", angle)
-        console.log("from_x:", from_x)
-        console.log("from_y:", from_y)
-        console.log("from_z:", from_z)
-        */
-
         var v = new CGFcamera(angle*DEGREE_TO_RAD, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
 
-        this.views[id] = v;
-
+        // fazer alguma coisa com V de forma a por esta merda a dar
     }   
 
     /**
@@ -458,10 +450,23 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-
         //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
-        return null;
+        var children = texturesNode.children;
+        for (var i = 0; i < children.length; i++) {
+            if(children[i].nodeName != "texture")
+                return "invalid texture tag"
+            this.createTexture(children[i])
+        }
+
+    }
+
+    createTexture(textureNode) {
+        const id = textureNode.getAttribute("id")
+        const file = textureNode.getAttribute("file")
+
+        var t = new CFGtexture(id, file)
+        
+        //fazer alguma merda com t
     }
 
     /**
