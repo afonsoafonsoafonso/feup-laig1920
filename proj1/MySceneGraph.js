@@ -240,7 +240,7 @@ class MySceneGraph {
         if (children.length===0)
             return "no view given"; 
 
-        /* talvez desncessario chegar a guardar nomes dos child nodes*/
+        /* guarda childNames e childIDs e verifica se se tags são válidas*/
         var childNames = []
         var childIDs = []
         for (var i = 0; i < children.length; i++) {
