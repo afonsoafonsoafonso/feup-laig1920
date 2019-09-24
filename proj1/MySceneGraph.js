@@ -463,8 +463,11 @@ class MySceneGraph {
     createTexture(textureNode) {
         const id = textureNode.getAttribute("id")
         const file = textureNode.getAttribute("file")
-
-        var t = new CFGtexture(id, file)
+        /*
+        console.log("ID:", id)
+        console.log("FILE:", file)
+        */
+        var t = new CGFtexture(id, file);
         
         //fazer alguma merda com t
     }
