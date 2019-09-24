@@ -245,7 +245,7 @@ class MySceneGraph {
         var childIDs = []
         for (var i = 0; i < children.length; i++) {
             console.log("child-name:", children[i].getAttribute("id"))
-            if(children[i].nodeName != "perspective" || children[i].noeName != "ortho")
+            if(children[i].nodeName != "perspective" && children[i].nodeName != "ortho")
                 return "invalid view tag"
             childNames.push(children[i].nodeName);
             childIDs.push(children[i].getAttribute("id"))
