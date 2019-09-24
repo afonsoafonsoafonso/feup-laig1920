@@ -1,4 +1,4 @@
-    var DEGREE_TO_RAD = Math.PI / 180;
+var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
 var SCENE_INDEX = 0;
@@ -26,6 +26,8 @@ class MySceneGraph {
         scene.graph = this;
 
         this.nodes = [];
+
+        this.views = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -245,15 +247,20 @@ class MySceneGraph {
         var childIDs = []
         for (var i = 0; i < children.length; i++) {
             console.log("child-name:", children[i].getAttribute("id"))
+
             if(children[i].nodeName != "perspective" && children[i].nodeName != "ortho")
                 return "invalid view tag"
-            childNames.push(children[i].nodeName);
-            childIDs.push(children[i].getAttribute("id"))
 
+            childNames.push(children[i].nodeName);
+            childIDs.push(children[i].getAttribute("id"))   
         }
         /*ver se um node coincide com o nome do dado como default*/
         if(!childIDs.includes(dflt))
             return "no view corresponds to given default view"
+
+        this.createCamera(children[0])
+
+        
     }
 
     /**
@@ -262,8 +269,35 @@ class MySceneGraph {
      * @param {view node element} viewNode 
      */
     createCamera(viewNode) {
-        console.log("persp ", viewNode);
-    }
+        const id = viewNode.getAttribute("id")
+        const near = viewNode.getAttribute("near")
+        const far = viewNode.getAttribute("far")
+        const angle = viewNode.getAttribute("angle")
+
+        var children = viewNode.children;
+        const from_x = children[0].getAttribute("x")
+        const from_y = children[0].getAttribute("y")
+        const from_z = children[0].getAttribute("z")
+
+        const to_x = children[1].getAttribute("x")
+        const to_y = children[1].getAttribute("y")
+        const to_z = children[1].getAttribute("z")
+
+        /*
+        console.log("id:", id)
+        console.log("near:", near)
+        console.log("far:", far)
+        console.log("angle:", angle)
+        console.log("from_x:", from_x)
+        console.log("from_y:", from_y)
+        console.log("from_z:", from_z)
+        */
+
+        var v = new CGFcamera(angle*DEGREE_TO_RAD, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
+
+        this.views[id] = v;
+
+    }   
 
     /**
      * Parses the <ambient> node.
