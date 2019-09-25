@@ -34,6 +34,8 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+        this.cylinder = new MyCylinder(this, 5, 15, 10, 50, 50);
     }
 
     /**
@@ -45,7 +47,7 @@ class XMLscene extends CGFscene {
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
-    initLights() {
+    initLights() {  
         var i = 0;
         // Lights index.
 
@@ -136,6 +138,7 @@ class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
+        this.cylinder.display();
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
