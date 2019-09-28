@@ -18,28 +18,40 @@ class MySphere extends CGFobject {
         this.normals = [];
         this.texCoords = [];
 
-        var deltaLong = Math.PI/this.stacks; // stack step
-        var deltaLat = 2*Math.PI/this.slices; // slice step
+        var stackStep = Math.PI / this.stacks;
+        var sliceStep = 2*Math.PI / this.slices;
 
-        for(var i=0; i<=this.slices; i++) {
-            for(var j=0; j<=this.stacks; j++) {
+        for(var i=0; i<=this.stacks; i++) {
+            for(var j=0; j<=this.slices; j++) {
                 this.vertices.push(
-                    this.radius*Math.cos(Math.PI/2-i*deltaLong)*Math.cos(j*deltaLat),
-                    this.radius*Math.cos(Math.PI/2-ig*deltaLong)*Math.sin(j*deltaLat),
-                    this.radius*Math.sin(Math.PI/2-i*deltaLong)
+                    this.radius*Math.cos(Math.PI/2-i*stackStep)*Math.cos(j*sliceStep),
+                    this.radius*Math.cos(Math.PI/2-i*stackStep)*Math.sin(j*sliceStep),
+                    this.radius*Math.sin(Math.PI/2-i*stackStep)
                 )
                 this.normals.push(
-                    Math.cos(Math.PI/2-i*deltaLong)*Math.cos(j*deltaLat),
-                    Math.cos(Math.PI/2-1*deltaLong)*Math.sin(j*deltaLat),
-                    Math.sin(Math.PI/2-i*deltaLong)
+                    Math.cos(Math.PI/2-i*stackStep)*Math.cos(j*sliceStep),
+                    Math.cos(Math.PI/2-i*stackStep)*Math.sin(j*sliceStep),
+                    Math.sin(Math.PI/2-i*stackStep)
                 )
             }
         }
-
-        for(var i=0; i<=this.slices; i++) {
-            for(var j=0; j<=this.stacks-1; j++) {
-                this.indices.push(i*(this.stacks+1)+j, (i+1)*(this.stacks+1)+j, (i+1)*(this.stacks+1)+j+1)
-                this.indices.push(i*(this.stacks+1)+j+1, i*(this.stacks+1)+j, (i+1)*(this.stacks+1)+j+1)
+        //top e bottom apenas requerem triangulos para unir ao vertice do topo
+        for(var i=0; i<this.stacks; i++) {
+            for(var j=0; j<this.slices; j++) {
+                if(i!=0) {
+                    this.indices.push(
+                        i*(this.slices+1), 
+                        i*(this.slices+1)+this.stacks+1, 
+                        i*(this.slices+1)+this.stacks+2
+                    )
+                }
+                if(i!=(this.stacks-1)) {
+                    this.indices.push(
+                        i*(this.slices+1)+this.stacks+2,
+                        i*(this.slices+1)+this.stacks+1, 
+                        i*(this.slices+1)+this.stacks+2 
+                    )
+                }
             }
         }
 
