@@ -37,6 +37,7 @@ class XMLscene extends CGFscene {
 
         this.sphere = new MySphere(this, 5, 5, 5);
         this.cylinder = new MyCylinder(this, 3, 3, 8, 50, 50);
+        this.triangle = new MyTriangle(this, [5,0,0], [0,0,5], [-5,0,0]);
     }
 
     /**
@@ -139,8 +140,9 @@ class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
-        this.sphere.display();
+        //this.sphere.display();
         //this.cylinder.display();
+        this.triangle.display();
 
 
         this.popMatrix();
