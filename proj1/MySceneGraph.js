@@ -27,7 +27,10 @@ class MySceneGraph {
 
         this.nodes = [];
 
-        //this.views = [];
+        this.views = [];
+        this.lights = [];
+        this.textures = [];
+        this.materials = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -258,20 +261,18 @@ class MySceneGraph {
 
         for (var i = 0; i < children.length; i++) {
             if(children[i].nodeName=="perspective") {
-                this.createCamera(children[i])
+                this.createPerspCamera(children[i])
             }
             else {
-                this.createCamera(children[i])
+                this.createOrthoCamera(children[i])
             }
         }
+
+        this.log("Parsed views");
     }
 
-    /**
-     * Para já só dá print da info para ver se o parsing está bem
-     * Falta meter a informação no sistema n sei como
-     * @param {view node element} viewNode 
-     */
-    createCamera(viewNode) {
+    //cria camera de perspetiva
+    createPerspCamera(viewNode) {
         const id = viewNode.getAttribute("id")
         const near = viewNode.getAttribute("near")
         const far = viewNode.getAttribute("far")
@@ -285,11 +286,44 @@ class MySceneGraph {
         const to_x = children[1].getAttribute("x")
         const to_y = children[1].getAttribute("y")
         const to_z = children[1].getAttribute("z")
+        /*
+        console.log("ID:", id);
+        console.log("NEAR:", near);
+        console.log("FAR:", far);
+        console.log("ANGLE:", angle);
+        */
+        this.views[id] = new CGFcamera(angle*DEGREE_TO_RAD, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
+    }
 
-        var v = new CGFcamera(angle*DEGREE_TO_RAD, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
-
-        // fazer alguma coisa com V de forma a por esta merda a dar
-    }   
+        //cria camera ortogonal
+        createOrthoCamera(viewNode) {
+            const id = viewNode.getAttribute("id")
+            const near = viewNode.getAttribute("near")
+            const far = viewNode.getAttribute("far")
+            const left = viewNode.getAttribute("left")
+            const right = viewNode.getAttribute("right")
+            const top = viewNode.getAttribute("top")
+            const bottom = viewNode.getAttribute("bottom")
+    
+            var children = viewNode.children;
+            const from_x = children[0].getAttribute("x")
+            const from_y = children[0].getAttribute("y")
+            const from_z = children[0].getAttribute("z")
+    
+            const to_x = children[1].getAttribute("x")
+            const to_y = children[1].getAttribute("y")
+            const to_z = children[1].getAttribute("z")
+            /*
+            console.log("ID:", id);
+            console.log("NEAR:", near);
+            console.log("FAR:", far);
+            console.log("LEFT:", left);
+            console.log("RIGHT:", right);
+            console.log("TOP:", top);
+            console.log("BOTTOM:", bottom);
+            */
+            this.views[id] = new CGFcameraOrtho(left, right, bottom, top, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
+        }
 
     /**
      * Parses the <ambient> node.
@@ -455,21 +489,15 @@ class MySceneGraph {
         for (var i = 0; i < children.length; i++) {
             if(children[i].nodeName != "texture")
                 return "invalid texture tag"
-            this.createTexture(children[i])
+            
+            const id = children[i].getAttribute("id")
+            const file = children[i].getAttribute("file")
+            /*
+            console.log("ID:", id)
+            console.log("FILE:", file)
+            */
+            this.textures[id] = new CGFtexture(id, file);
         }
-
-    }
-
-    createTexture(textureNode) {
-        const id = textureNode.getAttribute("id")
-        const file = textureNode.getAttribute("file")
-        /*
-        console.log("ID:", id)
-        console.log("FILE:", file)
-        */
-        var t = new CGFtexture(id, file);
-        
-        //fazer alguma merda com t
     }
 
     /**
