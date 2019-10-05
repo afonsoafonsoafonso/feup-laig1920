@@ -530,10 +530,36 @@ class MySceneGraph {
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
             //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+            const shininess = this.reader.getString(children[i], 'shininess');
+            grandChildren = children[i].children;
+            const emission = this.parseColor(grandChildren[0],"material's emission");
+            const ambient = this.parseColor(grandChildren[1], "material's ambient");
+            const diffuse = this.parseColor(grandChildren[2], "material's diffuse");
+            const specular = this.parseColor(grandChildren[3], "material's specular");
+
+            console.log("ID:", materialID);
+            console.log("ID:", shininess);
+            console.log("EMISSION:", emission);
+            console.log("AMBIENT:", ambient);
+            console.log("DIFFUSE:", diffuse);
+            console.log("SPECULAR:", specular);
+
+            var currMaterial = new CGFappearance(this.scene);
+
+            currMaterial.setShininess(shininess);
+            //currMaterial.setEmission(emission[0], emission[1], emission[2], emission[3]);
+            currMaterial.setEmission(...emission);
+            //currMaterial.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
+            currMaterial.setAmbient(...ambient);
+            //currMaterial.setDiffuse(diffuse[0], diffuse[1], diffuse[3], diffuse[3]);
+            currMaterial.setDiffuse(...diffuse);
+            currMaterial.setSpecular(...specular);
+            //currMaterial.setSpecular(specular[0], specular[1], specular[2], specular[3]);
+            console.log("CURR:", currMaterial);
+            this.materials[materialID] = currMaterial;
         }
 
-        //this.log("Parsed materials");
+        this.log("Parsed materials");
         return null;
     }
 
