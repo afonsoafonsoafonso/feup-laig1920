@@ -31,6 +31,7 @@ class MySceneGraph {
         this.lights = [];
         this.textures = [];
         this.materials = [];
+        this.transformations = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -536,26 +537,22 @@ class MySceneGraph {
             const ambient = this.parseColor(grandChildren[1], "material's ambient");
             const diffuse = this.parseColor(grandChildren[2], "material's diffuse");
             const specular = this.parseColor(grandChildren[3], "material's specular");
-
+            /*
             console.log("ID:", materialID);
             console.log("ID:", shininess);
             console.log("EMISSION:", emission);
             console.log("AMBIENT:", ambient);
             console.log("DIFFUSE:", diffuse);
             console.log("SPECULAR:", specular);
-
+            */
             var currMaterial = new CGFappearance(this.scene);
 
             currMaterial.setShininess(shininess);
-            //currMaterial.setEmission(emission[0], emission[1], emission[2], emission[3]);
             currMaterial.setEmission(...emission);
-            //currMaterial.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
             currMaterial.setAmbient(...ambient);
-            //currMaterial.setDiffuse(diffuse[0], diffuse[1], diffuse[3], diffuse[3]);
             currMaterial.setDiffuse(...diffuse);
             currMaterial.setSpecular(...specular);
-            //currMaterial.setSpecular(specular[0], specular[1], specular[2], specular[3]);
-            console.log("CURR:", currMaterial);
+            //console.log("CURR:", currMaterial);
             this.materials[materialID] = currMaterial;
         }
 
@@ -570,7 +567,7 @@ class MySceneGraph {
     parseTransformations(transformationsNode) {
         var children = transformationsNode.children;
 
-        this.transformations = [];
+        //this.transformations = [];
 
         var grandChildren = [];
 
@@ -606,14 +603,36 @@ class MySceneGraph {
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'scale':                        
-                        this.onXMLMinorError("To do: Parse scale transformations.");
+                        //this.onXMLMinorError("To do: Parse scale transformations.");
+                        var coordinates = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                        transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'rotate':
                         // angle
-                        this.onXMLMinorError("To do: Parse rotate transformations.");
+                        //this.onXMLMinorError("To do: Parse rotate transformations.");
+                        var axis = this.reader.getString(grandChildren[j], "axis");
+                        var angle = this.reader.getString(grandChildren[j], "angle");
+                        //console.log("AXIS:", axis);
+                        //console.log("ANGLE:", angle);
+                        if(axis=='x') {
+                            mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, [1, 0, 0]);
+                        }
+                        else if (axis=='y') {
+                            mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, [0, 1, 0]);
+                        }
+                        else if (axis=='z') {
+                            mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, [0, 0, 1]);
+                        }
+                        else {
+                            return "Axis must be valid (x, y or z)"
+                        }
                         break;
                 }
             }
+            console.log("TRANSF MATRIX:", transfMatrix[10]);
             this.transformations[transformationID] = transfMatrix;
         }
 
