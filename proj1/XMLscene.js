@@ -144,7 +144,7 @@ class XMLscene extends CGFscene {
         //this.sphere.display();
         //this.cylinder.display();
         //this.triangle.display();
-        this.torus.display();
+        //this.torus.display();
 
 
         this.popMatrix();
