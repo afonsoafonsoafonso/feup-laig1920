@@ -26,8 +26,8 @@ class MySceneGraph {
         scene.graph = this;
 
         this.nodes = [];
-
-        //this.views = [];
+        this.views = [];
+        this.lights = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -229,6 +229,7 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
+        //this.views = []; declarado no constructor
         /* TODO: checkcar se o id dado como default coincide mesmo com o nome de alguma camera */
         var dflt = this.reader.getString(viewsNode, 'default')
         if (dflt == null)
@@ -248,9 +249,9 @@ class MySceneGraph {
         for (var i = 0; i < children.length; i++) {
             if(children[i].nodeName != "perspective" && children[i].nodeName != "ortho")
                 return "invalid view tag"
-
-            childNames.push(children[i].nodeName);
-            childIDs.push(children[i].getAttribute("id"))   
+            
+            //childNames.push(children[i].nodeName);
+            //childIDs.push(children[i].getAttribute("id"))   
         }
         /*ver se um node coincide com o nome do dado como default*/
         if(!childIDs.includes(dflt))
@@ -258,20 +259,15 @@ class MySceneGraph {
 
         for (var i = 0; i < children.length; i++) {
             if(children[i].nodeName=="perspective") {
-                this.createCamera(children[i])
+                this.createPerspeCamera(children[i])
             }
             else {
-                this.createCamera(children[i])
+                this.createOrthoCamera(children[i])
             }
         }
     }
 
-    /**
-     * Para já só dá print da info para ver se o parsing está bem
-     * Falta meter a informação no sistema n sei como
-     * @param {view node element} viewNode 
-     */
-    createCamera(viewNode) {
+    createPerspCamera(viewNode) {
         const id = viewNode.getAttribute("id")
         const near = viewNode.getAttribute("near")
         const far = viewNode.getAttribute("far")
@@ -286,10 +282,29 @@ class MySceneGraph {
         const to_y = children[1].getAttribute("y")
         const to_z = children[1].getAttribute("z")
 
-        var v = new CGFcamera(angle*DEGREE_TO_RAD, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
+        this.views[id] = new CGFcamera(angle*DEGREE_TO_RAD, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
+    }
 
-        // fazer alguma coisa com V de forma a por esta merda a dar
-    }   
+    createOrthoCamera(viewNode) {
+        const id = viewNode.getAttribute("id")
+        const near = viewNode.getAttribute("near")
+        const far = viewNode.getAttribute("far")
+        const left = viewNode.getAttribute("left")
+        const right = viewNode.getAttribute("right")
+        const top = viewNode.getAttribute("top")
+        const bottom = viewNode.getAttribute("bottom")
+
+        var children = viewNode.children;
+        const from_x = children[0].getAttribute("x")
+        const from_y = children[0].getAttribute("y")
+        const from_z = children[0].getAttribute("z")
+
+        const to_x = children[1].getAttribute("x")
+        const to_y = children[1].getAttribute("y")
+        const to_z = children[1].getAttribute("z")
+
+        this.views[id] = CGFcameraOrtho(left, right, bottom, top, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
+    }
 
     /**
      * Parses the <ambient> node.
@@ -334,7 +349,7 @@ class MySceneGraph {
     parseLights(lightsNode) {
         var children = lightsNode.children;
 
-        this.lights = [];
+        //this.lights = [];
         var numLights = 0;
 
         var grandChildren = [];
