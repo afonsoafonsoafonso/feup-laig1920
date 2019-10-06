@@ -736,6 +736,29 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = torus;
             }
+            else if(primitiveType == 'triangle') {
+                var x1 = this.reader.getFloat(grandChildren[0], 'x1');
+                // falta verficiar input
+                var y1 = this.reader.getFloat(grandChildren[0], 'y1');
+                // falta verficiar input
+                var z1 = this.reader.getFloat(grandChildren[0], 'z1');
+                // falta verficiar input
+                var x2 = this.reader.getFloat(grandChildren[0], 'x2');
+                // falta verficiar input
+                var y2 = this.reader.getFloat(grandChildren[0], 'y2');
+                // falta verficiar input
+                var z2 = this.reader.getFloat(grandChildren[0], 'z2');
+                // falta verficiar input
+                var x3 = this.reader.getFloat(grandChildren[0], 'x3');
+                // falta verficiar input
+                var y3 = this.reader.getFloat(grandChildren[0], 'y3');
+                // falta verficiar input
+                var z3 = this.reader.getFloat(grandChildren[0], 'z3');
+                // falta verficiar input
+                var triangle = new MyTriangle(this.scene, [x1,x2,x3], [x2, y2, z2], [x3, y3, z3]);
+
+                this.primitives[primitiveId] = triangle;
+            }
             else {
                 console.warn("To do: Parse other primitives.");
             }
