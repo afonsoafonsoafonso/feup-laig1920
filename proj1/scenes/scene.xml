@@ -1,0 +1,256 @@
+<lxs>
+    <scene root="Root" axis_length="20"/>
+
+    <views default="perspCamera1">
+        <perspective id="perspCamera1" near="0.1" far="500" angle="45">
+            <from x="30" y="15" z="30" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+        <perspective id="perspCamera2" near="0.3" far="550" angle="60">
+            <from x="35" y="12" z="35" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+        <ortho id="orthoCamera" near="0.1" far="500" left="-20" right="20" top="22" bottom="-22">
+            <from x="6" y="5" z="30" />
+            <to x="6" y="5" z="0" />
+        </ortho>
+    </views>
+
+    <ambient>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </ambient>
+
+    <lights>
+        <omni id="Light" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </omni>
+    </lights>
+
+    <textures>
+    </textures>
+
+    <materials>
+        <material id="Material" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="Material2" shininess="5">
+            <emission r="0.5" g="0.5" b="0.5" a="1.0" />
+            <ambient r="1.0" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.6" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.6" g="0.5" b="0.5" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="Transform">
+            <scale x="1" y="1" z="1" />
+        </transformation>
+
+        <transformation id="tableTransform">
+            <scale x="1" y="1" z="1" /> 
+        </transformation>
+
+        <transformation id="tableTopTransform">
+            <rotate axis="x" angle="-90" />
+            <translate x="0" y="-5.5" z="2.4" />
+            <scale x="6" y="6" z="1" /> 
+        </transformation>
+
+        <transformation id="tableLeg1Transform">
+            <rotate axis="x" angle="-90" />
+            <translate x="0.5" y="-5" z="0" />
+        </transformation>
+
+        <transformation id="tableLeg2Transform">
+            <rotate axis="x" angle="-90" />
+            <translate x="5.5" y="-5" z="0" />
+        </transformation>
+
+        <transformation id="tableLeg3Transform">
+            <rotate axis="x" angle="-90" />
+            <translate x="5.5" y="0" z="0" />
+        </transformation>
+
+        <transformation id="tableLeg4Transform">
+            <rotate axis="x" angle="-90" />
+            <translate x="0.5" y="0" z="0" />
+        </transformation>
+
+        <transformation id="lampTransform">
+            <rotate axis="x" angle="-90" />
+            <translate x="4.5" y="0" z="2.4" />
+        </transformation>
+
+        <transformation id="lampPostTransform">
+            <translate x="0" y="0" z="0.1" />
+        </transformation>
+
+        <transformation id="lampTopTransform">
+            <translate x="0" y="0" z="0.7" />
+        </transformation>
+
+    </transformations>
+
+    <primitives>
+        <primitive id="Rectangle">
+            <rectangle x1="0" y1="0" x2="1" y2="1" />
+        </primitive>
+        <primitive id="tableLeg">
+            <cylinder base_r="0.1" top_r="0.1" height="3" slices="30" stacks="5" /> 
+        </primitive>
+        <primitive id="lampPost">
+            <cylinder base_r="0.07" top_r="0.07" height="1" slices="30" stacks="5" /> 
+        </primitive>
+        <primitive id="lampBase">
+            <cylinder base_r="0.3" top_r="0.01" height="0.2" slices="30" stacks="5" /> 
+        </primitive>
+        <primitive id="lampTop">
+            <cylinder base_r="0.3" top_r="0.1" height="1" slices="30" stacks="5" /> 
+        </primitive>
+        <primitive id="Torus">
+            <torus inner_r="0.03" outer_r="0.31" slices="30" loops="8" /> 
+        </primitive>
+        <primitive id="Triangle">
+            <triangle x1="1" y1="0" z1="0" x2="0" y2="1" z2="0" x3="0" y3="0" z3="0"/>
+        </primitive>
+    </primitives>
+
+    <components>
+
+        <component id="tableLeg1">
+            <transformation>
+                <transformationref id="tableLeg1Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="tableLeg" />
+            </children>
+        </component>
+
+        <component id="tableLeg2">
+            <transformation>
+                <transformationref id="tableLeg2Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="tableLeg" />
+            </children>
+        </component>
+
+        <component id="tableLeg3">
+            <transformation>
+                <transformationref id="tableLeg3Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="tableLeg" />
+            </children>
+        </component>
+
+        <component id="tableLeg4">
+            <transformation>
+                <transformationref id="tableLeg4Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="tableLeg" />
+            </children>
+        </component>
+
+        <component id="tableTop">
+            <transformation>
+                <transformationref id="tableTopTransform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="table">
+            <transformation>
+                <transformationref id="tableTransform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <componentref id="tableTop" />
+                <componentref id="tableLeg1" />
+                <componentref id="tableLeg2" />
+                <componentref id="tableLeg3" />
+                <componentref id="tableLeg4" />
+            </children>
+        </component>
+
+        <component id="lampTop_0">
+            <transformation>
+                <transformationref id="lampTopTransform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="lampTop" />
+                <primitiveref id="Torus" />
+            </children>
+        </component>
+
+        <component id="lampPost_0">
+            <transformation>
+                <transformationref id="lampPostTransform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="lampPost" />
+            </children>
+        </component>
+
+        <component id="lamp">
+            <transformation>
+                <transformationref id="lampTransform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <componentref id="lampPost_0" />
+                <componentref id="lampTop_0" />
+                <primitiveref id="lampBase" />
+            </children>
+        </component>
+
+        <component id="Root">
+            <transformation>
+                <transformationref id="Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <componentref id="table" />
+                <componentref id="lamp" />
+            </children>
+        </component>
+    </components>
+    
+</lxs>
