@@ -708,20 +708,33 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = rect;
             }
-            if(primitiveType == 'cylinder') {
+            else if(primitiveType == 'cylinder') {
                 var base_r = this.reader.getFloat(grandChildren[0], 'base_r');
-
+                // falta verficiar input
                 var top_r = this.reader.getFloat(grandChildren[0], 'top_r');
-
+                // falta verficiar input
                 var height = this.reader.getFloat(grandChildren[0], 'height');
-
+                // falta verficiar input
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
-
+                // falta verficiar input
                 var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
-
+                // falta verficiar input
                 var cyl = new MyCylinder(this.scene, base_r, top_r, height, slices, stacks);
-
+                
                 this.primitives[primitiveId] = cyl;
+            }
+            else if(primitiveType == 'torus') {
+                var inner_r = this.reader.getFloat(grandChildren[0], 'inner_r');
+                // falta verficiar input
+                var outer_r = this.reader.getFloat(grandChildren[0], 'outer_r');
+                // falta verficiar input
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                // falta verficiar input
+                var loops = this.reader.getFloat(grandChildren[0], 'loops');
+                // falta verficiar input
+                var torus = new MyTorus(this.scene, inner_r, outer_r, slices, loops);
+
+                this.primitives[primitiveId] = torus;
             }
             else {
                 console.warn("To do: Parse other primitives.");
