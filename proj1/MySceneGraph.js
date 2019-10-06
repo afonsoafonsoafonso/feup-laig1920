@@ -32,6 +32,7 @@ class MySceneGraph {
         this.textures = [];
         this.materials = [];
         this.transformations = [];
+        this.components = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -632,7 +633,7 @@ class MySceneGraph {
                         break;
                 }
             }
-            console.log("TRANSF MATRIX:", transfMatrix[10]);
+            console.log("TRANSF MATRIX:", transfMatrix);
             this.transformations[transformationID] = transfMatrix;
         }
 
@@ -707,6 +708,21 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = rect;
             }
+            if(primitiveType == 'cylinder') {
+                var base_r = this.reader.getFloat(grandChildren[0], 'base_r');
+
+                var top_r = this.reader.getFloat(grandChildren[0], 'top_r');
+
+                var height = this.reader.getFloat(grandChildren[0], 'height');
+
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+
+                var cyl = new MyCylinder(this.scene, base_r, top_r, height, slices, stacks);
+
+                this.primitives[primitiveId] = cyl;
+            }
             else {
                 console.warn("To do: Parse other primitives.");
             }
@@ -723,7 +739,7 @@ class MySceneGraph {
     parseComponents(componentsNode) {
         var children = componentsNode.children;
 
-        this.components = [];
+        //this.components = [];
 
         var grandChildren = [];
         var grandgrandChildren = [];
@@ -731,7 +747,6 @@ class MySceneGraph {
 
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
-
             if (children[i].nodeName != "component") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
@@ -747,7 +762,6 @@ class MySceneGraph {
                 return "ID must be unique for each component (conflict: ID = " + componentID + ")";
 
             grandChildren = children[i].children;
-
             nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
@@ -759,20 +773,40 @@ class MySceneGraph {
             var childrenIndex = nodeNames.indexOf("children");
 
             this.onXMLMinorError("To do: Parse components.");
-            // Transformations
-            var transfChildren=[] 
-            transfChildren = grandChildren[transformationIndex].children
-            // Materials
-            var mateChildren=[]
-            mateChildren = grandChildren[materialsIndex].children
-            // Texture
-            var texChildren=[]
-            texChildren = grandChildren[textureIndex].children
-            // Children
-            var childIndex=[]
-            childIndex = grandChildren[childrenIndex].children
 
+            this.nodes[componentID] = new MyNode(componentID);
+
+            // Transformations (para já só funciona com transformationref)
+            var transfChildren=[]
+            transfChildren = grandChildren[transformationIndex].children;
+            var transfID = this.reader.getString(transfChildren[0], 'id')
+            this.nodes[componentID].transfMatrix = this.transformations[transfID];
+            // Materials
+            var matChildren=[]
+            matChildren = grandChildren[materialsIndex].children
+            var matID = this.reader.getString(matChildren[0], 'id')
+            this.nodes[componentID].materialID = matID;
+            // Texture
+            var texID = this.reader.getString(grandChildren[textureIndex], 'id');
+            this.nodes[componentID].textureID = texID;
+            // Children
+            var childrenChildren=[]
+            childrenChildren = grandChildren[childrenIndex].children;
+            
+            for(var j=0; j<childrenChildren.length; j++) {
+                if(childrenChildren[j].nodeName=="primitiveref") {
+                    var primitiverefID = this.reader.getString(childrenChildren[j], 'id');
+                    this.nodes[componentID].childLeafsIDs.push(primitiverefID);
+                }
+                else if(childrenChildren[j].nodeName=="componentref") {
+                    var componentrefID = this.reader.getString(childrenChildren[j], 'id');
+                    console.log("CRID:", componentrefID);
+                    this.nodes[componentID].childNodesIDs.push(componentrefID);
+                }
+            }
         }
+        console.log("NODE:", this.nodes["demoRoot"]);
+        console.log("NODE:", this.nodes["demoComp"]);
     }
 
 
@@ -886,15 +920,40 @@ class MySceneGraph {
     log(message) {
         console.log("   " + message);
     }
-
+    
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
         //To do: Create display loop for transversing the scene graph
-
+        this.transverseTree();
         //To test the parsing/creation of the primitives, call the display function directly
-        
-        //this.primitives['demoRectangle'].display();
+        /*
+        this.scene.pushMatrix();
+        this.scene.multMatrix(this.transformations["demoTransform"]);
+        this.primitives['demoCylinder'].display();  
+        this.scene.popMatrix();
+        */
+    }
+
+    transverseTree() {
+        this.processNode(this.idRoot);
+    }
+
+    processNode(nodeID, /*inherirMat, inheritTex, sLength?, tLength?*/) {
+        var currNode = this.nodes[nodeID];
+
+        this.scene.pushMatrix();
+        this.scene.multMatrix(currNode.transfMatrix);
+
+        for(var i=0; i<currNode.childLeafsIDs.length; i++) {
+            this.primitives[currNode.childLeafsIDs[i]].display();
+        }
+
+        for(var i=0; i<currNode.childNodesIDs.length; i++) {
+            this.processNode(currNode.childNodesIDs[i]);
+        }
+
+        this.scene.popMatrix();
     }
 }

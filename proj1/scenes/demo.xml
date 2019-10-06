@@ -52,9 +52,14 @@
 
     <transformations>
         <transformation id="demoTransform">
-            <scale x="5" y="1" z="5" />
+            <scale x="1" y="1" z="2" />
             <rotate axis="x" angle="-45" />
             <rotate axis="z" angle="-45" />
+        </transformation>
+        <transformation id="demoTransform2">
+            <scale x="2" y="2" z="1" />
+            <rotate axis="x" angle="45" />
+            <rotate axis="z" angle="45" />
         </transformation>
     </transformations>
 
@@ -62,13 +67,28 @@
         <primitive id="demoRectangle">
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
         </primitive>
+        <primitive id="demoCylinder">
+            <cylinder base_r="2" top_r="2" height="2" slices="10" stacks="5" /> 
+        </primitive>
     </primitives>
 
     <components>
+        <component id="demoComp">
+            <transformation>
+                <transformationref id="demoTransform2"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" />
+            <children>
+                <primitiveref id="demoCylinder" />
+            </children>
+        </component>
+
         <component id="demoRoot">
             <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
+                <transformationref id="demoTransform"/>
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -76,6 +96,7 @@
             <texture id="demoTexture"/>
             <children>
                 <primitiveref id="demoRectangle" />
+                <componentref id="demoComp" />
             </children>
         </component>
     </components>
