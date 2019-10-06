@@ -96,6 +96,51 @@
             <translate x="0" y="0" z="0.7" />
         </transformation>
 
+        <transformation id="chair1Transform">
+            <translate x="7" y="0" z="0" />
+        </transformation>
+
+        <transformation id="chair2Transform">
+            <rotate axis="y" angle="-90" />
+            <translate x="7" y="0" z="-6" />
+        </transformation>
+
+        <transformation id="chair3Transform">
+            <translate x="7" y="0" z="-3" />
+        </transformation>
+
+        <transformation id="chair4Transform">
+            <rotate axis="y" angle="-90" />
+            <translate x="7" y="0" z="-9" />
+        </transformation>
+
+        <transformation id="chairLeg2Transform">
+            <rotate axis="x" angle="-90" />
+            <translate x="0.5" y="-4" z="0" />
+        </transformation>
+
+        <transformation id="chairLeg3Transform">
+            <rotate axis="x" angle="-90" />
+            <translate x="1.5" y="-4" z="0" />
+        </transformation>
+
+        <transformation id="chairLeg4Transform">
+            <rotate axis="x" angle="-90" />
+            <translate x="1.5" y="-5" z="0" />
+        </transformation>
+
+        <transformation id="chairSeatTransform">
+            <rotate axis="x" angle="-90" />
+            <translate x="0.2" y="-5.2" z="1.2" />
+            <scale x="1.5" y="1.5" z="1" /> 
+        </transformation>
+
+        <transformation id="chairTopTransform">
+            <translate x="1.7" y="1.1" z="4.5" />
+            <rotate axis="y" angle="90" />
+            <rotate axis="z" angle="45" />
+        </transformation>
+
     </transformations>
 
     <primitives>
@@ -117,8 +162,11 @@
         <primitive id="Torus">
             <torus inner_r="0.03" outer_r="0.31" slices="30" loops="8" /> 
         </primitive>
+        <primitive id="chairLeg">
+            <cylinder base_r="0.05" top_r="0.05" height="1.5" slices="30" stacks="5" /> 
+        </primitive>
         <primitive id="Triangle">
-            <triangle x1="1" y1="0" z1="0" x2="0" y2="1" z2="0" x3="0" y3="0" z3="0"/>
+            <triangle x1="1.5" y1="0" z1="0" x2="0" y2="1.5" z2="0" x3="0" y3="0" z3="0"/>
         </primitive>
     </primitives>
 
@@ -239,6 +287,143 @@
             </children>
         </component>
 
+        <component id="chairLeg1">
+            <transformation>
+                <transformationref id="tableLeg1Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="chairLeg" />
+            </children>
+        </component>
+
+        <component id="chairLeg2">
+            <transformation>
+                <transformationref id="chairLeg2Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="chairLeg" />
+            </children>
+        </component>
+
+        <component id="chairLeg3">
+            <transformation>
+                <transformationref id="chairLeg3Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="chairLeg" />
+            </children>
+        </component>
+
+        <component id="chairLeg4">
+            <transformation>
+                <transformationref id="chairLeg4Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="chairLeg" />
+            </children>
+        </component>
+
+        <component id="chairSeat">
+            <transformation>
+                <transformationref id="chairSeatTransform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="chairTop">
+            <transformation>
+                <transformationref id="chairTopTransform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <primitiveref id="Triangle" />
+            </children>
+        </component>
+
+        <component id="chair1">
+            <transformation>
+                <transformationref id="chair1Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <componentref id="chair" />
+            </children>
+        </component>
+
+        <component id="chair2">
+            <transformation>
+                <transformationref id="chair2Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <componentref id="chair" />
+            </children>
+        </component>
+
+        <component id="chair3">
+            <transformation>
+                <transformationref id="chair3Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <componentref id="chair" />
+            </children>
+        </component>
+
+        <component id="chair4">
+            <transformation>
+                <transformationref id="chair4Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <componentref id="chair" />
+            </children>
+        </component>
+
+        <component id="chair">
+            <transformation>
+                <transformationref id="Transform"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <children>
+                <componentref id="chairLeg1" />
+                <componentref id="chairLeg2" />
+                <componentref id="chairLeg3" />
+                <componentref id="chairLeg4" />
+                <componentref id="chairSeat" />
+                <componentref id="chairTop" />
+            </children>
+        </component>
+
         <component id="Root">
             <transformation>
                 <transformationref id="Transform"/>
@@ -249,6 +434,10 @@
             <children>
                 <componentref id="table" />
                 <componentref id="lamp" />
+                <componentref id="chair1" />
+                <componentref id="chair2" />
+                <componentref id="chair3" />
+                <componentref id="chair4" />
             </children>
         </component>
     </components>
