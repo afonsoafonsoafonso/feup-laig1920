@@ -755,6 +755,17 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = triangle;
             }
+            else if(primitiveType == 'sphere') {
+                var radius = this.reader.getFloat(grandChildren[0], 'radius');
+                // falta verificar input
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                // falta verificar input
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+                //falta verificar input
+                var sphere = new MySphere(this.scene, radius, slices, stacks);
+
+                this.primitives[primitiveId] = sphere;
+            }
             else {
                 console.warn("To do: Parse other primitives.");
             }
