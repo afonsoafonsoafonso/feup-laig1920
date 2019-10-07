@@ -234,13 +234,12 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        /* TODO: checkcar se o id dado como default coincide mesmo com o nome de alguma camera */
         var dflt = this.reader.getString(viewsNode, 'default')
         if (dflt == null)
             return "no default defined for views";
 
         this.idDefault = dflt
-        console.log("dflt:", dflt)
+        //console.log("dflt:", dflt)
 
         //checking cameras (child nodes)
         var children = viewsNode.children;
@@ -297,44 +296,41 @@ class MySceneGraph {
         this.views[id] = new CGFcamera(angle*DEGREE_TO_RAD, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
     }
 
-        //cria camera ortogonal
-        createOrthoCamera(viewNode) {
-            const id = viewNode.getAttribute("id")
-            const near = viewNode.getAttribute("near")
-            const far = viewNode.getAttribute("far")
-            const left = viewNode.getAttribute("left")
-            const right = viewNode.getAttribute("right")
-            const top = viewNode.getAttribute("top")
-            const bottom = viewNode.getAttribute("bottom")
+    //cria camera ortogonal
+    createOrthoCamera(viewNode) {
+        const id = viewNode.getAttribute("id")
+        const near = viewNode.getAttribute("near")
+        const far = viewNode.getAttribute("far")
+        const left = viewNode.getAttribute("left")
+        const right = viewNode.getAttribute("right")
+        const top = viewNode.getAttribute("top")
+        const bottom = viewNode.getAttribute("bottom")
     
-            var children = viewNode.children;
-            const from_x = children[0].getAttribute("x")
-            const from_y = children[0].getAttribute("y")
-            const from_z = children[0].getAttribute("z")
-    
-            const to_x = children[1].getAttribute("x")
-            const to_y = children[1].getAttribute("y")
-            const to_z = children[1].getAttribute("z")
-            /*
-            console.log("ID:", id);
-            console.log("NEAR:", near);
-            console.log("FAR:", far);
-            console.log("LEFT:", left);
-            console.log("RIGHT:", right);
-            console.log("TOP:", top);
-            console.log("BOTTOM:", bottom);
-            */
-            this.views[id] = new CGFcameraOrtho(left, right, bottom, top, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
-        }
+        var children = viewNode.children;
+        const from_x = children[0].getAttribute("x")
+        const from_y = children[0].getAttribute("y")
+        const from_z = children[0].getAttribute("z")
+
+        const to_x = children[1].getAttribute("x")
+        const to_y = children[1].getAttribute("y")
+        const to_z = children[1].getAttribute("z")
+        /*
+        console.log("ID:", id);
+        console.log("NEAR:", near);
+        console.log("FAR:", far);
+        console.log("LEFT:", left);
+        console.log("RIGHT:", right);
+        console.log("TOP:", top);
+        console.log("BOTTOM:", bottom);
+        */
+        this.views[id] = new CGFcameraOrtho(left, right, bottom, top, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
+    }
 
     /**
      * Parses the <globals> node.
      * @param {globals block element} globalsNode
      */
     parseGlobals(globalsNode) {
-
-        console.log("TEEEESTEEEEEEE");
-
         var children = globalsNode.children;
 
         this.ambient = [];
@@ -614,8 +610,6 @@ class MySceneGraph {
                         transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'rotate':
-                        // angle
-                        //this.onXMLMinorError("To do: Parse rotate transformations.");
                         var axis = this.reader.getString(grandChildren[j], "axis");
                         var angle = this.reader.getString(grandChildren[j], "angle");
                         //console.log("AXIS:", axis);
@@ -635,7 +629,7 @@ class MySceneGraph {
                         break;
                 }
             }
-            console.log("TRANSF MATRIX:", transfMatrix);
+            //console.log("TRANSF MATRIX:", transfMatrix);
             this.transformations[transformationID] = transfMatrix;
         }
 
@@ -810,15 +804,57 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            this.onXMLMinorError("To do: Parse components.");
-
             this.nodes[componentID] = new MyNode(componentID);
 
-            // Transformations (para já só funciona com transformationref)
+            // Transformations
             var transfChildren=[]
             transfChildren = grandChildren[transformationIndex].children;
-            var transfID = this.reader.getString(transfChildren[0], 'id')
-            this.nodes[componentID].transfMatrix = this.transformations[transfID];
+            for(var j=0; j<transfChildren.length; j++) {
+                switch(transfChildren[j].nodeName) {
+                    case "transformationref":
+                        var transfID = this.reader.getString(transfChildren[j], 'id')
+                        // checks if ID was given for transformation reference
+                        if(transfID!=null) 
+                            this.nodes[componentID].transfMatrix = this.transformations[transfID];
+                        else
+                            return "no ID for transformationref given"
+                        break;
+                    case 'translate':
+                        var coordinates = this.parseCoordinates3D(transfChildren[j], "translate transformation for ID ");
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                        this.nodes[componentID].transfMatrix = mat4.translate(this.nodes[componentID].transfMatrix, this.nodes[componentID].transfMatrix, coordinates);
+                        break;
+                    case 'scale':                        
+                        //this.onXMLMinorError("To do: Parse scale transformations.");
+                        var coordinates = this.parseCoordinates3D(transfChildren[j], "scale transformation for ID ");
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                        this.nodes[componentID].transfMatrix = mat4.scale(this.nodes[componentID].transfMatrix, this.nodes[componentID].transfMatrix, coordinates);
+                        break;
+                    case 'rotate':
+                        var axis = this.reader.getString(transfChildren[j], "axis");
+                        var angle = this.reader.getString(transfChildren[j], "angle");
+                        //console.log("AXIS:", axis);
+                        //console.log("ANGLE:", angle);
+                        if(axis=='x') {
+                            mat4.rotate(this.nodes[componentID].transfMatrix, this.nodes[componentID].transfMatrix, angle*DEGREE_TO_RAD, [1, 0, 0]);
+                        }
+                        else if (axis=='y') {
+                            mat4.rotate(this.nodes[componentID].transfMatrix, this.nodes[componentID].transfMatrix, angle*DEGREE_TO_RAD, [0, 1, 0]);
+                        }
+                        else if (axis=='z') {
+                            mat4.rotate(this.nodes[componentID].transfMatrix, this.nodes[componentID].transfMatrix, angle*DEGREE_TO_RAD, [0, 0, 1]);
+                        }
+                        else {
+                            return "Axis must be valid (x, y or z)"
+                        }
+                        break;
+
+                }
+            }
             // Materials
             var matChildren=[]
             matChildren = grandChildren[materialsIndex].children

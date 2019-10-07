@@ -16,10 +16,10 @@
         </ortho>
     </views>
 
-    <ambient>
+    <globals>
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
         <background r="0.0" g="0.0" b="0.0" a="1.0" />
-    </ambient>
+    </globals>
 
     <lights>
         <omni id="demoLight" enabled="1">
@@ -81,7 +81,9 @@
     <components>
         <component id="demoComp">
             <transformation>
-                <transformationref id="demoTransform2"/>
+                <scale x="2" y="2" z="1" />
+                <rotate axis="x" angle="45" />
+                <rotate axis="z" angle="45" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -94,7 +96,9 @@
 
         <component id="demoRoot">
             <transformation>
-                <transformationref id="demoTransform"/>
+                <scale x="1" y="1" z="2" />
+                <rotate axis="x" angle="-45" />
+            s<rotate axis="z" angle="-45" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
