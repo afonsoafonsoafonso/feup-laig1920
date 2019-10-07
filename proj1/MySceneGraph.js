@@ -40,7 +40,7 @@ class MySceneGraph {
         this.axisCoords['x'] = [1, 0, 0];
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
-
+        
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -119,15 +119,15 @@ class MySceneGraph {
                 return error;
         }
 
-        // <ambient>
-        if ((index = nodeNames.indexOf("ambient")) == -1)
-            return "tag <ambient> missing";
+        // <globals>
+        if ((index = nodeNames.indexOf("globals")) == -1)
+            return "tag <gloabls> missing";
         else {
             if (index != AMBIENT_INDEX)
-                this.onXMLMinorError("tag <ambient> out of order");
+                this.onXMLMinorError("tag <globals> out of order");
 
             //Parse ambient block
-            if ((error = this.parseAmbient(nodes[index])) != null)
+            if ((error = this.parseGlobals(nodes[index])) != null)
                 return error;
         }
 
@@ -328,12 +328,14 @@ class MySceneGraph {
         }
 
     /**
-     * Parses the <ambient> node.
-     * @param {ambient block element} ambientsNode
+     * Parses the <globals> node.
+     * @param {globals block element} globalsNode
      */
-    parseAmbient(ambientsNode) {
+    parseGlobals(globalsNode) {
 
-        var children = ambientsNode.children;
+        console.log("TEEEESTEEEEEEE");
+
+        var children = globalsNode.children;
 
         this.ambient = [];
         this.background = [];
@@ -358,7 +360,7 @@ class MySceneGraph {
         else
             this.background = color;
 
-        this.log("Parsed ambient");
+        this.log("Parsed globals");
 
         return null;
     }
