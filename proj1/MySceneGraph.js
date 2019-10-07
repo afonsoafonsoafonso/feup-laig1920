@@ -705,9 +705,9 @@ class MySceneGraph {
                 this.primitives[primitiveId] = rect;
             }
             else if(primitiveType == 'cylinder') {
-                var base_r = this.reader.getFloat(grandChildren[0], 'base_r');
+                var base_r = this.reader.getFloat(grandChildren[0], 'base');
                 // falta verficiar input
-                var top_r = this.reader.getFloat(grandChildren[0], 'top_r');
+                var top_r = this.reader.getFloat(grandChildren[0], 'top');
                 // falta verficiar input
                 var height = this.reader.getFloat(grandChildren[0], 'height');
                 // falta verficiar input
@@ -720,9 +720,9 @@ class MySceneGraph {
                 this.primitives[primitiveId] = cyl;
             }
             else if(primitiveType == 'torus') {
-                var inner_r = this.reader.getFloat(grandChildren[0], 'inner_r');
+                var inner_r = this.reader.getFloat(grandChildren[0], 'inner');
                 // falta verficiar input
-                var outer_r = this.reader.getFloat(grandChildren[0], 'outer_r');
+                var outer_r = this.reader.getFloat(grandChildren[0], 'outer');
                 // falta verficiar input
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
                 // falta verficiar input
