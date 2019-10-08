@@ -33,7 +33,7 @@ main=function()
     var filename=getUrlVars()['file'] || "pooltable.xml";
 
 	// create and load graph, and associate it to scene. 
-	// Check console for loading errors
+    // Check console for loading errors
 	var myGraph = new MySceneGraph(filename, myScene);
 	
 	// start

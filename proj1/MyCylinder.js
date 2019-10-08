@@ -32,6 +32,9 @@ class MyCylinder extends CGFobject {
                     Math.sin(deltaAng*i)*(this.base_r+deltaRad*j),
                     j*deltaStack
                 );
+
+				this.texCoords.push(i*1/this.slices, 1 - (j*1/this.stacks));
+
                 this.normals.push(Math.cos(deltaAng*i), Math.sin(deltaAng*i), 0);
             }
         }

@@ -27,6 +27,10 @@ class MySceneGraph {
 
         this.nodes = [];
 
+        this.testCylinder = new MyCylinder(this.scene, 2, 3, 5, 4, 4);
+        this.testSphere = new MySphere(this.scene, 3, 20, 20);
+        this.testRect = new MyRectangle(this.scene, "yo", 0, 5, 0, 5);
+
         this.views = [];
         this.lights = [];
         this.textures = [];
@@ -885,13 +889,13 @@ class MySceneGraph {
                 }
                 else if(childrenChildren[j].nodeName=="componentref") {
                     var componentrefID = this.reader.getString(childrenChildren[j], 'id');
-                    console.log("CRID:", componentrefID);
+                    //console.log("CRID:", componentrefID);
                     this.nodes[componentID].childNodesIDs.push(componentrefID);
                 }
             }
         }
-        console.log("NODE:", this.nodes["demoRoot"]);
-        console.log("NODE:", this.nodes["demoComp"]);
+        //console.log("NODE:", this.nodes["demoRoot"]);
+        //console.log("NODE:", this.nodes["demoComp"]);
     }
 
 
@@ -1010,13 +1014,18 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //To do: Create display loop for transversing the scene graph
-        this.transverseTree();
-        //To test the parsing/creation of the primitives, call the display function directly
+        //this.transverseTree();
         /*
+        this.material = new CGFappearance(this.scene);
+        this.material.setAmbient(1.0, 0.1, 0.1, 1);
+        this.material.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.material.setSpecular(0.1, 0.1, 0.1, 1);
+        this.material.setShininess(10.0);
+        this.material.loadTexture('scenes/images/rocks.jpg');
+        this.material.setTextureWrap('REPEAT','REPEAT');
+        this.material.apply();
         this.scene.pushMatrix();
-        this.scene.multMatrix(this.transformations["demoTransform"]);
-        this.primitives['demoCylinder'].display();  
+        this.testRect.display();
         this.scene.popMatrix();
         */
     }
@@ -1027,6 +1036,16 @@ class MySceneGraph {
 
     processNode(nodeID, /*inherirMat, inheritTex, sLength?, tLength?*/) {
         var currNode = this.nodes[nodeID];
+
+        /*var currMat = this.materials[this.nodes[nodeID].materialID];
+        var currText = null;
+        
+        if(currNode.textureID!=null) {
+            currText = this.textures[currNode.textureID];
+            currMat.setTexture(currText);
+        }
+
+        currMat.apply();*/
 
         this.scene.pushMatrix();
         this.scene.multMatrix(currNode.transfMatrix);
