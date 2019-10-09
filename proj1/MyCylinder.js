@@ -39,10 +39,8 @@ class MyCylinder extends CGFobject {
             }
         }
 
-        // não deveria ser preciso ter um if para a última slice?
-        // opá funciona na mesma safoda
 		for(var i=0; i<this.slices; i++) {
-			for(var j=0; j<this.stacks-1; j++) {
+			for(var j=0; j<this.stacks; j++) {
                 this.indices.push(i*(this.stacks+1)+j, (i+1)*(this.stacks+1)+j, (i+1)*(this.stacks+1)+j+1)
                 this.indices.push(i*(this.stacks+1)+j+1, i*(this.stacks+1)+j, (i+1)*(this.stacks+1)+j+1)
             }

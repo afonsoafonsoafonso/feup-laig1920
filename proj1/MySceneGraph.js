@@ -769,7 +769,7 @@ class MySceneGraph {
                 // falta verficiar input
                 var z3 = this.reader.getFloat(grandChildren[0], 'z3');
                 // falta verficiar input
-                var triangle = new MyTriangle(this.scene, [x1,x2,x3], [x2, y2, z2], [x3, y3, z3]);
+                var triangle = new MyTriangle(this.scene, [x1,y1,z1], [x2, y2, z2], [x3, y3, z3]);
 
                 this.primitives[primitiveId] = triangle;
             }

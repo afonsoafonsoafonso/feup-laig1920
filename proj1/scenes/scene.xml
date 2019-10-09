@@ -148,22 +148,22 @@
             <rectangle x1="0" y1="0" x2="1" y2="1" />
         </primitive>
         <primitive id="tableLeg">
-            <cylinder base_r="0.1" top_r="0.1" height="3" slices="30" stacks="5" /> 
+            <cylinder base="0.1" top="0.1" height="3" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="lampPost">
-            <cylinder base_r="0.07" top_r="0.07" height="1" slices="30" stacks="5" /> 
+            <cylinder base="0.07" top="0.07" height="1" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="lampBase">
-            <cylinder base_r="0.3" top_r="0.01" height="0.2" slices="30" stacks="5" /> 
+            <cylinder base="0.3" top="0.01" height="0.2" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="lampTop">
-            <cylinder base_r="0.3" top_r="0.1" height="1" slices="30" stacks="5" /> 
+            <cylinder base="0.3" top="0.1" height="1" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="Torus">
-            <torus inner_r="0.03" outer_r="0.31" slices="30" loops="8" /> 
+            <torus inner="0.03" outer="0.31" slices="30" loops="8" /> 
         </primitive>
         <primitive id="chairLeg">
-            <cylinder base_r="0.05" top_r="0.05" height="1.5" slices="30" stacks="5" /> 
+            <cylinder base="0.05" top="0.05" height="1.5" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="Triangle">
             <triangle x1="1.5" y1="0" z1="0" x2="0" y2="1.5" z2="0" x3="0" y3="0" z3="0"/>
