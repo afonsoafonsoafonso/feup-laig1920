@@ -1045,20 +1045,32 @@ class MySceneGraph {
     }
 
     transverseTree() {
-        this.processNode(this.idRoot);
+        this.processNode(this.idRoot, null, null);
     }
 
-    processNode(nodeID, /*inherirMat, inheritTex, sLength?, tLength?*/) {
+    processNode(nodeID, inheritMatID, inheritTexID/*, sLength?, tLength?*/) {
         var currNode = this.nodes[nodeID];
 
-        var currMat = this.materials[this.nodes[nodeID].materialID];
-        var currText = null;
+        var currMat = null;
+        var currMatID = null;
+        var currTextID = null;
         
-        if(currNode.textureID!=null) {
-            //console.log("ADWNONWDA", this.textures[currNode.textureID]);
-            currMat.setTexture(this.textures[currNode.textureID]);
+        if(currNode.materialID=="inherit") {
+            currMatID = inheritMatID;
+        }
+        else {
+            currMatID = currNode.materialID;
         }
 
+        if(currNode.textureID=="inherit") {
+            currTextID = inheritTexID;
+        }
+        else {
+            currTextID = currNode.textureID;
+        }
+
+        currMat = this.materials[currMatID];
+        currMat.setTexture(this.textures[currTextID]);
         currMat.apply();
 
         this.scene.pushMatrix();
@@ -1069,7 +1081,7 @@ class MySceneGraph {
         }
 
         for(var i=0; i<currNode.childNodesIDs.length; i++) {
-            this.processNode(currNode.childNodesIDs[i]);
+            this.processNode(currNode.childNodesIDs[i], currMatID, currTextID);
         }
 
         this.scene.popMatrix();
