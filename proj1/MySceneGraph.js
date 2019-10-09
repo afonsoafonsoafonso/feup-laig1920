@@ -27,9 +27,17 @@ class MySceneGraph {
 
         this.nodes = [];
 
-        this.testCylinder = new MyCylinder(this.scene, 2, 3, 5, 4, 4);
+        this.testCylinder = new MyCylinder(this.scene, 2, 3, 5, 15, 15  );
         this.testSphere = new MySphere(this.scene, 3, 20, 20);
         this.testRect = new MyRectangle(this.scene, "yo", 0, 5, 0, 5);
+
+        this.material = new CGFappearance(this.scene);
+        this.material.setAmbient(1.0, 1.0, 1.0, 1);
+        this.material.setDiffuse(0.1, 0.1, 0.1, 1);
+        this.material.setSpecular(0.1, 0.1, 0.1, 1);
+        this.material.setShininess(10.0);
+        this.material.loadTexture('scenes/images/leaves.jpg');
+        this.material.setTextureWrap('REPEAT','REPEAT');
 
         this.views = [];
         this.lights = [];
@@ -495,12 +503,18 @@ class MySceneGraph {
                 return "invalid texture tag"
             
             const id = children[i].getAttribute("id")
+            if(id==null)
+                return "no id given for texture"
+            //verificar se já existe um id igual ou não
+
             const file = children[i].getAttribute("file")
+            if(file==null)
+                return "no file path given for texture"
             /*
             console.log("ID:", id)
             console.log("FILE:", file)
             */
-            this.textures[id] = new CGFtexture(id, file);
+            this.textures[id] = new CGFtexture(this.scene, file);
         }
     }
 
@@ -877,7 +891,11 @@ class MySceneGraph {
             this.nodes[componentID].materialID = matID;
             // Texture
             var texID = this.reader.getString(grandChildren[textureIndex], 'id');
+            var sLength = this.reader.getString(grandChildren[textureIndex], 'length_s');
+            var tLength = this.reader.getString(grandChildren[textureIndex], 'length_t');
             this.nodes[componentID].textureID = texID;
+            this.nodes[componentID].sLength = sLength;
+            this.nodes[componentID].tLength = tLength;
             // Children
             var childrenChildren=[]
             childrenChildren = grandChildren[childrenIndex].children;
@@ -1014,18 +1032,14 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //this.transverseTree();
+        this.transverseTree();
         /*
-        this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(1.0, 0.1, 0.1, 1);
-        this.material.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.material.setSpecular(0.1, 0.1, 0.1, 1);
-        this.material.setShininess(10.0);
-        this.material.loadTexture('scenes/images/rocks.jpg');
-        this.material.setTextureWrap('REPEAT','REPEAT');
-        this.material.apply();
         this.scene.pushMatrix();
-        this.testRect.display();
+        
+  
+        this.material.apply();
+        this.testCylinder.display();
+
         this.scene.popMatrix();
         */
     }
@@ -1037,15 +1051,15 @@ class MySceneGraph {
     processNode(nodeID, /*inherirMat, inheritTex, sLength?, tLength?*/) {
         var currNode = this.nodes[nodeID];
 
-        /*var currMat = this.materials[this.nodes[nodeID].materialID];
+        var currMat = this.materials[this.nodes[nodeID].materialID];
         var currText = null;
         
         if(currNode.textureID!=null) {
-            currText = this.textures[currNode.textureID];
-            currMat.setTexture(currText);
+            //console.log("ADWNONWDA", this.textures[currNode.textureID]);
+            currMat.setTexture(this.textures[currNode.textureID]);
         }
 
-        currMat.apply();*/
+        currMat.apply();
 
         this.scene.pushMatrix();
         this.scene.multMatrix(currNode.transfMatrix);

@@ -5,6 +5,8 @@ class MyNode {
         this.childLeafsIDs = [];
         this.materialID = null;
         this.textureID = null;
+        this.sLength = null;
+        this.tLength = null;
         this.transfMatrix = mat4.create();
     }
 }

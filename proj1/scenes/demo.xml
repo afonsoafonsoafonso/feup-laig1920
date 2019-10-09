@@ -31,7 +31,7 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="demoTexture" file="scenes/images/leaves.jpg" />
         <texture id="demoTexture2" file="scenes/images/vidral.jpg" />
     </textures>
 
@@ -47,6 +47,12 @@
             <ambient r="1.0" g="0.5" b="0.5" a="1.0" />
             <diffuse r="0.6" g="0.5" b="0.5" a="1.0" />
             <specular r="0.6" g="0.5" b="0.5" a="1.0" />
+        </material>
+        <material id="textMaterial" shininess="1">
+            <emission r="1.0" g="1.0" b="1.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </material>
     </materials>
 
@@ -68,10 +74,10 @@
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
         </primitive>
         <primitive id="demoCylinder">
-            <cylinder base_r="2" top_r="2" height="2" slices="10" stacks="5" /> 
+            <cylinder base="2" top="2" height="2" slices="10" stacks="5" /> 
         </primitive>
         <primitive id="demoTorus">
-            <torus inner_r="1" outer_r="2" slices="5" loops="3" /> 
+            <torus inner="1" outer="2" slices="5" loops="3" /> 
         </primitive>
         <primitive id="demoTriangle">
             <triangle x1="1" y1="0" z1="0" x2="0" y2="1" z2="0" x3="0" y3="0" z3="0"/>
@@ -86,11 +92,11 @@
                 <rotate axis="z" angle="45" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="textMaterial" />
             </materials>
-            <texture id="demoTexture" />
+            <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="demoTriangle" />
+                <primitiveref id="demoRectangle" />
             </children>
         </component>
 
@@ -98,14 +104,14 @@
             <transformation>
                 <scale x="1" y="1" z="2" />
                 <rotate axis="x" angle="-45" />
-            s<rotate axis="z" angle="-45" />
+            <rotate axis="z" angle="-45" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="textMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture2" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="demoTorus" />
+                <primitiveref id="demoCylinder" />
                 <componentref id="demoComp" />
             </children>
         </component>
