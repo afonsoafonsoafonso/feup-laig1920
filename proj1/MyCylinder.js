@@ -25,8 +25,8 @@ class MyCylinder extends CGFobject {
         var deltaStack = this.height/this.stacks;
         var deltaRad = (this.top_r-this.base_r)/this.stacks;
 
-        for(var i=0; i<=this.slices; i++) {
-            for(var j=0; j<=this.stacks; j++) {
+        for(let i=0; i<=this.slices; i++) {
+            for(let j=0; j<=this.stacks; j++) {
                 this.vertices.push(
                     Math.cos(deltaAng*i)*(this.base_r+deltaRad*j),
                     Math.sin(deltaAng*i)*(this.base_r+deltaRad*j),
@@ -39,8 +39,8 @@ class MyCylinder extends CGFobject {
             }
         }
 
-		for(var i=0; i<this.slices; i++) {
-			for(var j=0; j<this.stacks; j++) {
+		for(let i=0; i<this.slices; i++) {
+			for(let j=0; j<this.stacks; j++) {
                 this.indices.push(i*(this.stacks+1)+j, (i+1)*(this.stacks+1)+j, (i+1)*(this.stacks+1)+j+1)
                 this.indices.push(i*(this.stacks+1)+j+1, i*(this.stacks+1)+j, (i+1)*(this.stacks+1)+j+1)
             }

@@ -16,12 +16,14 @@ class MyTriangle extends CGFobject {
         this.vertices.push(this.v1[0],this.v1[1], this.v1[2]);
         this.vertices.push(this.v2[0],this.v2[1], this.v2[2]);
         this.vertices.push(this.v3[0],this.v3[1], this.v3[2]);
+        this.vertices.push(this.v1[0],this.v1[1], this.v1[2]);
+        this.vertices.push(this.v2[0],this.v2[1], this.v2[2]);
+        this.vertices.push(this.v3[0],this.v3[1], this.v3[2]);
 
-        this.indices = [0,1,2];
-
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
-        
+        this.indices = [
+            0, 1, 2,
+            5, 4, 3
+        ];
 
         let u = [this.v2[0]-this.v1[0],this.v2[1]-this.v1[1], this.v2[2]-this.v1[2]];
         let v = [this.v3[0]-this.v1[0],this.v3[1]-this.v1[1], this.v3[2]-this.v1[2]];
@@ -34,8 +36,23 @@ class MyTriangle extends CGFobject {
 		this.normals = [
 			nx, ny, nz,
 			nx, ny, nz,
-			nx, ny, nz
-		];  
+            nx, ny, nz,
+            nx, ny, -nz,
+			nx, ny, -nz,
+			nx, ny, -nz
+        ];  
+        
+        this.texCoords = [
+			0, 1,
+			1, 1,
+            0.5, 0,
+            0, 1,
+			1, 1,
+			0.5, 0
+        ];
+
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
     }   
 
 }
