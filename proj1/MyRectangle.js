@@ -21,13 +21,19 @@ class MyRectangle extends CGFobject {
 			this.x1, this.y1, 0,	//0
 			this.x2, this.y1, 0,	//1
 			this.x1, this.y2, 0,	//2
-			this.x2, this.y2, 0		//3
+			this.x2, this.y2, 0,	//3
+			this.x1, this.y1, 0,	//4
+			this.x2, this.y1, 0,	//5
+			this.x1, this.y2, 0,	//6
+			this.x2, this.y2, 0		//7
 		];
 
 		//Counter-clockwise reference of vertices
 		this.indices = [
 			0, 1, 2,
-			1, 3, 2
+			1, 3, 2,
+			2, 1, 0,
+			2, 3, 1
 		];
 
 		//Facing Z positive
@@ -35,7 +41,11 @@ class MyRectangle extends CGFobject {
 			0, 0, 1,
 			0, 0, 1,
 			0, 0, 1,
-			0, 0, 1
+			0, 0, 1,
+			0, 0, -1,
+			0, 0, -1,
+			0, 0, -1,
+			0, 0, -1
 		];
 		
 		/*
@@ -49,6 +59,10 @@ class MyRectangle extends CGFobject {
         */
 
 		this.texCoords = [
+			0, 1,
+			1, 1,
+			0, 0,
+			1, 0,
 			0, 1,
 			1, 1,
 			0, 0,
