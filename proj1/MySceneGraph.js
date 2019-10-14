@@ -905,11 +905,17 @@ class MySceneGraph {
             this.nodes[componentID].materialID = matID;
             // Texture
             var texID = this.reader.getString(grandChildren[textureIndex], 'id');
-            var sLength = this.reader.getString(grandChildren[textureIndex], 'length_s');
-            var tLength = this.reader.getString(grandChildren[textureIndex], 'length_t');
+            if(texID!="inherit" && texID!="none") {
+                var sLength = this.reader.getString(grandChildren[textureIndex], 'length_s');
+                var tLength = this.reader.getString(grandChildren[textureIndex], 'length_t');
+                this.nodes[componentID].sLength = sLength;
+                this.nodes[componentID].tLength = tLength;
+            }
+            //var sLength = this.reader.getString(grandChildren[textureIndex], 'length_s');
+            //var tLength = this.reader.getString(grandChildren[textureIndex], 'length_t');
             this.nodes[componentID].textureID = texID;
-            this.nodes[componentID].sLength = sLength;
-            this.nodes[componentID].tLength = tLength;
+            //this.nodes[componentID].sLength = sLength;
+            //this.nodes[componentID].tLength = tLength;
             // Children
             var childrenChildren=[]
             childrenChildren = grandChildren[childrenIndex].children;
