@@ -42,6 +42,18 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
+
+    /**
+     * 
+     */
+    setDefaultCamera() {
+
+        //this.camera = new CGFcamera(45*DEGREE_TO_RAD, 5, 1000, vec3.fromValues(0, 0, 100), vec3.fromValues(0, 0, 0));
+        this.camera = this.graph.views[this.graph.defaultViewID];
+        this.interface.setActiveCamera(this.camera);
+        
+    }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -91,6 +103,8 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
+        this.setDefaultCamera();
+
         this.axis = new CGFaxis(this, this.graph.referenceLength);
 
         this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
@@ -132,6 +146,7 @@ class XMLscene extends CGFscene {
         if (this.sceneInited) {
             // Draw axis
             this.setDefaultAppearance();
+            
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();

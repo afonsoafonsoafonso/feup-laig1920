@@ -40,6 +40,7 @@ class MySceneGraph {
         this.material.setTextureWrap('REPEAT','REPEAT');
 
         this.views = [];
+        this.defaultViewID = null;
         this.lights = [];
         this.textures = [];
         this.materials = [];
@@ -250,8 +251,8 @@ class MySceneGraph {
         if (dflt == null)
             return "no default defined for views";
 
-        this.idDefault = dflt
-        //console.log("dflt:", dflt)
+        this.defaultViewID = dflt
+        console.log("dflt:", dflt)
 
         //checking cameras (child nodes)
         var children = viewsNode.children;
@@ -286,26 +287,36 @@ class MySceneGraph {
 
     //cria camera de perspetiva
     createPerspCamera(viewNode) {
-        const id = viewNode.getAttribute("id")
-        const near = viewNode.getAttribute("near")
-        const far = viewNode.getAttribute("far")
-        const angle = viewNode.getAttribute("angle")
+        var id = viewNode.getAttribute("id")
+        var near = parseInt(viewNode.getAttribute("near"))
+        var far = parseInt(viewNode.getAttribute("far"))
+        var angle = parseInt(viewNode.getAttribute("angle"))
 
         var children = viewNode.children;
-        const from_x = children[0].getAttribute("x")
-        const from_y = children[0].getAttribute("y")
-        const from_z = children[0].getAttribute("z")
+        var from_x = parseInt(children[0].getAttribute("x"))
+        var from_y = parseInt(children[0].getAttribute("y"))
+        var from_z = parseInt(children[0].getAttribute("z"))
 
-        const to_x = children[1].getAttribute("x")
-        const to_y = children[1].getAttribute("y")
-        const to_z = children[1].getAttribute("z")
+        var to_x = parseInt(children[1].getAttribute("x"))
+        var to_y = parseInt(children[1].getAttribute("y"))
+        var to_z = parseInt(children[1].getAttribute("z"))
+        
         /*
         console.log("ID:", id);
         console.log("NEAR:", near);
         console.log("FAR:", far);
         console.log("ANGLE:", angle);
+        console.log("FROM_X:", from_x);
+        console.log("FROM_Y:", from_y);
+        console.log("FROM_Z:", from_z);
+        console.log("TO_X:", to_x);
+        console.log("TO_Y:", to_y);
+        console.log("TO_Z:", to_z);
+        console.log("\n");
         */
-        this.views[id] = new CGFcamera(angle*DEGREE_TO_RAD, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
+
+        this.views[id] = new CGFcamera(angle*DEGREE_TO_RAD, near, far, vec3.fromValues(from_x, from_y, from_z), vec3.fromValues(to_x, to_y, to_z));
+        console.log("THIS.VIEWS[ID]:", near*2);
     }
 
     //cria camera ortogonal
