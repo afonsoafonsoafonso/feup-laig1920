@@ -1050,9 +1050,11 @@ class MySceneGraph {
   
         this.material.apply();
         this.testCylinder.display();
+        this.testRect.display();
 
         this.scene.popMatrix();
         */
+       
     }
 
     transverseTree() {

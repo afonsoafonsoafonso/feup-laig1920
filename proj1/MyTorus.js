@@ -16,6 +16,7 @@ class MyTorus extends CGFobject {
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
+		this.texCoords = [];
 
 		var loop_angle = 2*Math.PI/this.loops;
         var slice_angle = 2*Math.PI/this.slices;
@@ -26,6 +27,11 @@ class MyTorus extends CGFobject {
 					(this.outer_r + this.inner_r*Math.cos(loop_angle*j)) * Math.cos(slice_angle*i), 
 					(this.outer_r + this.inner_r*Math.cos(loop_angle*j)) * Math.sin(slice_angle*i), 
 					this.inner_r * Math.sin(loop_angle*j));
+
+				this.texCoords.push(
+					i*1/this.slices, 
+					j*1/this.loops	
+				);
 				this.normals.push(
 					Math.cos(loop_angle*j) * Math.cos(slice_angle*i), 
                     Math.cos(loop_angle*j) * Math.sin(slice_angle*i),
