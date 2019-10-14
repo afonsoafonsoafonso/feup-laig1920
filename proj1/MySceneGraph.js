@@ -40,6 +40,7 @@ class MySceneGraph {
         this.material.setTextureWrap('REPEAT','REPEAT');
 
         this.views = [];
+        this.viewsIDs = [];
         this.defaultViewID = null;
         this.lights = [];
         this.textures = [];
@@ -214,6 +215,8 @@ class MySceneGraph {
             if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
         }
+
+        console.log("VIEWS ARRAY:", this.viewsIDs);
         this.log("all parsed");
     }
 
@@ -252,7 +255,7 @@ class MySceneGraph {
             return "no default defined for views";
 
         this.defaultViewID = dflt
-        console.log("dflt:", dflt)
+        //console.log("dflt:", dflt)
 
         //checking cameras (child nodes)
         var children = viewsNode.children;
@@ -314,7 +317,7 @@ class MySceneGraph {
         console.log("TO_Z:", to_z);
         console.log("\n");
         */
-
+        this.viewsIDs.push(id);
         this.views[id] = new CGFcamera(angle*DEGREE_TO_RAD, near, far, vec3.fromValues(from_x, from_y, from_z), vec3.fromValues(to_x, to_y, to_z));
         console.log("THIS.VIEWS[ID]:", near*2);
     }
@@ -322,21 +325,21 @@ class MySceneGraph {
     //cria camera ortogonal
     createOrthoCamera(viewNode) {
         const id = viewNode.getAttribute("id")
-        const near = viewNode.getAttribute("near")
-        const far = viewNode.getAttribute("far")
-        const left = viewNode.getAttribute("left")
-        const right = viewNode.getAttribute("right")
-        const top = viewNode.getAttribute("top")
-        const bottom = viewNode.getAttribute("bottom")
+        const near = parseInt(viewNode.getAttribute("near"))
+        const far = parseInt(viewNode.getAttribute("far"))
+        const left = parseInt(viewNode.getAttribute("left"))
+        const right = parseInt(viewNode.getAttribute("right"))
+        const top = parseInt(viewNode.getAttribute("top"))
+        const bottom = parseInt(viewNode.getAttribute("bottom"))
     
         var children = viewNode.children;
-        const from_x = children[0].getAttribute("x")
-        const from_y = children[0].getAttribute("y")
-        const from_z = children[0].getAttribute("z")
+        const from_x = parseInt(children[0].getAttribute("x"))
+        const from_y = parseInt(children[0].getAttribute("y"))
+        const from_z = parseInt(children[0].getAttribute("z"))
 
-        const to_x = children[1].getAttribute("x")
-        const to_y = children[1].getAttribute("y")
-        const to_z = children[1].getAttribute("z")
+        const to_x = parseInt(children[1].getAttribute("x"))
+        const to_y = parseInt(children[1].getAttribute("y"))
+        const to_z = parseInt(children[1].getAttribute("z"))
         /*
         console.log("ID:", id);
         console.log("NEAR:", near);
