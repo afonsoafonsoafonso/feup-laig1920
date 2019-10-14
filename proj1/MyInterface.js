@@ -47,4 +47,15 @@ class MyInterface extends CGFinterface {
     isKeyPressed(keyCode) {
         return this.activeKeys[keyCode] || false;
     }
+
+    /**
+     * Interface functions
+     */
+    createViewsInterface() {
+        this.selectedView = this.scene.graph.defaultViewID;
+        var folder = this.gui.addFolder("views");
+        folder.open();
+
+        folder.add(this, 'selectedView', this.scene.graph.viewsIDs).name('Camera').onChange(id => this.scene.setCamera(id));
+    }
 }
