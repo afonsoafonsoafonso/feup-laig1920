@@ -8,6 +8,8 @@ class MyTriangle extends CGFobject {
         this.v1 = ver1;
         this.v2 = ver2;
         this.v3 = ver3;
+        this.s_length = 1;
+		this.t_length = 1;
         this.initBuffers();
     }
     initBuffers(){
@@ -55,4 +57,25 @@ class MyTriangle extends CGFobject {
         this.initGLBuffers();
     }   
 
+    /**
+	 * @method updateTexCoords
+	 * Updates the list of texture coordinates of the triangle
+	 * @param {Array} coords - Array of texture coordinates
+	 */
+	updateTexCoords(coords) {
+		this.texCoords = [...coords];
+		this.updateTexCoordsGLBuffers();
+    }
+    
+    changeTexCoords(s,t){
+        if(s == this.s_length && t == this.t_length)
+            return;
+		for(var i = 0;i < this.texCoords.length/2;i++){
+			this.texCoords[2*i] = this.texCoords[2*i] * this.s_length/s ;
+			this.texCoords[2*i+1] = this.texCoords[2*i+1] * this.t_length/t ;
+		}
+		this.s_length = s;
+		this.t_length = t;
+		this.updateTexCoordsGLBuffers();
+    }
 }
