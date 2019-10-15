@@ -291,18 +291,18 @@ class MySceneGraph {
     //cria camera de perspetiva
     createPerspCamera(viewNode) {
         var id = viewNode.getAttribute("id")
-        var near = parseInt(viewNode.getAttribute("near"))
-        var far = parseInt(viewNode.getAttribute("far"))
-        var angle = parseInt(viewNode.getAttribute("angle"))
+        var near = parseFloat(viewNode.getAttribute("near"))
+        var far = parseFloat(viewNode.getAttribute("far"))
+        var angle = parseFloat(viewNode.getAttribute("angle"))
 
         var children = viewNode.children;
-        var from_x = parseInt(children[0].getAttribute("x"))
-        var from_y = parseInt(children[0].getAttribute("y"))
-        var from_z = parseInt(children[0].getAttribute("z"))
+        var from_x = parseFloat(children[0].getAttribute("x"))
+        var from_y = parseFloat(children[0].getAttribute("y"))
+        var from_z = parseFloat(children[0].getAttribute("z"))
 
-        var to_x = parseInt(children[1].getAttribute("x"))
-        var to_y = parseInt(children[1].getAttribute("y"))
-        var to_z = parseInt(children[1].getAttribute("z"))
+        var to_x = parseFloat(children[1].getAttribute("x"))
+        var to_y = parseFloat(children[1].getAttribute("y"))
+        var to_z = parseFloat(children[1].getAttribute("z"))
         
         /*
         console.log("ID:", id);
@@ -325,21 +325,21 @@ class MySceneGraph {
     //cria camera ortogonal
     createOrthoCamera(viewNode) {
         const id = viewNode.getAttribute("id")
-        const near = parseInt(viewNode.getAttribute("near"))
-        const far = parseInt(viewNode.getAttribute("far"))
-        const left = parseInt(viewNode.getAttribute("left"))
-        const right = parseInt(viewNode.getAttribute("right"))
-        const top = parseInt(viewNode.getAttribute("top"))
-        const bottom = parseInt(viewNode.getAttribute("bottom"))
+        const near = parseFloat(viewNode.getAttribute("near"))
+        const far = parseFloat(viewNode.getAttribute("far"))
+        const left = parseFloat(viewNode.getAttribute("left"))
+        const right = parseFloat(viewNode.getAttribute("right"))
+        const top = parseFloat(viewNode.getAttribute("top"))
+        const bottom = parseFloat(viewNode.getAttribute("bottom"))
     
         var children = viewNode.children;
-        const from_x = parseInt(children[0].getAttribute("x"))
-        const from_y = parseInt(children[0].getAttribute("y"))
-        const from_z = parseInt(children[0].getAttribute("z"))
+        const from_x = parseFloat(children[0].getAttribute("x"))
+        const from_y = parseFloat(children[0].getAttribute("y"))
+        const from_z = parseFloat(children[0].getAttribute("z"))
 
-        const to_x = parseInt(children[1].getAttribute("x"))
-        const to_y = parseInt(children[1].getAttribute("y"))
-        const to_z = parseInt(children[1].getAttribute("z"))
+        const to_x = parseFloat(children[1].getAttribute("x"))
+        const to_y = parseFloat(children[1].getAttribute("y"))
+        const to_z = parseFloat(children[1].getAttribute("z"))
         /*
         console.log("ID:", id);
         console.log("NEAR:", near);
