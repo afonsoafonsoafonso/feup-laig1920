@@ -39,6 +39,8 @@ class MySceneGraph {
         this.material.loadTexture('scenes/images/leaves.jpg');
         this.material.setTextureWrap('REPEAT','REPEAT');
 
+        this.lights = [];
+        this.lightsIDs = [];
         this.views = [];
         this.viewsIDs = [];
         this.defaultViewID = null;
@@ -156,6 +158,7 @@ class MySceneGraph {
             if ((error = this.parseLights(nodes[index])) != null)
                 return error;
         }
+        console.log("AWODINAWODNWD:", this.scene.lights.length);
         // <textures>
         if ((index = nodeNames.indexOf("textures")) == -1)
             return "tag <textures> missing";
@@ -394,7 +397,6 @@ class MySceneGraph {
     parseLights(lightsNode) {
         var children = lightsNode.children;
 
-        this.lights = [];
         var numLights = 0;
 
         var grandChildren = [];
@@ -422,6 +424,8 @@ class MySceneGraph {
             var lightId = this.reader.getString(children[i], 'id');
             if (lightId == null)
                 return "no ID defined for light";
+            else
+                this.lightsIDs.push(lightId);
 
             // Checks for repeated IDs.
             if (this.lights[lightId] != null)

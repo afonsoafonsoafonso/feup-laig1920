@@ -55,7 +55,14 @@ class MyInterface extends CGFinterface {
         this.selectedView = this.scene.graph.defaultViewID;
         var folder = this.gui.addFolder("views");
         folder.open();
-
         folder.add(this, 'selectedView', this.scene.graph.viewsIDs).name('Camera').onChange(id => this.scene.setCamera(id));
+    }
+
+    createLightsInterface() {
+        var folder = this.gui.addFolder("lights");
+        console.log("AWPIDAWPDINAWD:", this.scene.graph.lights.length);
+        for(var i=0; i<this.scene.graph.lights.length; i++) {
+            folder.add(this.scene.lights[i], 'enabled').name(this.scene.graph.lightsIDs[i]);    
+        }
     }
 }
