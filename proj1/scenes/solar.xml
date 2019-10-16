@@ -48,9 +48,9 @@
         <spot id="starLight" enabled="1" angle="40" exponent="1">        
             <location x="-30" y="20" z="12" w="1.0" />
             <target x="-30" y="20" z="10" />
-            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="0.0" />
             <attenuation constant="0" linear="1.0" quadratic="0" /> 
         </spot>
         

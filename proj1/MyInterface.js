@@ -59,10 +59,14 @@ class MyInterface extends CGFinterface {
     }
 
     createLightsInterface() {
+        var i=0;
+        var lightDictKeys = Object.keys(this.scene.lights);
         var folder = this.gui.addFolder("lights");
-        console.log("AWPIDAWPDINAWD:", this.scene.graph.lights.length);
-        for(var i=0; i<this.scene.graph.lights.length; i++) {
-            folder.add(this.scene.lights[i], 'enabled').name(this.scene.graph.lightsIDs[i]);    
+        for(var key of lightDictKeys) {
+            folder.add(this.scene.lights[key], 'enabled').name(this.scene.graph.lightsIDs[key]);
+            i++;
+            if(i>=this.scene.graph.lightsIDs.length) 
+                break;
         }
     }
 }
