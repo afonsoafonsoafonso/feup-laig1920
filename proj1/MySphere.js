@@ -18,50 +18,44 @@ class MySphere extends CGFobject {
 
     initBuffers() {
         this.vertices = [];
-		this.indices = [];
-		this.normals = [];
-		this.texCoords = [];
+      	this.normals = [];
+    	this.indices = [];
+      	this.texCoords = [];
 
-		let omega_angle = 2*Math.PI/this.slices;
-		let alpha_angle = 2*Math.PI/this.stacks;
+      	var ang_slices = 2 * Math.PI / this.slices;
+      	var ang_stacks = Math.PI / this.stacks;
 
-		for(let i = 0; i <= this.slices; ++i) {
-
-			for(let j = 0; j <= this.stacks; ++j) {
-
-				this.vertices.push(
-                    this.radius*Math.cos(alpha_angle*j)*Math.cos(omega_angle*i), 
-                    this.radius*Math.cos(alpha_angle*j)*Math.sin(omega_angle*i), 
-                    this.radius*Math.sin(alpha_angle*j)
+      	for (var i = 0; i <= this.stacks; i++) {
+          for (var j = 0; j <= this.slices; j++) {
+              
+              this.vertices.push(
+					this.radius * Math.cos(ang_slices * j) * Math.sin(ang_stacks * i),
+              		this.radius * Math.sin(ang_slices * j) * Math.sin(ang_stacks * i),
+					this.radius * Math.cos(ang_stacks * i)
 				);
-
-				this.normals.push(
-                    Math.cos(alpha_angle*j)*Math.cos(omega_angle*i), 
-                    Math.cos(alpha_angle*j)*Math.sin(omega_angle*i), 
-                    Math.sin(alpha_angle*j)
+              this.normals.push(
+					Math.cos(ang_slices * j) * Math.sin(ang_stacks * i),
+			  		Math.sin(ang_slices * j) * Math.sin(ang_stacks * i),
+					Math.cos(ang_stacks * i)
 				);
-
-				this.texCoords.push(
-                    j/this.stacks,
-                    i/this.slices   
+              this.texCoords.push(
+				  	j / this.slices,
+				   	1 - i / this.stacks
 				);
+         	}
+      	}
 
-			}
+      	for (var i = 0; i < this.stacks; i++) {
+          	for (var j = 0; j < this.slices; j++) {
+              this.indices.push(i * (this.slices + 1) + j, (i + 1) * (this.slices + 1) + j, (i + 1) * (this.slices + 1) + j + 1);
+              this.indices.push(i * (this.slices + 1) + j, (i + 1) * (this.slices + 1) + j + 1, i * (this.slices + 1) + j + 1);
+          	}
+      	}
 
-		}
-
-		for (let i = 0; i < this.slices; ++i) {
-			for(let j = 0; j < this.stacks; ++j) {
-				this.indices.push(
-					(i+1)*(this.stacks+1) + j, i*(this.stacks+1) + j+1, i*(this.stacks+1) + j,
-					i*(this.stacks+1) + j+1, (i+1)*(this.stacks+1) + j, (i+1)*(this.stacks+1) + j+1
-				);
-			}
-		}
-
-		this.primitiveType = this.scene.gl.TRIANGLES;
-		this.initGLBuffers();   
-	}
+      	this.primitiveType = this.scene.gl.TRIANGLES;
+      	this.initGLBuffers();
+  }  
+	
 	/**
 	 * @method updateTexCoords
 	 * Updates the list of texture coordinates of the sphere
