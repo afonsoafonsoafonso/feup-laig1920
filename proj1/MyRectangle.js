@@ -29,7 +29,7 @@ class MyRectangle extends CGFobject {
 		//Counter-clockwise reference of vertices
 		this.indices = [
 			0, 1, 2,
-			1, 3, 2,
+			3, 2, 1,
 		];
 
 		//Facing Z positive
@@ -63,22 +63,25 @@ class MyRectangle extends CGFobject {
 	/**
 	 * @method updateTexCoords
 	 * Updates the list of texture coordinates of the rectangle
-	 * @param {Array} coords - Array of texture coordinates
+	 * @param s - S_lenght of the texture
+	 * @param t - T_lenght of the textures
 	 */
-	updateTexCoords(coords) {
-		this.texCoords = [...coords];
-		this.updateTexCoordsGLBuffers();
-	}
-
-	changeTexCoords(s,t){
-        if(s == this.s_length && t == this.t_length)
+	updateTexCoords(s,t) {
+		/*
+		if(s == this.s_length && t == this.t_length)
             return;
-		for(var i = 0; i < this.texCoords.length; i += 2){
-			this.texCoords[i] = this.texCoords[i] / s ;
+		for(let i = 0; i < this.texCoords.length; i += 2){
+			this.texCoords[i] = this.texCoords[i] /	 s ;
 			this.texCoords[i+1] = this.texCoords[i+1] / t ;
 		}
-		
+		*/
+		this.texCoords = [
+			0, 1,
+			1, 1,
+			0, 0,
+			1, 0,
+		]
 		this.updateTexCoordsGLBuffers();
-    }
+	}
 }
 

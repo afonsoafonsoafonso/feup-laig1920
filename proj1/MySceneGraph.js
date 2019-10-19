@@ -923,11 +923,11 @@ class MySceneGraph {
                 this.nodes[componentID].sLength = sLength;
                 this.nodes[componentID].tLength = tLength;
             }
-            //var sLength = this.reader.getString(grandChildren[textureIndex], 'length_s');
-            //var tLength = this.reader.getString(grandChildren[textureIndex], 'length_t');
+            var sLength = this.reader.getString(grandChildren[textureIndex], 'length_s');
+            var tLength = this.reader.getString(grandChildren[textureIndex], 'length_t');
             this.nodes[componentID].textureID = texID;
-            //this.nodes[componentID].sLength = sLength;
-            //this.nodes[componentID].tLength = tLength;
+            this.nodes[componentID].sLength = sLength;
+            this.nodes[componentID].tLength = tLength;
             // Children
             var childrenChildren=[]
             childrenChildren = grandChildren[childrenIndex].children;
@@ -1138,6 +1138,8 @@ class MySceneGraph {
         this.scene.multMatrix(currNode.transfMatrix);
 
         for(var i=0; i<currNode.childLeafsIDs.length; i++) {
+            if(currNode.sLength != null && currNode.tLength != null)
+                this.primitives[currNode.childLeafsIDs[i]].updateTexCoords(currNode.sLength, currNode.tLengt);
             this.primitives[currNode.childLeafsIDs[i]].display();
         }
 
