@@ -27,10 +27,6 @@ class MySceneGraph {
 
         this.nodes = [];
 
-        this.testCylinder = new MyCylinder(this.scene, 2, 3, 5, 15, 15  );
-        this.testSphere = new MySphere(this.scene, 3, 20, 20);
-        this.testRect = new MyRectangle(this.scene, "yo", 0, 5, 0, 5);
-
         this.material = new CGFappearance(this.scene);
         this.material.setAmbient(1.0, 1.0, 1.0, 1);
         this.material.setDiffuse(0.1, 0.1, 0.1, 1);
@@ -903,10 +899,22 @@ class MySceneGraph {
                 }
             }
             // Materials
-            var matChildren=[]
+            /*var matChildren=[]
             matChildren = grandChildren[materialsIndex].children
             var matID = this.reader.getString(matChildren[0], 'id')
-            this.nodes[componentID].materialID = matID;
+            //this.nodes[componentID].materialID = matID;
+            this.nodes[componentID].materialID.push(matID);*/
+            var matChildren=[];
+            var matID = null;
+            matChildren = grandChildren[materialsIndex].children
+            for(var j=0; j<matChildren.length; j++) {
+                matID = this.reader.getString(matChildren[j], 'id')
+                this.nodes[componentID].materialID.push(matID);
+                console.log("\nPARSED MAT:", this.nodes[componentID].materialID[j]);
+                console.log("J:", j);
+                console.log("\n\n\n");
+            }
+
             // Texture
             var texID = this.reader.getString(grandChildren[textureIndex], 'id');
             if(texID!="inherit" && texID!="none") {
@@ -1074,30 +1082,57 @@ class MySceneGraph {
         this.processNode(this.idRoot, null, null);
     }
 
+    updateMaterials(nodeID) {
+        var currNode = this.nodes[nodeID];
+        currNode.changeMaterial();
+        for(var i=0; i<currNode.childNodesIDs.length; i++) {
+            this.updateMaterials(currNode.childNodesIDs[i]);
+        }
+    }
+
     processNode(nodeID, inheritMatID, inheritTexID/*, sLength?, tLength?*/) {
         var currNode = this.nodes[nodeID];
 
         var currMat = null;
-        var currMatID = null;
-        var currTextID = null;
-        
+        var currMatID = inheritMatID;
+        var currTextID = inheritTexID;
+
+        if(currNode.materialID[currNode.currMaterial]!="inherit") {
+            currMatID = currNode.materialID[currNode.currMaterial];
+        }
+
+        currMat=this.materials[currMatID];
+
+        if(currNode.textureID!="inherit" && currNode.textureID!="none") {
+            currTextID = currNode.textureID;
+            currMat.setTexture(this.textures[currTextID]);
+        }
+        else if(currNode.textureID=="inherit") {
+            currMat.setTexture(this.textures[currTextID]);
+        }
+        /*
         if(currNode.materialID=="inherit") {
             currMatID = inheritMatID;
         }
         else {
-            currMatID = currNode.materialID;
+            currMatID = currNode.materialID[currNode.currMaterial];
         }
+
+        inheritMatID = currMatID;
+        currMat = this.materials[currMatID];
 
         if(currNode.textureID=="inherit") {
             currTextID = inheritTexID;
+            currMat.setTexture(this.textures[currTextID]);
         }
-        else {
+        else if(currNode.textureID!="none") {
             currTextID = currNode.textureID;
+            currMat.setTexture(this.textures[currTextID]);
         }
 
-        currMat = this.materials[currMatID];
-        currMat.setTexture(this.textures[currTextID]);
+        inheritTexID = currTextID;*/
         currMat.apply();
+        currMat.setTexture(null);
 
         this.scene.pushMatrix();
         this.scene.multMatrix(currNode.transfMatrix);

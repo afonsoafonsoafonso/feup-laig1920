@@ -37,22 +37,22 @@
 
     <materials>
         <material id="demoMaterial" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <emission r="1.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.6" g="0.0" b="0.0" a="1.0" />
         </material>
         <material id="demoMaterial2" shininess="5">
-            <emission r="0.5" g="0.5" b="0.5" a="1.0" />
-            <ambient r="1.0" g="0.5" b="0.5" a="1.0" />
-            <diffuse r="0.6" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.6" g="0.5" b="0.5" a="1.0" />
+            <emission r="0.0" g="1.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="1.0" b="0.0" a="1.0" />
+            <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
+            <specular r="0.0" g="1.0" b="0.0" a="1.0" />
         </material>
         <material id="textMaterial" shininess="1">
-            <emission r="1.0" g="1.0" b="1.0" a="1.0" />
-            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <emission r="0.0" g="0.0" b="1.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="1.0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
         </material>
     </materials>
 
@@ -92,7 +92,9 @@
                 <rotate axis="z" angle="45" />
             </transformation>
             <materials>
+            <material id="demoMaterial2" />
                 <material id="textMaterial" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1"/>
             <children>
@@ -107,9 +109,11 @@
             <rotate axis="z" angle="-45" />
             </transformation>
             <materials>
+            <material id="demoMaterial2" />
                 <material id="textMaterial" />
+                <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture2" length_s="1" length_t="1"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="demoCylinder" />
                 <componentref id="demoComp" />

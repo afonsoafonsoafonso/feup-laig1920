@@ -42,6 +42,9 @@ class MyInterface extends CGFinterface {
 
     processKeyUp(event) {
         this.activeKeys[event.code]=false;
+        if(event.code=="KeyM") {
+            this.scene.graph.updateMaterials(this.scene.graph.idRoot);
+        }
     };
 
     isKeyPressed(keyCode) {
