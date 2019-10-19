@@ -55,23 +55,16 @@ class MyCylinder extends CGFobject {
     /**
 	 * @method updateTexCoords
 	 * Updates the list of texture coordinates of the cylinder
-	 * @param {Array} coords - Array of texture coordinates
+	 * @param s - S_lenght of the texture
+	 * @param t - T_lenght of the textures
 	 */
-	updateTexCoords(coords) {
-		this.texCoords = [...coords];
-		this.updateTexCoordsGLBuffers();
-    }
-    
-    changeTexCoords(s,t){
-        if(s == this.s_length && t == this.t_length)
+	updateTexCoords(s,t) {
+		if(s == this.s_length && t == this.t_length)
             return;
-		for(var i = 0;i < this.texCoords.length/2;i++){
-			this.texCoords[2*i] = this.texCoords[2*i] * this.s_length/s ;
-			this.texCoords[2*i+1] = this.texCoords[2*i+1] * this.t_length/t ;
+		for(let i = 0;i < this.texCoords.length;i+=2){
+			this.texCoords[i] = this.texCoords[i] * this.s_length/s ;
+			this.texCoords[i+1] = this.texCoords[i+1] * this.t_length/t ;
 		}
-		this.s_length = s;
-		this.t_length = t;
 		this.updateTexCoordsGLBuffers();
-    }
-    
+	}
 }
