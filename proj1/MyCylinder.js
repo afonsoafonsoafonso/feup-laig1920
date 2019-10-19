@@ -22,6 +22,7 @@ class MyCylinder extends CGFobject {
         this.indices = [];
         this.normals = [];
         this.texCoords = [];
+        this.originalTexCoords = [];
 
         var deltaAng = 2*Math.PI/this.slices;
         var deltaStack = this.height/this.stacks;
@@ -35,7 +36,7 @@ class MyCylinder extends CGFobject {
                     j*deltaStack
                 );
 
-				this.texCoords.push(i*1/this.slices, 1 - (j*1/this.stacks));
+				this.originalTexCoords.push(i*1/this.slices, 1 - (j*1/this.stacks));
 
                 this.normals.push(Math.cos(deltaAng*i), Math.sin(deltaAng*i), 0);
             }
@@ -48,6 +49,7 @@ class MyCylinder extends CGFobject {
             }
 		}	
 
+        this.texCoords = this.originalTexCoords.slice();
         this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();	
     }
@@ -62,8 +64,8 @@ class MyCylinder extends CGFobject {
 		if(s == this.s_length && t == this.t_length)
             return;
 		for(let i = 0; i < this.texCoords.length; i += 2){
-			this.texCoords[i] = this.texCoords[i] / s ;
-			this.texCoords[i+1] = this.texCoords[i+1] / t ;
+			this.texCoords[i] = this.originalTexCoords[i] / s ;
+			this.texCoords[i+1] = this.originalTexCoords[i+1] / t ;
 		}
 		this.updateTexCoordsGLBuffers();
 	}
