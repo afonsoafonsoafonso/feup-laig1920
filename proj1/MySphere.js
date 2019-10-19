@@ -65,9 +65,9 @@ class MySphere extends CGFobject {
 	updateTexCoords(s,t) {
 		if(s == this.s_length && t == this.t_length)
             return;
-		for(let i = 0;i < this.texCoords.length;i+=2){
-			this.texCoords[i] = this.texCoords[i] * this.s_length/s ;
-			this.texCoords[i+1] = this.texCoords[i+1] * this.t_length/t ;
+		for(let i = 0; i < this.texCoords.length; i += 2){
+			this.texCoords[i] = this.texCoords[i] / s ;
+			this.texCoords[i+1] = this.texCoords[i+1] / t ;
 		}
 		this.updateTexCoordsGLBuffers();
 	}
