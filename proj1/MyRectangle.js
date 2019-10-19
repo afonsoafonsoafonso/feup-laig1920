@@ -29,7 +29,7 @@ class MyRectangle extends CGFobject {
 		//Counter-clockwise reference of vertices
 		this.indices = [
 			0, 1, 2,
-			1, 3, 2,
+			3, 2, 1,
 		];
 
 		//Facing Z positive
@@ -50,12 +50,14 @@ class MyRectangle extends CGFobject {
         t
         */
 
-		this.texCoords = [
+		this.originalTexCoords = [
 			0, 1,
 			1, 1,
 			0, 0,
-			1, 0,
+			1, 0
 		]
+		
+		this.texCoords = this.originalTexCoords.slice();
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	}
@@ -67,12 +69,20 @@ class MyRectangle extends CGFobject {
 	 * @param t - T_lenght of the textures
 	 */
 	updateTexCoords(s,t) {
-		if(s == this.s_length && t == this.t_length)
-            return;
-		for(let i = 0; i < this.texCoords.length; i += 2){
-			this.texCoords[i] = this.texCoords[i] / s ;
-			this.texCoords[i+1] = this.texCoords[i+1] / t ;
-		}
+		
+		var factorS = s || 1;
+        var factorT = t || 1;
+        this.texCoords = [];
+
+        var min_S = 0;
+        var min_T = 0;
+        var max_S = (this.x2 - this.x1) / factorS;
+        var max_T = (this.y2 - this.y1) / factorT;
+    
+        this.texCoords.push(min_S, max_T);
+        this.texCoords.push(max_S, max_T);
+        this.texCoords.push(min_S, min_T);
+        this.texCoords.push(max_S, min_T);
 		this.updateTexCoordsGLBuffers();
 	}
 }

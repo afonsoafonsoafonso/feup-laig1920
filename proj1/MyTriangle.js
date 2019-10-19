@@ -37,12 +37,13 @@ class MyTriangle extends CGFobject {
             nx, ny, nz,
         ];  
         
-        this.texCoords = [
+        this.originalTexCoords = [
 			0, 1,
 			1, 1,
             0.5, 0,
         ];
 
+        this.texCoords = this.originalTexCoords.slice();
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }   
@@ -57,8 +58,8 @@ class MyTriangle extends CGFobject {
 		if(s == this.s_length && t == this.t_length)
             return;
 		for(let i = 0; i < this.texCoords.length; i += 2){
-			this.texCoords[i] = this.texCoords[i] * this.s_length / s ;
-			this.texCoords[i+1] = this.texCoords[i+1] * this.t_length / t ;
+			this.texCoords[i] = this.originalTexCoords[i] * this.s_length / s ;
+			this.texCoords[i+1] = this.originalTexCoords[i+1] * this.t_length / t ;
 		}
 		this.updateTexCoordsGLBuffers();
 	}

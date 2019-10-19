@@ -577,6 +577,7 @@ class MySceneGraph {
             console.log("SPECULAR:", specular);
             */
             var currMaterial = new CGFappearance(this.scene);
+            currMaterial.setTextureWrap('REPEAT','REPEAT');
 
             currMaterial.setShininess(shininess);
             currMaterial.setEmission(...emission);

@@ -19,6 +19,7 @@ class MyTorus extends CGFobject {
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
+		this.originalTexCoords = [];
 		this.texCoords = [];
 
 		var loop_angle = 2*Math.PI/this.loops;
@@ -51,6 +52,7 @@ class MyTorus extends CGFobject {
 			}
 		}	
 
+		this.texCoords = this.originalTexCoords.slice();
 	    this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
 	}
@@ -65,8 +67,8 @@ class MyTorus extends CGFobject {
 		if(s == this.s_length && t == this.t_length)
             return;
 		for(let i = 0; i < this.texCoords.length; i += 2){
-			this.texCoords[i] = this.texCoords[i] / s ;
-			this.texCoords[i+1] = this.texCoords[i+1] / t ;
+			this.texCoords[i] = this.originalTexCoords[i] / s ;
+			this.texCoords[i+1] = this.originalTexCoords[i+1] / t ;
 		}
 		this.updateTexCoordsGLBuffers();
 	}
