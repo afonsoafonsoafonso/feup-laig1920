@@ -15,6 +15,7 @@ class MyTorus extends CGFobject {
         this.initBuffers();
     }
     initBuffers() {
+		
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
@@ -31,13 +32,13 @@ class MyTorus extends CGFobject {
 					this.inner_r * Math.sin(loop_angle*j));
 
 				this.texCoords.push(
-					i*1/this.slices, 
-					j*1/this.loops	
+					i/this.slices, 
+					j/this.loops	
 				);
 				this.normals.push(
-					Math.cos(loop_angle*j) * Math.cos(slice_angle*i), 
-                    Math.cos(loop_angle*j) * Math.sin(slice_angle*i),
-                    0);
+					(this.outer_r + this.inner_r*Math.cos(loop_angle*j)) * Math.cos(slice_angle*i), 
+					(this.outer_r + this.inner_r*Math.cos(loop_angle*j)) * Math.sin(slice_angle*i), 
+					this.inner_r * Math.sin(loop_angle*j));
 			}
 		}
 

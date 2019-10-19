@@ -22,7 +22,7 @@ class MySphere extends CGFobject {
     	this.indices = [];
       	this.texCoords = [];
 
-      	var ang_slices = 2 * Math.PI / this.slices;
+      	var ang_slices =(2 * Math.PI) / this.slices;
       	var ang_stacks = Math.PI / this.stacks;
 
       	for (var i = 0; i <= this.stacks; i++) {
@@ -40,7 +40,7 @@ class MySphere extends CGFobject {
 				);
               this.texCoords.push(
 				  	j / this.slices,
-				   	1 - i / this.stacks
+					1 - (i / this.stacks)
 				);
          	}
       	}
