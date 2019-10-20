@@ -1170,8 +1170,8 @@ class MySceneGraph {
 
         if(currNode.textureID!="inherit" && currNode.textureID!="none") {
             currTextID = currNode.textureID;
-            currSLength = currNode.sLength; //???
-            currTLength = currNode.tLength; //???
+            currNode.sLength = currSLength;  //???
+            currNode.tLength = currTLength; //???
             currMat.setTexture(this.textures[currTextID]);
         }
         else if(currNode.textureID=="inherit") {
