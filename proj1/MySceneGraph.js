@@ -301,6 +301,7 @@ class MySceneGraph {
         if(Object.keys(this.views).includes(id)) {
             return "view id not unique";
         }
+        this.viewsIDs.push(id);
 
         this.views[id] = new CGFcamera(angle*DEGREE_TO_RAD, near, far, vec3.fromValues(from_x, from_y, from_z), vec3.fromValues(to_x, to_y, to_z));
     }
@@ -327,8 +328,9 @@ class MySceneGraph {
         if(Object.keys(this.views).includes(id)) {
             return "view id not unique"
         }
+        this.viewsIDs.push(id);
 
-        this.views[id] = new CGFcameraOrtho(left, right, bottom, top, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
+        this.views[id] = new CGFcameraOrtho(left, right, bottom, top, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z], [0,1,0]);
     }
 
     /**
