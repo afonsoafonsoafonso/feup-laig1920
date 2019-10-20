@@ -285,18 +285,44 @@ class MySceneGraph {
     //cria camera de perspetiva
     createPerspCamera(viewNode) {
         var id = viewNode.getAttribute("id")
-        var near = parseFloat(viewNode.getAttribute("near"))
-        var far = parseFloat(viewNode.getAttribute("far"))
-        var angle = parseFloat(viewNode.getAttribute("angle"))
 
+        var near = parseFloat(viewNode.getAttribute("near"))
+        if (!(near != null && !isNaN(near)))
+            return "unable to parse near of the view node "+ id;
+
+        var far = parseFloat(viewNode.getAttribute("far"))
+        if (!(far != null && !isNaN(far)))
+            return "unable to parse far of the view node "+ id;
+
+        var angle = parseFloat(viewNode.getAttribute("angle"))
+        if (!(angle != null && !isNaN(angle)))
+            return "unable to parse angle of the view node "+ id;
+        
         var children = viewNode.children;
+
         var from_x = parseFloat(children[0].getAttribute("x"))
+        if (!(from_x != null && !isNaN(from_x)))
+            return "unable to parse from_x of the view node "+ id;
+
         var from_y = parseFloat(children[0].getAttribute("y"))
+        if (!(from_y != null && !isNaN(from_y)))
+            return "unable to parse from_y of the view node "+ id;
+
         var from_z = parseFloat(children[0].getAttribute("z"))
+        if (!(from_z != null && !isNaN(from_z)))
+            return "unable to parse from_z of the view node "+ id;
 
         var to_x = parseFloat(children[1].getAttribute("x"))
+        if (!(to_x != null && !isNaN(to_x)))
+            return "unable to parse to_x of the view node "+ id;
+
         var to_y = parseFloat(children[1].getAttribute("y"))
+        if (!(to_y != null && !isNaN(to_y)))
+            return "unable to parse to_y of the view node "+ id;
+        
         var to_z = parseFloat(children[1].getAttribute("z"))
+        if (!(to_z != null && !isNaN(to_z)))
+            return "unable to parse to_z of the view node "+ id;
         
         if(Object.keys(this.views).includes(id)) {
             return "view id not unique";
@@ -309,21 +335,56 @@ class MySceneGraph {
     //cria camera ortogonal
     createOrthoCamera(viewNode) {
         const id = viewNode.getAttribute("id")
-        const near = parseFloat(viewNode.getAttribute("near"))
-        const far = parseFloat(viewNode.getAttribute("far"))
+
+        var near = parseFloat(viewNode.getAttribute("near"))
+        if (!(near != null && !isNaN(near)))
+            return "unable to parse near of the view node "+ id;
+
+        var far = parseFloat(viewNode.getAttribute("far"))
+        if (!(far != null && !isNaN(far)))
+            return "unable to parse far of the view node "+ id;
+
         const left = parseFloat(viewNode.getAttribute("left"))
+        if (!(left != null && !isNaN(left)))
+        return "unable to parse left of the view node "+ id;
+
         const right = parseFloat(viewNode.getAttribute("right"))
+        if (!(right != null && !isNaN(right)))
+            return "unable to parse right of the view node "+ id;
+
         const top = parseFloat(viewNode.getAttribute("top"))
+        if (!(top != null && !isNaN(top)))
+            return "unable to parse top of the view node "+ id;
+
         const bottom = parseFloat(viewNode.getAttribute("bottom"))
+        if (!(bottom != null && !isNaN(bottom)))
+            return "unable to parse bottom of the view node "+ id;
     
         var children = viewNode.children;
-        const from_x = parseFloat(children[0].getAttribute("x"))
-        const from_y = parseFloat(children[0].getAttribute("y"))
-        const from_z = parseFloat(children[0].getAttribute("z"))
+        
+        var from_x = parseFloat(children[0].getAttribute("x"))
+        if (!(from_x != null && !isNaN(from_x)))
+            return "unable to parse from_x of the view node "+ id;
 
-        const to_x = parseFloat(children[1].getAttribute("x"))
-        const to_y = parseFloat(children[1].getAttribute("y"))
-        const to_z = parseFloat(children[1].getAttribute("z"))
+        var from_y = parseFloat(children[0].getAttribute("y"))
+        if (!(from_y != null && !isNaN(from_y)))
+            return "unable to parse from_y of the view node "+ id;
+
+        var from_z = parseFloat(children[0].getAttribute("z"))
+        if (!(from_z != null && !isNaN(from_z)))
+            return "unable to parse from_z of the view node "+ id;
+
+        var to_x = parseFloat(children[1].getAttribute("x"))
+        if (!(to_x != null && !isNaN(to_x)))
+            return "unable to parse to_x of the view node "+ id;
+
+        var to_y = parseFloat(children[1].getAttribute("y"))
+        if (!(to_y != null && !isNaN(to_y)))
+            return "unable to parse to_y of the view node "+ id;
+        
+        var to_z = parseFloat(children[1].getAttribute("z"))
+        if (!(to_z != null && !isNaN(to_z)))
+            return "unable to parse to_z of the view node "+ id;
 
         if(Object.keys(this.views).includes(id)) {
             return "view id not unique"
@@ -713,18 +774,23 @@ class MySceneGraph {
                 var base_r = this.reader.getFloat(grandChildren[0], 'base');
                 if (!(base_r != null && !isNaN(base_r)))
                     return "unable to parse base_r of the primitive coordinates for ID = " + primitiveId;
+
                 var top_r = this.reader.getFloat(grandChildren[0], 'top');
                 if (!(top_r != null && !isNaN(top_r)))
                     return "unable to parse top_r of the primitive coordinates for ID = " + primitiveId;
+
                 var height = this.reader.getFloat(grandChildren[0], 'height');
                 if (!(height != null && !isNaN(height)))
                     return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
+
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
                 if (!(slices != null && !isNaN(slices)))
                     return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
                 var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
                 if (!(stacks != null && !isNaN(stacks)))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+
                 var cyl = new MyCylinder(this.scene, base_r, top_r, height, slices, stacks);
                 
                 this.primitives[primitiveId] = cyl;
@@ -733,15 +799,19 @@ class MySceneGraph {
                 var inner_r = this.reader.getFloat(grandChildren[0], 'inner');
                 if (!(inner_r != null && !isNaN(inner_r)))
                     return "unable to parse inner_r of the primitive coordinates for ID = " + primitiveId;
+
                 var outer_r = this.reader.getFloat(grandChildren[0], 'outer');
                 if (!(outer_r != null && !isNaN(outer_r)))
                     return "unable to parse outer_r of the primitive coordinates for ID = " + primitiveId;
+
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
                 if (!(slices != null && !isNaN(slices)))
                     return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
                 var loops = this.reader.getFloat(grandChildren[0], 'loops');
                 if (!(loops != null && !isNaN(loops)))
                     return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;
+
                 var torus = new MyTorus(this.scene, inner_r, outer_r, slices, loops);
 
                 this.primitives[primitiveId] = torus;
@@ -750,30 +820,39 @@ class MySceneGraph {
                 var x1 = this.reader.getFloat(grandChildren[0], 'x1');
                 if (!(x1 != null && !isNaN(x1)))
                     return "unable to parse x1 of the primitive coordinates for ID = " + primitiveId;
+
                 var y1 = this.reader.getFloat(grandChildren[0], 'y1');
                 if (!(y1 != null && !isNaN(y1)))
                     return "unable to parse y1 of the primitive coordinates for ID = " + primitiveId;
+
                 var z1 = this.reader.getFloat(grandChildren[0], 'z1');
                 if (!(z1 != null && !isNaN(z1)))
                     return "unable to parse z1 of the primitive coordinates for ID = " + primitiveId;
+
                 var x2 = this.reader.getFloat(grandChildren[0], 'x2');
                 if (!(x2 != null && !isNaN(x2)))
                     return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
+
                 var y2 = this.reader.getFloat(grandChildren[0], 'y2');
                 if (!(y2 != null && !isNaN(y2)))
                     return "unable to parse x1 of the primitive coordinates for ID = " + primitiveId;
+
                 var z2 = this.reader.getFloat(grandChildren[0], 'z2');
                 if (!(z2 != null && !isNaN(z2)))
                     return "unable to parse z2 of the primitive coordinates for ID = " + primitiveId;
+
                 var x3 = this.reader.getFloat(grandChildren[0], 'x3');
                 if (!(x3 != null && !isNaN(x3)))
                     return "unable to parse x3 of the primitive coordinates for ID = " + primitiveId;
+
                 var y3 = this.reader.getFloat(grandChildren[0], 'y3');
                 if (!(y3 != null && !isNaN(y3)))
                     return "unable to parse x1 of the primitive coordinates for ID = " + primitiveId;
+
                 var z3 = this.reader.getFloat(grandChildren[0], 'z3');
                 if (!(z3 != null && !isNaN(z3)))
                     return "unable to parse z3 of the primitive coordinates for ID = " + primitiveId;
+
                 var triangle = new MyTriangle(this.scene, [x1,y1,z1], [x2, y2, z2], [x3, y3, z3]);
 
                 this.primitives[primitiveId] = triangle;
@@ -782,12 +861,15 @@ class MySceneGraph {
                 var radius = this.reader.getFloat(grandChildren[0], 'radius');
                 if (!(radius != null && !isNaN(radius)))
                     return "unable to parse radius of the primitive coordinates for ID = " + primitiveId;
+
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
                 if (!(slices != null && !isNaN(slices)))
                     return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
                 var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
                 if (!(stacks != null && !isNaN(stacks)))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+
                 var sphere = new MySphere(this.scene, radius, slices, stacks);
 
                 this.primitives[primitiveId] = sphere;
