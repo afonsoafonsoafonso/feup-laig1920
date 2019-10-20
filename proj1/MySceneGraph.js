@@ -255,10 +255,10 @@ class MySceneGraph {
 
         //checking cameras (child nodes)
         var children = viewsNode.children;
-        if (children.length===0)
+        if (children.length==0)
             return "no view given"; 
 
-        /* guarda childNames e childIDs e verifica se se tags são válidas*/
+        // stores child's names and checks if tags are valid
         var childNames = []
         var childIDs = []
         for (var i = 0; i < children.length; i++) {
@@ -268,7 +268,7 @@ class MySceneGraph {
             childNames.push(children[i].nodeName);
             childIDs.push(children[i].getAttribute("id"))   
         }
-        /*ver se um node coincide com o nome do dado como default*/
+        // checks if view given as default actually exists
         if(!childIDs.includes(dflt))
             return "no view corresponds to given default view"
 
@@ -282,9 +282,11 @@ class MySceneGraph {
         }
     }
 
-    //cria camera de perspetiva
+    //creates perspective camera
     createPerspCamera(viewNode) {
         var id = viewNode.getAttribute("id")
+        if(id==null)
+            return "no id given for view";
 
         var near = parseFloat(viewNode.getAttribute("near"))
         if (!(near != null && !isNaN(near)))
@@ -332,9 +334,11 @@ class MySceneGraph {
         this.views[id] = new CGFcamera(angle*DEGREE_TO_RAD, near, far, vec3.fromValues(from_x, from_y, from_z), vec3.fromValues(to_x, to_y, to_z));
     }
 
-    //cria camera ortogonal
+    // creates orthogonal camera 
     createOrthoCamera(viewNode) {
         const id = viewNode.getAttribute("id")
+        if(id==null)
+            return "no id given for view";
 
         var near = parseFloat(viewNode.getAttribute("near"))
         if (!(near != null && !isNaN(near)))
@@ -567,7 +571,6 @@ class MySceneGraph {
             if(id==null)
                 return "no id given for texture"
             
-
             const file = children[i].getAttribute("file")
             if(file==null)
                 return "no file path given for texture"
@@ -675,6 +678,7 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
+
                     case 'scale':                        
                         var coordinates = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);
                         if (!Array.isArray(coordinates))
@@ -682,21 +686,21 @@ class MySceneGraph {
 
                         transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
                         break;
+
                     case 'rotate':
                         var axis = this.reader.getString(grandChildren[j], "axis");
                         var angle = this.reader.getString(grandChildren[j], "angle");
-                        if(axis=='x') {
+                        if(axis=='x')
                             mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, [1, 0, 0]);
-                        }
-                        else if (axis=='y') {
+
+                        else if (axis=='y')
                             mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, [0, 1, 0]);
-                        }
-                        else if (axis=='z') {
+
+                        else if (axis=='z')
                             mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, [0, 0, 1]);
-                        }
-                        else {
+
+                        else
                             return "Axis must be valid (x, y or z)"
-                        }
                         break;
                 }
             }
@@ -956,7 +960,9 @@ class MySceneGraph {
                         break;
                     case 'rotate':
                         var axis = this.reader.getString(transfChildren[j], "axis");
-                        var angle = this.reader.getString(transfChildren[j], "angle");
+                        var angle = this.reader.getFloat(transfChildren[j], "angle");
+                        if (!(angle != null && !isNaN(angle)))
+                            return "unable to parse angle component of " + transfID;
 
                         if(axis=='x') {
                             mat4.rotate(this.nodes[componentID].transfMatrix, this.nodes[componentID].transfMatrix, angle*DEGREE_TO_RAD, [1, 0, 0]);
@@ -986,16 +992,19 @@ class MySceneGraph {
             // Texture
             var texID = this.reader.getString(grandChildren[textureIndex], 'id');
             if(texID!="inherit" && texID!="none") {
+
                 var sLength = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
+                if (!(sLength != null && !isNaN(sLength) && sLength >= 0))
+                    return "unable to parse sLength component of " + texID;
+
                 var tLength = this.reader.getFloat(grandChildren[textureIndex], 'length_t');
+                if (!(tLength != null && !isNaN(tLength) && tLength >= 0))
+                    return "unable to parse tLength component of " + texID;
+
                 this.nodes[componentID].sLength = sLength;
                 this.nodes[componentID].tLength = tLength;
             }
-            var sLength = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
-            var tLength = this.reader.getFloat(grandChildren[textureIndex], 'length_t');
             this.nodes[componentID].textureID = texID;
-            this.nodes[componentID].sLength = sLength;
-            this.nodes[componentID].tLength = tLength;
             // Children
             var childrenChildren=[]
             childrenChildren = grandChildren[childrenIndex].children;
@@ -1144,12 +1153,14 @@ class MySceneGraph {
         }
     }
 
-    processNode(nodeID, inheritMatID, inheritTexID/*, sLength?, tLength?*/) {
+    processNode(nodeID, inheritMatID, inheritTexID, inheritSLength, inheritTLength) {
         var currNode = this.nodes[nodeID];
 
         var currMat = null;
         var currMatID = inheritMatID;
         var currTextID = inheritTexID;
+        var currSLength = inheritSLength;
+        var currTLength = inheritTLength;
 
         if(currNode.materialID[currNode.currMaterial]!="inherit") {
             currMatID = currNode.materialID[currNode.currMaterial];
@@ -1159,6 +1170,8 @@ class MySceneGraph {
 
         if(currNode.textureID!="inherit" && currNode.textureID!="none") {
             currTextID = currNode.textureID;
+            currSLength = currNode.sLength; //???
+            currTLength = currNode.tLength; //???
             currMat.setTexture(this.textures[currTextID]);
         }
         else if(currNode.textureID=="inherit") {
@@ -1178,7 +1191,7 @@ class MySceneGraph {
         }
 
         for(var i=0; i<currNode.childNodesIDs.length; i++) {
-            this.processNode(currNode.childNodesIDs[i], currMatID, currTextID);
+            this.processNode(currNode.childNodesIDs[i], currMatID, currTextID, currSLength, currTLength);
         }
 
         this.scene.popMatrix();
