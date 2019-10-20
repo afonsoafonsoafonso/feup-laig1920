@@ -6,7 +6,7 @@
             <from x="0" y="0" z="100" />
             <to x="0" y="0" z="0" />
         </perspective>
-        <perspective id="xFleetCamera" near="5" far="1000" angle="60">
+        <perspective id="fightSceneCamera" near="5" far="1000" angle="60">
             <from x="0" y="0" z="0" />
             <to x="-10" y="0" z="0" />
         </perspective>
@@ -15,7 +15,7 @@
             <to x="10" y="0" z="0" />
         </perspective>
         <perspective id="xPlanetCamera" near="5" far="1000" angle="60">
-            <from x="-70" y="0" z="0" />
+            <from x="adawdwa" y="awdw" z="0" />
             <to x="-50" y="0" z="0" />
         </perspective>
         <perspective id="yPlanetCamera" near="5" far="1000" angle="60">
