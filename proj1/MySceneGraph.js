@@ -575,7 +575,7 @@ class MySceneGraph {
             if(file==null)
                 return "no file path given for texture"
 
-            if(file.slice(file.length-4)!=".png" && file.slice(file.length-4)!=".jpg") {
+            if(file.slice(file.length-4)!=".png" && file.slice(file.length-4)!=".jpg" && file.slice(file.length-5)!=".jpeg") {
                 return "file format not supported"
             }
 
@@ -766,12 +766,12 @@ class MySceneGraph {
 
                 // x2
                 var x2 = this.reader.getFloat(grandChildren[0], 'x2');
-                if (!(x2 != null && !isNaN(x2) && x2 > x1))
+                if (!(x2 != null && !isNaN(x2)))
                     return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
 
                 // y2
                 var y2 = this.reader.getFloat(grandChildren[0], 'y2');
-                if (!(y2 != null && !isNaN(y2) && y2 > y1))
+                if (!(y2 != null && !isNaN(y2)))
                     return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
 
                 var rect = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
