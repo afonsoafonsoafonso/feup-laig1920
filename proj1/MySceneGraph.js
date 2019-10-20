@@ -572,8 +572,12 @@ class MySceneGraph {
             if(file==null)
                 return "no file path given for texture"
 
+            if(file.slice(file.length-4)!=".png" && file.slice(file.length-4)!=".jpg") {
+                return "file format not supported"
+            }
+
             if(Object.keys(this.textures).includes(id)) {
-                return "view id not unique"
+                return "texture id not unique"
             }
 
             this.textures[id] = new CGFtexture(this.scene, file);
@@ -982,13 +986,13 @@ class MySceneGraph {
             // Texture
             var texID = this.reader.getString(grandChildren[textureIndex], 'id');
             if(texID!="inherit" && texID!="none") {
-                var sLength = this.reader.getString(grandChildren[textureIndex], 'length_s');
-                var tLength = this.reader.getString(grandChildren[textureIndex], 'length_t');
+                var sLength = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
+                var tLength = this.reader.getFloat(grandChildren[textureIndex], 'length_t');
                 this.nodes[componentID].sLength = sLength;
                 this.nodes[componentID].tLength = tLength;
             }
-            var sLength = this.reader.getString(grandChildren[textureIndex], 'length_s');
-            var tLength = this.reader.getString(grandChildren[textureIndex], 'length_t');
+            var sLength = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
+            var tLength = this.reader.getFloat(grandChildren[textureIndex], 'length_t');
             this.nodes[componentID].textureID = texID;
             this.nodes[componentID].sLength = sLength;
             this.nodes[componentID].tLength = tLength;
