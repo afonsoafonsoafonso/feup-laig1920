@@ -215,7 +215,6 @@ class MySceneGraph {
                 return error;
         }
 
-        console.log("VIEWS ARRAY:", this.viewsIDs);
         this.log("all parsed");
     }
 
@@ -254,7 +253,6 @@ class MySceneGraph {
             return "no default defined for views";
 
         this.defaultViewID = dflt
-        //console.log("dflt:", dflt)
 
         //checking cameras (child nodes)
         var children = viewsNode.children;
@@ -283,8 +281,6 @@ class MySceneGraph {
                 this.createOrthoCamera(children[i])
             }
         }
-
-        this.log("Parsed views");
     }
 
     //cria camera de perspetiva
@@ -303,22 +299,8 @@ class MySceneGraph {
         var to_y = parseFloat(children[1].getAttribute("y"))
         var to_z = parseFloat(children[1].getAttribute("z"))
         
-        /*
-        console.log("ID:", id);
-        console.log("NEAR:", near);
-        console.log("FAR:", far);
-        console.log("ANGLE:", angle);
-        console.log("FROM_X:", from_x);
-        console.log("FROM_Y:", from_y);
-        console.log("FROM_Z:", from_z);
-        console.log("TO_X:", to_x);
-        console.log("TO_Y:", to_y);
-        console.log("TO_Z:", to_z);
-        console.log("\n");
-        */
         this.viewsIDs.push(id);
         this.views[id] = new CGFcamera(angle*DEGREE_TO_RAD, near, far, vec3.fromValues(from_x, from_y, from_z), vec3.fromValues(to_x, to_y, to_z));
-        console.log("THIS.VIEWS[ID]:", near*2);
     }
 
     //cria camera ortogonal
@@ -339,15 +321,7 @@ class MySceneGraph {
         const to_x = parseFloat(children[1].getAttribute("x"))
         const to_y = parseFloat(children[1].getAttribute("y"))
         const to_z = parseFloat(children[1].getAttribute("z"))
-        /*
-        console.log("ID:", id);
-        console.log("NEAR:", near);
-        console.log("FAR:", far);
-        console.log("LEFT:", left);
-        console.log("RIGHT:", right);
-        console.log("TOP:", top);
-        console.log("BOTTOM:", bottom);
-        */
+
         this.views[id] = new CGFcameraOrtho(left, right, bottom, top, near, far, [from_x, from_y, from_z], [to_x, to_y, to_z]);
     }
 
@@ -524,10 +498,7 @@ class MySceneGraph {
             const file = children[i].getAttribute("file")
             if(file==null)
                 return "no file path given for texture"
-            /*
-            console.log("ID:", id)
-            console.log("FILE:", file)
-            */
+
             this.textures[id] = new CGFtexture(this.scene, file);
         }
     }
@@ -561,30 +532,21 @@ class MySceneGraph {
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
-            //Continue here
-            const shininess = this.reader.getString(children[i], 'shininess');
             grandChildren = children[i].children;
+            const shininess = this.reader.getString(children[i], 'shininess');
             const emission = this.parseColor(grandChildren[0],"material's emission");
             const ambient = this.parseColor(grandChildren[1], "material's ambient");
             const diffuse = this.parseColor(grandChildren[2], "material's diffuse");
             const specular = this.parseColor(grandChildren[3], "material's specular");
-            /*
-            console.log("ID:", materialID);
-            console.log("ID:", shininess);
-            console.log("EMISSION:", emission);
-            console.log("AMBIENT:", ambient);
-            console.log("DIFFUSE:", diffuse);
-            console.log("SPECULAR:", specular);
-            */
-            var currMaterial = new CGFappearance(this.scene);
-            currMaterial.setTextureWrap('REPEAT','REPEAT');
 
+            var currMaterial = new CGFappearance(this.scene);
+
+            currMaterial.setTextureWrap('REPEAT','REPEAT');
             currMaterial.setShininess(shininess);
             currMaterial.setEmission(...emission);
             currMaterial.setAmbient(...ambient);
             currMaterial.setDiffuse(...diffuse);
             currMaterial.setSpecular(...specular);
-            //console.log("CURR:", currMaterial);
             this.materials[materialID] = currMaterial;
         }
 
@@ -645,8 +607,6 @@ class MySceneGraph {
                     case 'rotate':
                         var axis = this.reader.getString(grandChildren[j], "axis");
                         var angle = this.reader.getString(grandChildren[j], "angle");
-                        //console.log("AXIS:", axis);
-                        //console.log("ANGLE:", angle);
                         if(axis=='x') {
                             mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, [1, 0, 0]);
                         }
@@ -662,7 +622,6 @@ class MySceneGraph {
                         break;
                 }
             }
-            //console.log("TRANSF MATRIX:", transfMatrix);
             this.transformations[transformationID] = transfMatrix;
         }
 
@@ -815,8 +774,6 @@ class MySceneGraph {
     parseComponents(componentsNode) {
         var children = componentsNode.children;
 
-        //this.components = [];
-
         var grandChildren = [];
         var grandgrandChildren = [];
         var nodeNames = [];
@@ -871,7 +828,6 @@ class MySceneGraph {
                         this.nodes[componentID].transfMatrix = mat4.translate(this.nodes[componentID].transfMatrix, this.nodes[componentID].transfMatrix, coordinates);
                         break;
                     case 'scale':                        
-                        //this.onXMLMinorError("To do: Parse scale transformations.");
                         var coordinates = this.parseCoordinates3D(transfChildren[j], "scale transformation for ID ");
                         if (!Array.isArray(coordinates))
                             return coordinates;
@@ -881,8 +837,7 @@ class MySceneGraph {
                     case 'rotate':
                         var axis = this.reader.getString(transfChildren[j], "axis");
                         var angle = this.reader.getString(transfChildren[j], "angle");
-                        //console.log("AXIS:", axis);
-                        //console.log("ANGLE:", angle);
+
                         if(axis=='x') {
                             mat4.rotate(this.nodes[componentID].transfMatrix, this.nodes[componentID].transfMatrix, angle*DEGREE_TO_RAD, [1, 0, 0]);
                         }
@@ -900,11 +855,6 @@ class MySceneGraph {
                 }
             }
             // Materials
-            /*var matChildren=[]
-            matChildren = grandChildren[materialsIndex].children
-            var matID = this.reader.getString(matChildren[0], 'id')
-            //this.nodes[componentID].materialID = matID;
-            this.nodes[componentID].materialID.push(matID);*/
             var matChildren=[];
             var matID = null;
             matChildren = grandChildren[materialsIndex].children
@@ -940,13 +890,10 @@ class MySceneGraph {
                 }
                 else if(childrenChildren[j].nodeName=="componentref") {
                     var componentrefID = this.reader.getString(childrenChildren[j], 'id');
-                    //console.log("CRID:", componentrefID);
                     this.nodes[componentID].childNodesIDs.push(componentrefID);
                 }
             }
         }
-        //console.log("NODE:", this.nodes["demoRoot"]);
-        //console.log("NODE:", this.nodes["demoComp"]);
     }
 
 
@@ -1066,17 +1013,6 @@ class MySceneGraph {
      */
     displayScene() {
         this.transverseTree();
-        /*
-        this.scene.pushMatrix();
-        
-  
-        this.material.apply();
-        this.testCylinder.display();
-        this.testRect.display();
-
-        this.scene.popMatrix();
-        */
-       
     }
 
     transverseTree() {
@@ -1111,27 +1047,7 @@ class MySceneGraph {
         else if(currNode.textureID=="inherit") {
             currMat.setTexture(this.textures[currTextID]);
         }
-        /*
-        if(currNode.materialID=="inherit") {
-            currMatID = inheritMatID;
-        }
-        else {
-            currMatID = currNode.materialID[currNode.currMaterial];
-        }
 
-        inheritMatID = currMatID;
-        currMat = this.materials[currMatID];
-
-        if(currNode.textureID=="inherit") {
-            currTextID = inheritTexID;
-            currMat.setTexture(this.textures[currTextID]);
-        }
-        else if(currNode.textureID!="none") {
-            currTextID = currNode.textureID;
-            currMat.setTexture(this.textures[currTextID]);
-        }
-
-        inheritTexID = currTextID;*/
         currMat.apply();
         currMat.setTexture(null);
 
