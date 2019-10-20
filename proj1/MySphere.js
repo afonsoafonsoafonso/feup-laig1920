@@ -20,7 +20,8 @@ class MySphere extends CGFobject {
         this.vertices = [];
       	this.normals = [];
     	this.indices = [];
-      	this.texCoords = [];
+		this.texCoords = [];
+		this.originalTexCoords = [];
 
       	var ang_slices =(2 * Math.PI) / this.slices;
       	var ang_stacks = Math.PI / this.stacks;
@@ -38,7 +39,7 @@ class MySphere extends CGFobject {
 			  		Math.sin(ang_slices * j) * Math.sin(ang_stacks * i),
 					Math.cos(ang_stacks * i)
 				);
-              this.texCoords.push(
+              this.originalTexCoords.push(
 				  	j / this.slices,
 					1 - (i / this.stacks)
 				);
@@ -52,6 +53,7 @@ class MySphere extends CGFobject {
           	}
       	}
 
+		this.texCoords = this.originalTexCoords.slice();
       	this.primitiveType = this.scene.gl.TRIANGLES;
       	this.initGLBuffers();
   }  
@@ -66,8 +68,8 @@ class MySphere extends CGFobject {
 		if(s == this.s_length && t == this.t_length)
             return;
 		for(let i = 0; i < this.texCoords.length; i += 2){
-			this.texCoords[i] = this.texCoords[i] / s ;
-			this.texCoords[i+1] = this.texCoords[i+1] / t ;
+			this.texCoords[i] = this.originalTexCoords[i] / s ;
+			this.texCoords[i+1] = this.originalTexCoords[i+1] / t ;
 		}
 		this.updateTexCoordsGLBuffers();
 	}
