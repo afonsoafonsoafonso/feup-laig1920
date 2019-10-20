@@ -34,6 +34,8 @@
         <texture id="tableWood" file="scenes/images/wood.png" />
         <texture id="metal" file="scenes/images/metal.png" />
         <texture id="pillow" file="scenes/images/pillow.png" />
+        <texture id="floor" file="scenes/images/floor.png" />
+
     </textures>
 
     <materials>
@@ -54,6 +56,12 @@
             <ambient r="1.0" g="1.0" b="0.8" a="1.0" />
             <diffuse r="1.0" g="1.0" b="0.8" a="1.0" />
             <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="black" shininess="1">
+            <emission r="0" g="0" b="0" a="0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0" g="0" b="0" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </material>
     </materials>
 
@@ -153,6 +161,9 @@
     </transformations>
 
     <primitives>
+        <primitive id="floor">
+            <rectangle x1="0" y1="0" x2="10" y2="10" />
+        </primitive>
         <primitive id="Rectangle">
             <rectangle x1="0" y1="0" x2="1" y2="1" />
         </primitive>
@@ -283,6 +294,8 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="black" />
+                <material id="Material" />
             </materials>
             <texture id="none" />
             <children>
@@ -364,7 +377,7 @@
             <materials>
                 <material id="white" />
             </materials>
-            <texture id="pillow" length_s="0.1" length_t="0.1"/>
+            <texture id="pillow" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -453,6 +466,20 @@
             </children>
         </component>
 
+        <component id="floor">
+            <transformation>
+                <translate x="0" y="0" z="10" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="white" />
+            </materials>
+            <texture id="floor" length_s="0.4" length_t="0.4"/>
+            <children>
+                <primitiveref id="floor" />
+            </children>
+        </component>
+
         <component id="Root">
             <transformation>
                 <transformationref id="Transform"/>
@@ -463,11 +490,14 @@
             <texture id="none" />
             <children>
                 <componentref id="table" />
+                <componentref id="floor" />
+                
                 <componentref id="lamp" />
                 <componentref id="chair1" />
                 <componentref id="chair2" />
                 <componentref id="chair3" />
                 <componentref id="chair4" />
+                
             </children>
         </component>
     </components>

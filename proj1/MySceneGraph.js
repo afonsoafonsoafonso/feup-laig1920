@@ -1156,11 +1156,14 @@ class MySceneGraph {
     processNode(nodeID, inheritMatID, inheritTexID, inheritSLength, inheritTLength) {
         var currNode = this.nodes[nodeID];
 
+        if(currNode == null)
+            return;
+            
         var currMat = null;
         var currMatID = inheritMatID;
         var currTextID = inheritTexID;
-        var currSLength = inheritSLength;
-        var currTLength = inheritTLength;
+        var currSLength = 1;
+        var currTLength = 1;
 
         if(currNode.materialID[currNode.currMaterial]!="inherit") {
             currMatID = currNode.materialID[currNode.currMaterial];
@@ -1170,12 +1173,14 @@ class MySceneGraph {
 
         if(currNode.textureID!="inherit" && currNode.textureID!="none") {
             currTextID = currNode.textureID;
-            currNode.sLength = currSLength;  //???
-            currNode.tLength = currTLength; //???
+            currSLength = currNode.sLength; //???
+            currTLength = currNode.tLength; //???
             currMat.setTexture(this.textures[currTextID]);
         }
         else if(currNode.textureID=="inherit") {
             currMat.setTexture(this.textures[currTextID]);
+            currSLength = inheritSLength;
+            currTLength = inheritTLength;
         }
 
         currMat.apply();
@@ -1185,15 +1190,14 @@ class MySceneGraph {
         this.scene.multMatrix(currNode.transfMatrix);
 
         for(var i=0; i<currNode.childLeafsIDs.length; i++) {
-            if(currNode.sLength != null && currNode.tLength != null)
-                this.primitives[currNode.childLeafsIDs[i]].updateTexCoords(currNode.sLength, currNode.tLength);
+            if(currNode.sLength != null && currNode.tLength != null && currNode.textureID != "none" && currNode.textureID != "inherit")
+                this.primitives[currNode.childLeafsIDs[i]].updateTexCoords(currSLength, currTLength);
             this.primitives[currNode.childLeafsIDs[i]].display();
         }
 
         for(var i=0; i<currNode.childNodesIDs.length; i++) {
             this.processNode(currNode.childNodesIDs[i], currMatID, currTextID, currSLength, currTLength);
         }
-
         this.scene.popMatrix();
     }
 }

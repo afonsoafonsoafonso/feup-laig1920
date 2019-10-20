@@ -72,9 +72,11 @@ class MyRectangle extends CGFobject {
 		if(s == this.s_length && t == this.t_length)
             return;
 		for(let i = 0; i < this.texCoords.length; i += 2){
-			this.texCoords[i] = this.originalTexCoords[i] / s  ;
-			this.texCoords[i+1] = this.originalTexCoords[i+1]  / t  ;
+			this.texCoords[i] = this.originalTexCoords[i] * this.s_length / s  ;
+			this.texCoords[i+1] = this.originalTexCoords[i+1] * this.t_length / t  ;
 		}
+		this.s_length = s;
+		this.t_length = t;
 		this.updateTexCoordsGLBuffers();
 	}
 }
