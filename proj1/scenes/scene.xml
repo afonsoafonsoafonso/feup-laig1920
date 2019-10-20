@@ -1,12 +1,12 @@
 <lxs>
-    <scene root="Root" axis_length="20"/>
+    <scene root="Root" axis_length="1"/>
 
-    <views default="perspCamera1">
-        <perspective id="perspCamera1" near="0.1" far="500" angle="45">
+    <views default="close">
+        <perspective id="close" near="0.1" far="500" angle="45">
             <from x="30" y="15" z="30" />
             <to x="0" y="-2" z="0" />
         </perspective>
-        <perspective id="perspCamera2" near="0.3" far="550" angle="60">
+        <perspective id="far" near="0.3" far="550" angle="60">
             <from x="35" y="12" z="35" />
             <to x="0" y="-2" z="0" />
         </perspective>
@@ -31,20 +31,29 @@
     </lights>
 
     <textures>
+        <texture id="tableWood" file="scenes/images/wood.png" />
+        <texture id="metal" file="scenes/images/metal.png" />
+        <texture id="pillow" file="scenes/images/pillow.png" />
     </textures>
 
     <materials>
         <material id="Material" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
             <specular r="0.6" g="0.0" b="0.0" a="1.0" />
         </material>
-        <material id="Material2" shininess="5">
-            <emission r="0.5" g="0.5" b="0.5" a="1.0" />
-            <ambient r="1.0" g="0.5" b="0.5" a="1.0" />
-            <diffuse r="0.6" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.6" g="0.5" b="0.5" a="1.0" />
+        <material id="white" shininess="1">
+            <emission r="0" g="0" b="0" a="0" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+        </material>
+         <material id="cream" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="0.8" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="0.8" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
         </material>
     </materials>
 
@@ -148,7 +157,7 @@
             <rectangle x1="0" y1="0" x2="1" y2="1" />
         </primitive>
         <primitive id="tableLeg">
-            <cylinder base="0.1" top="0.1" height="3" slices="30" stacks="5" /> 
+            <cylinder base="0.1" top="0.1" height="2.4" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="lampPost">
             <cylinder base="0.07" top="0.07" height="1" slices="30" stacks="5" /> 
@@ -157,13 +166,13 @@
             <cylinder base="0.3" top="0.01" height="0.2" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="lampTop">
-            <cylinder base="0.3" top="0.1" height="1" slices="30" stacks="5" /> 
+            <cylinder base="0.3" top="0" height="1" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="Torus">
             <torus inner="0.03" outer="0.31" slices="30" loops="8" /> 
         </primitive>
         <primitive id="chairLeg">
-            <cylinder base="0.05" top="0.05" height="1.5" slices="30" stacks="5" /> 
+            <cylinder base="0.05" top="0.05" height="1.2" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="Triangle">
             <triangle x1="1.5" y1="0" z1="0" x2="0" y2="1.5" z2="0" x3="0" y3="0" z3="0"/>
@@ -179,6 +188,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <primitiveref id="tableLeg" />
             </children>
@@ -191,6 +201,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <primitiveref id="tableLeg" />
             </children>
@@ -203,6 +214,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <primitiveref id="tableLeg" />
             </children>
@@ -215,6 +227,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <primitiveref id="tableLeg" />
             </children>
@@ -225,8 +238,9 @@
                 <transformationref id="tableTopTransform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="white" />
             </materials>
+            <texture id="tableWood" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -239,6 +253,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <componentref id="tableTop" />
                 <componentref id="tableLeg1" />
@@ -253,8 +268,9 @@
                 <transformationref id="lampTopTransform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
+            <texture id="none" />
             <children>
                 <primitiveref id="lampTop" />
                 <primitiveref id="Torus" />
@@ -266,8 +282,9 @@
                 <transformationref id="lampPostTransform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
+            <texture id="none" />
             <children>
                 <primitiveref id="lampPost" />
             </children>
@@ -278,8 +295,9 @@
                 <transformationref id="lampTransform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="cream" />
             </materials>
+            <texture id="none" />
             <children>
                 <componentref id="lampPost_0" />
                 <componentref id="lampTop_0" />
@@ -292,8 +310,9 @@
                 <transformationref id="tableLeg1Transform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="chairLeg" />
             </children>
@@ -304,8 +323,9 @@
                 <transformationref id="chairLeg2Transform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="chairLeg" />
             </children>
@@ -316,8 +336,9 @@
                 <transformationref id="chairLeg3Transform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="chairLeg" />
             </children>
@@ -328,8 +349,9 @@
                 <transformationref id="chairLeg4Transform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="chairLeg" />
             </children>
@@ -340,8 +362,9 @@
                 <transformationref id="chairSeatTransform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="white" />
             </materials>
+            <texture id="pillow" length_s="0.1" length_t="0.1"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -354,6 +377,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <primitiveref id="Triangle" />
             </children>
@@ -366,6 +390,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <componentref id="chair" />
             </children>
@@ -378,6 +403,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <componentref id="chair" />
             </children>
@@ -390,6 +416,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <componentref id="chair" />
             </children>
@@ -402,6 +429,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <componentref id="chair" />
             </children>
@@ -412,8 +440,9 @@
                 <transformationref id="Transform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="white" />
             </materials>
+            <texture id="metal" length_s="1" length_t="1" />
             <children>
                 <componentref id="chairLeg1" />
                 <componentref id="chairLeg2" />
@@ -431,6 +460,7 @@
             <materials>
                 <material id="Material" />
             </materials>
+            <texture id="none" />
             <children>
                 <componentref id="table" />
                 <componentref id="lamp" />
