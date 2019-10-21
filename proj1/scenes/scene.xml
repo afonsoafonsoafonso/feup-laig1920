@@ -28,6 +28,24 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </omni>
+        <omni id="LightR" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+        </omni>
+        <omni id="LightG" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
+            <specular r="0.0" g="1.0" b="0.0" a="1.0" />
+        </omni>
+        <omni id="LightB" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
     </lights>
 
     <textures>
@@ -388,9 +406,9 @@
                 <transformationref id="chairTopTransform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="white" />
             </materials>
-            <texture id="none" />
+            <texture id="pillow" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Triangle" />
             </children>
