@@ -216,6 +216,8 @@
             </transformation>
             <materials>
                 <material id="Material" />
+                <material id="white" />
+                <material id="black" />
             </materials>
             <texture id="none" />
             <children>
@@ -229,6 +231,8 @@
             </transformation>
             <materials>
                 <material id="Material" />
+                <material id="white" />
+                <material id="black" />
             </materials>
             <texture id="none" />
             <children>
@@ -242,6 +246,8 @@
             </transformation>
             <materials>
                 <material id="Material" />
+                <material id="white" />
+                <material id="black" />
             </materials>
             <texture id="none" />
             <children>
@@ -255,6 +261,8 @@
             </transformation>
             <materials>
                 <material id="Material" />
+                <material id="white" />
+                <material id="black" />
             </materials>
             <texture id="none" />
             <children>
@@ -342,6 +350,8 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="black" />
+                <material id="Material" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -355,6 +365,8 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="black" />
+                <material id="Material" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -368,6 +380,8 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="black" />
+                <material id="Material" />
             </materials>
             <texture id="inherit" />
             <children>
@@ -381,6 +395,8 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="black" />
+                <material id="Material" />
             </materials>
             <texture id="inherit" />
             <children>
