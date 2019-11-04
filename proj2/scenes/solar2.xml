@@ -1,0 +1,902 @@
+<lxs>
+    <scene root="myRoot" axis_length="5"/>
+
+    <views default="defaultCamera">
+        <!-- view from the center -->
+        <perspective id="defaultCamera" near="0.1" far="100" angle="50">
+            <from x="-5" y="13" z="60" />
+            <to x="0" y="15" z="0" />
+        </perspective> 
+
+        <!-- view from behind -->
+        <perspective id="behindCamera" near="0.1" far="100" angle="45">
+            <from x="-5" y="10" z="-60" />
+            <to x="0" y="15" z="0" />
+        </perspective> 
+
+        <!-- view of an upper position -->
+       <ortho id="upCamera" near="0.1" far="100" left="-50" right="50" top="40" bottom="-30" >
+            <from x="10" y="60" z="0" />
+            <to x="0" y="15" z="00" />
+            <up x="0" y="1" z="0" /> 
+        </ortho> 
+
+        <!-- view of the earth and it's moon -->
+       <ortho id="earthCamera" near="0.1" far="100" left="-20" right="20" top="10" bottom="-10" >
+            <from x="5.4" y="20" z="6" />
+            <to x="6.2" y="20" z="0" />
+            <up x="0" y="1" z="0" /> 
+        </ortho> 
+        
+    </views>
+
+    <globals>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </globals>
+
+    <lights>
+        <omni id="firstLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" /> 
+        </omni>
+
+        <!-- ligth coming for the shooting star -->
+        <spot id="starLight" enabled="1" angle="40" exponent="1">        
+            <location x="-30" y="20" z="12" w="1.0" />
+            <target x="-30" y="20" z="10" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="1.0" quadratic="0" /> 
+        </spot>
+        
+        <!-- ligth coming for the sun -->
+        <omni id="sunLight" enabled="1">
+            <location x="0" y="20" z="2.1" w="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="1.0" quadratic="0" /> 
+        </omni>
+
+        <!-- ligth near the telescope  -->
+        <omni id="telescopeLight" enabled="1">
+            <location x="-26" y="1.2" z="12" w="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" /> 
+        </omni>
+        
+    </lights>
+
+    <textures>
+        <texture id="sunTexture" file="scenes/images/sun.jpg" />
+        <texture id="mercuryTexture" file="scenes/images/mercury.jpg" />
+        <texture id="venusTexture" file="scenes/images/venus.jpg" />
+        <texture id="earthTexture" file="scenes/images/earth.jpg" />
+        <texture id="moonTexture" file="scenes/images/moon.jpg" />
+        <texture id="marsTexture" file="scenes/images/mars.jpg" />
+        <texture id="jupiterTexture" file="scenes/images/jupiter.jpg" />
+        <texture id="saturnTexture" file="scenes/images/saturn.jpg" />
+        <texture id="ringSaturnTexture" file="scenes/images/ring_saturn.jpg" />              
+        <texture id="uranusTexture" file="scenes/images/uranus.jpg" />
+        <texture id="neptuneTexture" file="scenes/images/neptune.jpg" />
+    </textures>
+
+    <materials>
+
+        <material id="backgroundMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="sunMaterial" shininess="10">
+            <emission r="1.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.5" b="0.5" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+        </material>
+
+        <material id="moonMaterial" shininess="10">
+            <emission r="0.1" g="0.1" b="0.1" a="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="0.5" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+
+        <material id="planetMaterial" shininess="10">
+            <emission r="0.1" g="0.1" b="0.1" a="1.0" />
+            <ambient r="0.7" g="0.7" b="0.7" a="0.7" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+
+        <material id="orbitMaterial" shininess="10">
+            <emission r="0" g="0" b="0" a="1.0" />
+            <ambient r="0.05" g="0.05" b="0.3" a="0.05" />
+            <diffuse r="0" g="0" b="0" a="0" />
+            <specular r="0" g="0" b="0" a="0" />
+        </material>
+
+        <!-- difuse and shiny material to simulate black metal -->
+        <material id="telescopeMaterial" shininess="10">
+            <emission r="0.1" g="0.1" b="0.1" a="1.0" />
+            <ambient r="0" g="0" b="0" a="0" />
+            <diffuse r="0" g="0" b="0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </material>
+
+        <!-- difuse and shiny material to simulate silver metal -->
+        <material id="legMaterial" shininess="10">
+            <emission r="0.1" g="0.1" b="0.1" a="1.0" />
+            <ambient r="0.15" g="0.15" b="0.15" a="1.0" />
+            <diffuse r="0" g="0" b="0" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="0" />
+        </material>
+
+        <material id="endLegMaterial" shininess="1">
+            <emission r="0" g="0" b="0" a="1.0" />
+            <ambient r="0.05" g="0.05" b="0.05" a="0.05" />
+            <diffuse r="0" g="0" b="0" a="0" />
+            <specular r="0" g="0" b="0" a="0" />
+        </material>
+
+        <material id="whiteMaterial" shininess="20">
+            <emission r="1.0" g="1.0" b="1.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0" g="0" b="0" a="0" />
+        </material>
+
+    </materials>
+
+    <transformations>
+        <transformation id="identityTransform" >
+            <scale x="1.0" y="1.0" z="1.0" /> 
+        </transformation>
+
+        <transformation id ="telescopeTransform">
+            <translate x="-30" y="0" z="12" />
+            <scale x="2" y="2" z="2" />
+        </transformation>
+
+        <transformation id="starTransform">
+            <translate x="-30" y="20" z="10" />
+            <scale x="2" y="2" z="2" />
+        </transformation>
+
+    </transformations>
+
+    <primitives>
+        <primitive id="rectangle">
+            <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+        </primitive>
+
+        <primitive id="triangle">
+            <triangle x1="0.5" y1="0.8" z1="0" x2="0" y2="0" z2="0" x3="1" y3="0" z3="0" />
+        </primitive>
+        
+        <primitive id="cylinder">
+            <cylinder base="0.4" top="0.2" height="2" slices="16" stacks="16" />
+        </primitive>
+
+        <primitive id="telescopeLegPrim">
+            <cylinder base="0.2" top="0.2" height="2" slices="16" stacks="16" />
+        </primitive>
+
+        <primitive id="sphere">
+            <sphere radius="1" slices="18" stacks="18" />
+        </primitive>
+
+        <primitive id="torus">
+            <torus inner="0.02" outer="1" slices="18" loops="18" />
+        </primitive>
+
+        <primitive id="torus0">
+            <torus inner="0.01" outer="1" slices="18" loops="18" />
+        </primitive>
+
+        <primitive id="torus1">
+            <torus inner="0.15" outer="1" slices="18" loops="18" />
+        </primitive>
+
+        <primitive id="torus2">
+            <torus inner="0.25" outer="1" slices="18" loops="18" />
+        </primitive>
+    </primitives>
+
+    <components>
+        <component id="myRoot">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="backgroundMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="shootingStar" /> 
+                <componentref id="star" />
+                <componentref id="star1" />
+                <componentref id="solarSystem" />
+                <componentref id="telescope" />
+            </children>
+        </component> 
+
+        <component id="telescope">
+            <transformation>
+                <transformationref id="telescopeTransform" />
+            </transformation>
+            <materials>
+                <material id="telescopeMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="eyeglass" />                
+                <componentref id="legs" />
+            </children>
+        </component>
+
+        <component id="eyeglass">
+            <transformation>
+                <translate x="0" y="0.6" z="-2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="eyeglasssdetail1" />
+                <componentref id="eyeglasssdetail2" />
+                <componentref id="eyeglassTop" />
+            </children>
+        </component>
+
+        <component id="eyeglassTop">
+            <transformation>
+                <scale x="2.2" y="2.2" z="2.2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+                <material id="legMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+
+        <component id="eyeglasssdetail1"> <!-- detail with torus -->
+            <transformation>
+                <scale x="0.73" y="0.73" z="0.4" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+                <material id="legMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus2" />
+            </children>
+        </component>
+
+        <component id="eyeglasssdetail2"> <!-- detail with torus -->
+            <transformation>
+                <translate x="0" y="0" z="4.4" />
+                <scale x="0.38" y="0.38" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+                <material id="legMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus2" />
+            </children>
+        </component>
+
+        <component id="legs">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="legMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="leg1" />
+                <componentref id="leg2" />
+                <componentref id="leg3" />
+                <componentref id="leg4" />
+            </children>
+        </component>
+
+        <component id="leg1">
+            <transformation>  
+                <rotate axis="y" angle="90" />    
+                <rotate axis="x" angle="45" />             
+            </transformation>
+            <materials>
+                <material id="inherit" />
+                <material id="telescopeMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="telescopeLegPrim" />
+                <componentref id="endOfLeg"/>
+            </children>
+        </component>
+
+        <component id="leg2">
+            <transformation>                             
+                <rotate axis="x" angle="120" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+                <material id="telescopeMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>            
+                <primitiveref id="telescopeLegPrim" />
+                <componentref id="endOfLeg"/>
+            </children>
+        </component>
+
+        <component id="leg3">
+            <transformation>
+                <rotate axis="x" angle="45" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+                <material id="telescopeMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="telescopeLegPrim" />              
+                <componentref id="endOfLeg"/>             
+            </children>
+        </component>
+
+        <component id="leg4">
+            <transformation>
+                <rotate axis="y" angle="90" />    
+                <rotate axis="x" angle="120" />             
+            </transformation>
+            <materials>
+                <material id="inherit" />
+                <material id="telescopeMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="telescopeLegPrim" />  
+                <componentref id="endOfLeg"/>             
+            </children>
+        </component>
+
+        <component id="endOfLeg">
+            <transformation>
+                <translate x="0" y="0" z="2" />      
+                <scale x="0.19" y="0.19" z="0.19"/>
+            </transformation>
+            <materials>
+                <material id="endLegMaterial"/>
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus2" />
+            </children>
+        </component>
+
+        <component id="star">
+            <transformation>
+                <translate x="20" y="20" z="27.6" />
+            </transformation>
+            <materials>
+                <material id="sunMaterial" />
+            </materials>
+            <texture id="sunTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="halfStarabove" />
+                <componentref id="halfStardown" />
+            </children>
+        </component>
+
+        <component id="star1">
+            <transformation>
+                <translate x="15" y="17" z="25" />
+            </transformation>
+            <materials>
+                <material id="sunMaterial" />
+            </materials>
+            <texture id="sunTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="halfStarabove" />
+                <componentref id="halfStardown" />
+            </children>
+        </component>
+
+        <component id="shootingStar">
+            <transformation>
+                <transformationref id="starTransform" />
+            </transformation>
+            <materials>
+                <material id="sunMaterial" />
+            </materials>
+            <texture id="shootingStar" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="shootingStarPart" />
+                <componentref id="halfStarabove" />
+                <componentref id="halfStardown" />            
+            </children>
+        </component>
+
+        <component id="shootingStarPart">
+            <transformation>
+                <translate x="-0.1" y="0.28" z="0" />
+                <scale x="0.6" y="0.3" z="0" />
+            </transformation>
+            <materials>
+                <material id="whiteMaterial" />
+                <material id="sunMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component> 
+
+        <component id="halfStardown">
+            <transformation>
+                <translate x="1" y="0.5" z="0" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="sunTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="triangle" />
+            </children>
+        </component>
+
+        <component id="halfStarabove">
+            <transformation>
+                <transformationref id="identityTransform"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="sunTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="triangle" />
+            </children>
+        </component>
+
+        <component id="solarSystem">
+            <transformation>
+                <transformationref id="identityTransform"/>
+            </transformation>
+            <materials>
+                <material id="planetMaterial" />
+            </materials>
+            <texture id="mercuryTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="sun" />
+                <componentref id="mercury" />                
+                <componentref id="venus" />
+                <componentref id="earth" />
+                <componentref id="mars" />
+                <componentref id="jupiter" />
+                <componentref id="saturn" />
+                <componentref id="uranus" />
+                <componentref id="neptune" />
+            </children>
+        </component>
+
+        <component id="sun">
+            <transformation>
+                <translate x="0" y="20" z="0" />
+                <scale x="2" y="2" z="2" />
+            </transformation>
+            <materials>
+                <material id="sunMaterial" />
+            </materials>
+            <texture id="sunTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="mercury">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="mercuryPlanet" />
+                <componentref id="mercuryOrbit" />
+            </children>
+        </component>
+
+        <component id="mercuryPlanet">
+            <transformation>
+                <translate x="0" y="23" z="-1" />
+                <rotate axis="x" angle="-20" />  
+                <scale x="1.1" y="1.1" z="1.1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="mercuryOrbit">
+            <transformation>
+                <translate x="0" y="20" z="0" />
+                <rotate axis="x" angle="-20" />  
+                <scale x="3" y="3" z="3" />
+            </transformation>
+            <materials>
+                <material id="orbitMaterial" />
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus" />
+            </children>
+        </component>
+
+        <component id="venus">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="venusTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="venusPlanet"/>
+                <componentref id="venusOrbit" />
+            </children>
+        </component>
+
+        <component id="venusPlanet">
+            <transformation>                
+                <translate x="0" y="15.7" z="-2" />
+                <rotate axis="x" angle="20" />  
+                <scale x="1.2" y="1.2" z="1.2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component> 
+
+        <component id="venusOrbit">
+            <transformation>
+                <translate x="0" y="20" z="0" />
+                <rotate axis="x" angle="20" />  
+                <scale x="4.5" y="4.5" z="4.5" />
+            </transformation>
+            <materials>
+                <material id="orbitMaterial" />
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus" />
+            </children>
+        </component>
+
+        <component id="earth">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="earthPlanet" />
+                <componentref id="earthOrbit" />
+            </children>
+        </component>
+
+        <component id="earthPlanet">
+            <transformation>
+                <translate x="6.2" y="20" z="0" />
+                <scale x="1.3" y="1.3" z="1.3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="earthTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="sphere" />
+                <componentref id="moon" />
+            </children>
+        </component>
+
+        <component id="moon">
+            <transformation>
+                <translate x="1" y="1.2" z="0" />
+                <scale x="0.4" y="0.4" z="0.4" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="moonTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="earthOrbit">
+            <transformation>
+                <translate x="0" y="20" z="0" />
+                <scale x="7" y="7" z="7" />
+            </transformation>
+            <materials>
+                <material id="orbitMaterial" />
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus" />
+            </children>
+        </component>
+
+        <component id="mars">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="marsTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="marsPlanet" />
+                <componentref id="marsOrbit" />
+            </children>
+        </component>
+
+        <component id="marsPlanet">
+            <transformation>
+                <translate x="-9" y="20" z="0" />
+                <rotate axis="x" angle="90" />  
+                <scale x="1.6" y="1.6" z="1.6" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="marsOrbit">
+            <transformation>
+                <translate x="0" y="20" z="0" />
+                <rotate axis="x" angle="90" />  
+                <scale x="9" y="9" z="9" />
+            </transformation>
+            <materials>
+                <material id="orbitMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus" />
+                <material id="whiteMaterial" />
+            </children>
+        </component>
+
+        <component id="jupiter">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="jupiterTexture" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="jupiterPlanet" />
+                <componentref id="jupiterOrbit" />
+            </children>
+        </component>
+
+        <component id="jupiterPlanet">
+            <transformation>
+                <translate x="-7" y="26" z="6.7" />
+                <rotate axis="x" angle="45" />  
+                <scale x="2.3" y="2.3" z="2.3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>            
+                <primitiveref id="sphere" />                
+            </children>
+        </component>
+
+        <component id="jupiterOrbit">
+            <transformation>
+                <translate x="0" y="20" z="0" />
+                <rotate axis="x" angle="45" />  
+                <scale x="11" y="11" z="11" />
+            </transformation>
+            <materials>
+                <material id="orbitMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus" />
+                <material id="whiteMaterial" />
+            </children>
+        </component>
+
+        <component id="saturn">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="saturnTexture" length_s="1.0" length_t="1.0"/>/>
+            <children>
+                <componentref id="saturnPlanet" />
+                <componentref id="saturnOrbit" />
+            </children>
+        </component>
+
+        <component id="saturnPlanet">
+            <transformation>
+                <translate x="2" y="6" z="0" />
+                <scale x="3" y="3" z="3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="sphere" />
+                <componentref id="saturnRing" />
+            </children>
+        </component>
+
+        <component id="saturnRing">
+            <transformation>
+                <rotate axis="x" angle="-40" /> 
+                <scale x="1.3" y="1.3" z="0.1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="ringSaturnTexture" length_s="1.0" length_t="1.0" />
+            <children>
+                <primitiveref id="torus1" />
+            </children>
+        </component>
+
+        <component id="saturnOrbit">
+            <transformation>
+                <translate x="0" y="20" z="0" />
+                <scale x="14" y="14" z="14" />
+            </transformation>
+            <materials>
+                <material id="orbitMaterial" />
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus0" />
+            </children>
+        </component>
+
+        <component id="uranus">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="uranusTexture" length_s="1.0" length_t="1.0"/>/>
+            <children>
+                <componentref id="uranusPlanet" />
+                <componentref id="uranusOrbit" />
+            </children>
+        </component>
+
+        <component id="uranusPlanet">
+            <transformation>
+                <translate x="17" y="20" z="0" />
+                <scale x="2.5" y="2.5" z="2.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="uranusOrbit">
+            <transformation>
+                <translate x="0" y="20" z="0" />
+                <rotate axis="x" angle="-50" /> 
+                <scale x="17" y="17" z="17" />
+            </transformation>
+            <materials>
+                <material id="orbitMaterial" />
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus0" />
+            </children>
+        </component>
+       
+        <component id="neptune">
+            <transformation>
+                <transformationref id="identityTransform" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="neptuneTexture" length_s="1.0" length_t="1.0" />
+            <children>
+                <componentref id="neptunePlanet" />
+                <componentref id="neptuneOrbit" />
+            </children>
+        </component>
+
+        <component id="neptunePlanet">
+            <transformation>
+                <translate x="8" y="6.7" z="-12" />                
+                <scale x="2" y="2" z="2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="neptuneOrbit">
+            <transformation>
+                <translate x="0" y="20" z="0" />
+                <rotate axis="x" angle="40" /> 
+                <scale x="20" y="20" z="20" />
+            </transformation>
+            <materials>
+                <material id="orbitMaterial" />
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus0" />
+            </children>
+        </component>
+       
+    </components>
+</lxs>
