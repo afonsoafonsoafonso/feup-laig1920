@@ -10,6 +10,8 @@ class MySecurityCamera extends CGFobject {
     }
 
     display(){
-        
+        this.scene.textureRTT.bind();
+        this.secCamera.display();
+        this.scene.textureRTT.unbind();
     }
 }

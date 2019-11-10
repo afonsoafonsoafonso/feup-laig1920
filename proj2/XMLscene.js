@@ -24,7 +24,10 @@ class XMLscene extends CGFscene {
         this.sceneInited = false;
 
         this.initCameras();
-        this.secCamera = new MyRectangle(this, 0, 0.5, 1, -0.5, -1);
+        
+        this.textureRTT = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+        this.secCamera = new MySecurityCamera(this);
+
         this.enableTextures(true);
 
         this.gl.clearDepth(100.0);
@@ -41,6 +44,7 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        //TO-DO: SECURITY CAMERA
     }
 
     /**
@@ -131,10 +135,21 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
+    display(){
+        this.textureRTT.attachToFrameBuffer();
+        this.render();
+        this.textureRTT.detachFromFrameBuffer();
+        this.render();
+
+        this.gl.disable(this.gl.DEPTH_TEST);
+        this.secCamera.display();
+        this.gl.enable(this.gl.DEPTH_TEST)
+    }
+
     /**
      * Displays the scene.
      */
-    display() {
+    render() { // TO-DO: MUDAR A CAMERA POR ARGUMENTO
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -164,7 +179,6 @@ class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
-        this.secCamera.display();
         this.popMatrix();
         // ---- END Background, camera and axis setup
     }
