@@ -228,6 +228,9 @@
         <primitive id="Triangle">
             <triangle x1="1.5" y1="0" z1="0" x2="0" y2="1.5" z2="0" x3="0" y3="0" z3="0"/>
         </primitive>
+        <primitive id="TestPlane">
+            <plane npartsU="20" npartsV="20"/>
+        </primitive>
     </primitives>
 
     <components>
@@ -539,6 +542,19 @@
             </children>
         </component>
 
+        <component id="plane">
+            <transformation>
+                <translate x="0" y="5" z="0" />
+            </transformation>
+            <materials>
+                <material id="white" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="TestPlane" />
+            </children>
+        </component>
+
         <component id="Root">
             <transformation>
                 <transformationref id="Transform"/>
@@ -550,7 +566,7 @@
             <children>
                 <componentref id="table" />
                 <componentref id="floor" />
-                
+                <componentref id="plane" />
                 <componentref id="lamp" />
                 <componentref id="chair1" />
                 <componentref id="chair2" />
