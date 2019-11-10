@@ -755,7 +755,7 @@ class MySceneGraph {
             grandChildren = children[i].children;
             
             for(var j = 0; j<grandChildren.length; j++) {
-                let inst = this.reader.getString(grandChildren[j], "instant");
+                let inst = this.reader.getFloat(grandChildren[j], "instant");
                 //console.log("INST:", inst);
 
                 let tx = this.reader.getFloat(grandChildren[j].children[0], "x");

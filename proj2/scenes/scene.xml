@@ -186,13 +186,13 @@
                 <scale x="1" y="1" z="1"/>
             </keyframe>
 
-            <keyframe instant="2.5">
+            <keyframe instant="5">
                 <translate x="3" y="3" z="3" />
-                <rotate angle_x="0" angle_y="360" angle_z="0"/>
-                <scale x="1" y="1" z="1"/>
+                <rotate angle_x="123" angle_y="360" angle_z="179"/>
+                <scale x="2.4" y="1.2" z="0.7"/>
             </keyframe>
 
-            <keyframe instant="5">
+            <keyframe instant="10">
                 <translate x="0" y="0" z="0" />
                 <rotate angle_x="0" angle_y="0" angle_z="0"/>
                 <scale x="1" y="1" z="1"/>
@@ -356,6 +356,7 @@
             <transformation>
                 <transformationref id="lampTransform"/>
             </transformation>
+            <animationref id="crazy_mf"/>
             <materials>
                 <material id="cream" />
             </materials>
@@ -457,6 +458,7 @@
             <transformation>
                 <transformationref id="chair1Transform"/>
             </transformation>
+            <animationref id="crazy_mf"/>
             <materials>
                 <material id="Material" />
             </materials>
