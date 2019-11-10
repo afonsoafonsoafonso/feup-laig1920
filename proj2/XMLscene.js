@@ -24,7 +24,7 @@ class XMLscene extends CGFscene {
         this.sceneInited = false;
 
         this.initCameras();
-
+        this.secCamera = new MyRectangle(this, 0, 0.5, 1, -0.5, -1);
         this.enableTextures(true);
 
         this.gl.clearDepth(100.0);
@@ -55,7 +55,7 @@ class XMLscene extends CGFscene {
 
     
     update(t) {
-        console.log(t);
+        //console.log(t);
     }
 
     /**
@@ -164,7 +164,7 @@ class XMLscene extends CGFscene {
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
-
+        this.secCamera.display();
         this.popMatrix();
         // ---- END Background, camera and axis setup
     }
