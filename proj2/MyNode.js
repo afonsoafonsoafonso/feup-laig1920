@@ -6,6 +6,7 @@ class MyNode {
         this.materialID = [];
         this.currMaterial = 0;
         this.textureID = null;
+        this.animationID = null;
         this.sLength = null;
         this.tLength = null;
         this.transfMatrix = mat4.create();

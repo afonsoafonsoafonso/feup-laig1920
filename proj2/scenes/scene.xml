@@ -178,6 +178,28 @@
 
     </transformations>
 
+    <animations>
+        <animation id="crazy_mf">
+            <keyframe instant="0">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0"/>
+                <scale x="1" y="1" z="1"/>
+            </keyframe>
+
+            <keyframe instant="2.5">
+                <translate x="3" y="3" z="3" />
+                <rotate angle_x="0" angle_y="360" angle_z="0"/>
+                <scale x="1" y="1" z="1"/>
+            </keyframe>
+
+            <keyframe instant="5">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0"/>
+                <scale x="1" y="1" z="1"/>
+            </keyframe>
+        </animation>
+    </animations>
+
     <primitives>
         <primitive id="floor">
             <rectangle x1="0" y1="0" x2="10" y2="10" />
@@ -287,6 +309,7 @@
             <transformation>
                 <transformationref id="tableTransform"/>
             </transformation>
+            <animationref id="crazy_mf"/>
             <materials>
                 <material id="Material" />
             </materials>

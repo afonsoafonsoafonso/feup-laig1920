@@ -55,7 +55,9 @@ class XMLscene extends CGFscene {
 
     
     update(t) {
-        console.log(t);
+        for(var i=0; i<this.graph.animationsIDs.length; i++) {
+            this.graph.animations[this.graph.animationsIDs[i]].update(t);
+        }
     }
 
     /**

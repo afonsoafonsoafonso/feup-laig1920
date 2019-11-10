@@ -8,8 +8,9 @@ var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
-var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 7;
+var PRIMITIVES_INDEX = 8;
+var COMPONENTS_INDEX = 9;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -45,6 +46,8 @@ class MySceneGraph {
         this.materials = [];
         this.transformations = [];
         this.components = [];
+        this.animations = [];
+        this.animationsIDs = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -187,6 +190,18 @@ class MySceneGraph {
 
             //Parse transformations block
             if ((error = this.parseTransformations(nodes[index])) != null)
+                return error;
+        }
+
+        // <animations>
+        if ((index = nodeNames.indexOf("animations")) == -1)
+            return "tag <animations> missing";
+        else {
+            if (index != ANIMATIONS_INDEX)
+                this.onXMLMinorError("tag <animations> out of order");
+
+            //Parse animations block
+            if ((error = this.parseAnimations(nodes[index])) != null)
                 return error;
         }
 
@@ -712,6 +727,68 @@ class MySceneGraph {
     }
 
     /**
+     * Parses the <animations> block.
+     * @param {animations block element} animationsNode 
+     */
+    parseAnimations(animationsNode) {
+        var children = animationsNode.children;
+
+        var grandChildren = [];
+
+        // Any number of animations
+        for (var i = 0; i < children.length; i++) {
+            var keyframes = [];
+
+            if (children[i].nodeName != "animation") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            var animationId = this.reader.getString(children[i], 'id');
+            if (animationId == null)
+                return "no ID defined for animation";
+
+
+            if (this.animations[animationId] != null)
+                return "ID must be unique for each primitive (conflict: ID = " + primitiveId + ")";
+
+            grandChildren = children[i].children;
+            
+            for(var j = 0; j<grandChildren.length; j++) {
+                let inst = this.reader.getString(grandChildren[j], "instant");
+                //console.log("INST:", inst);
+
+                let tx = this.reader.getFloat(grandChildren[j].children[0], "x");
+                //console.log("TX:", tx);
+                let ty = this.reader.getFloat(grandChildren[j].children[0], "y");
+                //console.log("TY:", ty);
+                let tz = this.reader.getFloat(grandChildren[j].children[0], "z");
+               // console.log("TZ:", tz);
+
+                let rx = this.reader.getFloat(grandChildren[j].children[1], "angle_x");
+                //console.log("RX:", rx);
+                let ry = this.reader.getFloat(grandChildren[j].children[1], "angle_y");
+                //console.log("RY:", ry);
+                let rz = this.reader.getFloat(grandChildren[j].children[1], "angle_z");
+                //console.log("RZ:", rz);
+
+                let sx = this.reader.getFloat(grandChildren[j].children[2], "x");
+                //console.log("SX:", sx);
+                let sy = this.reader.getFloat(grandChildren[j].children[2], "y");
+                //console.log("SY:", sy);
+                let sz = this.reader.getFloat(grandChildren[j].children[2], "z");
+                //console.log("SZ:", sz);
+
+                let currKeyframe = new Keyframe(inst, tx, ty, tz, rx, ry, rz, sx, sy, sz);
+                keyframes.push(currKeyframe);
+            }
+
+            this.animations[animationId] = new KeyframeAnimation(this.scene, animationId, keyframes);
+            this.animationsIDs.push(animationId);
+        }
+    }
+
+    /**
      * Parses the <primitives> block.
      * @param {primitives block element} primitivesNode
      */
@@ -733,7 +810,7 @@ class MySceneGraph {
             // Get id of the current primitive.
             var primitiveId = this.reader.getString(children[i], 'id');
             if (primitiveId == null)
-                return "no ID defined for texture";
+                return "no ID defined for primitive";
 
             // Checks for repeated IDs.
             if (this.primitives[primitiveId] != null)
@@ -925,6 +1002,8 @@ class MySceneGraph {
             }
 
             var transformationIndex = nodeNames.indexOf("transformation");
+            var animationIndex = nodeNames.indexOf("animationref");
+            console.log("ANIMATIONINDEX:", animationIndex);
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
@@ -979,6 +1058,11 @@ class MySceneGraph {
                         break;
 
                 }
+            }
+            //Animation
+            if(animationIndex!=-1) {
+                this.nodes[componentID].animationID = this.reader.getString(grandChildren[animationIndex], 'id');
+                console.log("this.nodes[componentID].animationID:", this.nodes[componentID].animationID);
             }
             // Materials
             var matChildren=[];
@@ -1188,6 +1272,9 @@ class MySceneGraph {
 
         this.scene.pushMatrix();
         this.scene.multMatrix(currNode.transfMatrix);
+        if(currNode.animationID!=null) {
+            this.animations[currNode.animationID].apply();
+        }
 
         for(var i=0; i<currNode.childLeafsIDs.length; i++) {
             if(currNode.sLength != null && currNode.tLength != null && currNode.textureID != "none" && currNode.textureID != "inherit")
