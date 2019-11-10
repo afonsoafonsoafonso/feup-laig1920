@@ -26,6 +26,8 @@ class MySceneGraph {
         this.scene = scene;
         scene.graph = this;
 
+        this.plane = new Plane(this.scene, 5, 5);
+
         this.nodes = [];
 
         this.material = new CGFappearance(this.scene);
@@ -1223,6 +1225,7 @@ class MySceneGraph {
      */
     displayScene() {
         this.transverseTree();
+        //this.plane.display();
     }
 
     transverseTree() {
