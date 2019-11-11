@@ -1,8 +1,8 @@
 class Plane extends CGFobject {
-     constructor(scene, divsU, divsV) {
+     constructor(scene, ndivsU, ndivsV) {
         super(scene);
-        this.divsU = divsU;
-        this.divsV = divsV;
+        this.ndivsU = ndivsU;
+        this.ndivsV = ndivsV;
         // degree on U: 1 => control vertexes on U: 2
         // degree on V: 1 => control vertexes on V: 2
         this.controlPoints = [  
@@ -18,7 +18,7 @@ class Plane extends CGFobject {
 
         var nurbsSurface = new CGFnurbsSurface(1, 1, this.controlPoints);
 
-        this.obj = new CGFnurbsObject(this.scene, divsU, divsV, nurbsSurface);
+        this.obj = new CGFnurbsObject(this.scene, this.ndivsU, this.ndivsV, nurbsSurface);
      }
 
      display() {

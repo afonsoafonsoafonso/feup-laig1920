@@ -1,4 +1,4 @@
-<lxs>
+    <lxs>
     <scene root="Root" axis_length="1"/>
 
     <views default="close">
@@ -188,8 +188,8 @@
 
             <keyframe instant="5">
                 <translate x="3" y="3" z="3" />
-                <rotate angle_x="123" angle_y="360" angle_z="179"/>
-                <scale x="2.4" y="1.2" z="0.7"/>
+                <rotate angle_x="60" angle_y="360" angle_z="60"/>
+                <scale x="0.1" y="2" z="10"/>
             </keyframe>
 
             <keyframe instant="10">
@@ -230,6 +230,16 @@
         </primitive>
         <primitive id="TestPlane">
             <plane npartsU="20" npartsV="20"/>
+        </primitive>
+        <primitive id="TestPatch">
+            <patch npointsU="3" npointsV="2" npartsU="20" npartsV="20">
+                <controlpoint xx="-1.5" yy="-1.5" zz="0.0" />
+                <controlpoint xx="-1.5" yy="1.5" zz="0.0" />
+                <controlpoint xx="0.0" yy="-1.5" zz="3.0" />
+                <controlpoint xx="0.0" yy="1.5" zz="3.0" />
+                <controlpoint xx="1.5" yy="-1.5" zz="0.0" />
+                <controlpoint xx="1.5" yy="1.5" zz="0.0" />
+            </patch>
         </primitive>
     </primitives>
 
@@ -555,6 +565,19 @@
             </children>
         </component>
 
+        <component id="patch">
+            <transformation>
+                <translate x="0" y="5" z="5" />
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="TestPatch" />
+            </children>
+        </component>
+
         <component id="Root">
             <transformation>
                 <transformationref id="Transform"/>
@@ -566,13 +589,12 @@
             <children>
                 <componentref id="table" />
                 <componentref id="floor" />
-                <componentref id="plane" />
+                <componentref id="patch" />
                 <componentref id="lamp" />
                 <componentref id="chair1" />
                 <componentref id="chair2" />
                 <componentref id="chair3" />
                 <componentref id="chair4" />
-                
             </children>
         </component>
     </components>

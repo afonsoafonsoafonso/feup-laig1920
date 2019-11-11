@@ -824,7 +824,8 @@ class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus'&& grandChildren[0].nodeName != 'plane')) {
+                    grandChildren[0].nodeName != 'torus'&& grandChildren[0].nodeName != 'plane' &&
+                    grandChildren[0].nodeName != 'patch')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
 
@@ -947,15 +948,15 @@ class MySceneGraph {
             else if(primitiveType == 'sphere') {
                 var radius = this.reader.getFloat(grandChildren[0], 'radius');
                 if (!(radius != null && !isNaN(radius)))
-                    return "unable to parse radius of the primitive coordinates for ID = " + primitiveId;
+                    return "unable to parse radius of the primitive with ID = " + primitiveId;
 
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
                 if (!(slices != null && !isNaN(slices)))
-                    return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+                    return "unable to parse slices of the primitive with ID = " + primitiveId;
 
                 var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
                 if (!(stacks != null && !isNaN(stacks)))
-                    return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+                    return "unable to parse stacks of the primitive with ID = " + primitiveId;
 
                 var sphere = new MySphere(this.scene, radius, slices, stacks);
 
@@ -964,15 +965,51 @@ class MySceneGraph {
             else if(primitiveType == 'plane') {
                 var npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
                 if (!(npartsU != null && !isNaN(npartsU)))
-                    return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
+                    return "unable to parse npartsU of the primitive with ID = " + primitiveId;
 
                 var npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
                 if (!(npartsV != null && !isNaN(npartsV)))
-                    return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
+                    return "unable to parse npartsV of the primitive with ID = " + primitiveId;
 
                 var plane = new Plane(this.scene, npartsU, npartsV);
 
                 this.primitives[primitiveId] = plane;
+            }
+            else if(primitiveType == 'patch') {
+                var npointsU = this.reader.getFloat(grandChildren[0], 'npointsU');
+                if (!(npointsU != null && !isNaN(npointsU)))
+                    return "unable to parse npointsU of the primitive with ID = " + primitiveId;
+                
+                var npointsV = this.reader.getFloat(grandChildren[0], 'npointsV');
+                if (!(npointsV != null && !isNaN(npointsV)))
+                    return "unable to parse npointsV of the primitve with ID = " + primitiveId;
+
+                var npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
+                if (!(npartsU != null && !isNaN(npartsU)))
+                    return "unable to parse npointsU of the primitive with ID = " + primitiveId;
+                    
+                var npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
+                if (!(npartsV != null && !isNaN(npartsV)))
+                   return "unable to parse npartsV of the primitve with ID = " + primitiveId;
+
+                var grandgrandChildren = grandChildren[0].children;
+
+                if(grandgrandChildren.length != npointsU*npointsV)
+                    return "wrong number of controlpoints given for respective npointsU and npointsV (ID = " + primitiveId + ")";
+
+                var controlPoints = [];
+                for(let i=0; i<grandgrandChildren.length; i++) {
+                    var xx = this.reader.getFloat(grandgrandChildren[i], 'xx');
+                    var yy = this.reader.getFloat(grandgrandChildren[i], 'yy');
+                    var zz = this.reader.getFloat(grandgrandChildren[i], 'zz');
+                    controlPoints.push([xx, yy, zz, 1]);
+                }
+
+                var patch = new Patch(this.scene, npointsU, npointsV, npartsU, npartsV, controlPoints);
+
+                this.primitives[primitiveId] = patch;
+
+
             }
             else {
                 return "primitive type not valid"
@@ -1018,7 +1055,6 @@ class MySceneGraph {
 
             var transformationIndex = nodeNames.indexOf("transformation");
             var animationIndex = nodeNames.indexOf("animationref");
-            console.log("ANIMATIONINDEX:", animationIndex);
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
@@ -1077,7 +1113,7 @@ class MySceneGraph {
             //Animation
             if(animationIndex!=-1) {
                 this.nodes[componentID].animationID = this.reader.getString(grandChildren[animationIndex], 'id');
-                console.log("this.nodes[componentID].animationID:", this.nodes[componentID].animationID);
+                //console.log("this.nodes[componentID].animationID:", this.nodes[componentID].animationID);
             }
             // Materials
             var matChildren=[];
@@ -1273,8 +1309,8 @@ class MySceneGraph {
 
         if(currNode.textureID!="inherit" && currNode.textureID!="none") {
             currTextID = currNode.textureID;
-            currSLength = currNode.sLength; //???
-            currTLength = currNode.tLength; //???
+            currSLength = currNode.sLength;
+            currTLength = currNode.tLength;
             currMat.setTexture(this.textures[currTextID]);
         }
         else if(currNode.textureID=="inherit") {
