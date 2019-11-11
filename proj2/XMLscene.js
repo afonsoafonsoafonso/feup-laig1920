@@ -44,7 +44,7 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-        //TO-DO: SECURITY CAMERA
+        this.camera2 = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
 
     /**
@@ -54,6 +54,7 @@ class XMLscene extends CGFscene {
 
         //this.camera = new CGFcamera(45*DEGREE_TO_RAD, 5, 1000, vec3.fromValues(0, 0, 100), vec3.fromValues(0, 0, 0));
         this.camera = this.graph.views[this.graph.defaultViewID];
+        this.camera2 = this.graph.views[this.graph.defaultViewID];
         this.interface.setActiveCamera(this.camera);
     }
 
@@ -69,7 +70,10 @@ class XMLscene extends CGFscene {
      */
     setCamera(id) {
         this.camera = this.graph.views[id];
-        this.interface.setActiveCamera(this.camera);
+    }
+
+    setSecurityCamera(id) {     
+        this.camera2 = this.graph.views[id];
     }
 
     /**
@@ -139,9 +143,9 @@ class XMLscene extends CGFscene {
 
     display(){
         this.textureRTT.attachToFrameBuffer();
-        this.render();
+        this.render(0);
         this.textureRTT.detachFromFrameBuffer();
-        this.render();
+        this.render(1);
 
         this.gl.disable(this.gl.DEPTH_TEST);
         this.secCamera.display();
@@ -151,7 +155,7 @@ class XMLscene extends CGFscene {
     /**
      * Displays the scene.
      */
-    render() { // TO-DO: MUDAR A CAMERA POR ARGUMENTO
+    render(cam) { // TO-DO: MUDAR A CAMERA POR ARGUMENTO
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
