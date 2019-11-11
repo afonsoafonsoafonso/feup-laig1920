@@ -6,7 +6,7 @@ class Patch extends CGFobject {
         this.npartsU = npartsU;
         this.npartsV = npartsV;
         this.controlPoints = [];
-        //this.controlPoints = controlPoints;
+        
         var controlPointsCounter = 0;
         for(let i=0; i<this.npointsU; i++) {
             let VPoints = [];

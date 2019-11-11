@@ -26,7 +26,7 @@ class MySceneGraph {
         this.scene = scene;
         scene.graph = this;
 
-        this.plane = new Plane(this.scene, 5, 5);
+        this.cylinder = new MyCylinder2(this.scene, 2, 2, 5, 10, 10);
 
         this.nodes = [];
 
@@ -1273,8 +1273,8 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.transverseTree();
-        //this.plane.display();
+        //this.transverseTree();
+        this.cylinder.display();
     }
 
     transverseTree() {
