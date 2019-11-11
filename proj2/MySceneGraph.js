@@ -825,7 +825,7 @@ class MySceneGraph {
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
                     grandChildren[0].nodeName != 'torus'&& grandChildren[0].nodeName != 'plane' &&
-                    grandChildren[0].nodeName != 'patch')) {
+                    grandChildren[0].nodeName != 'patch' && grandChildren[0].nodeName != 'cylinder2')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
 
@@ -999,17 +999,26 @@ class MySceneGraph {
 
                 var controlPoints = [];
                 for(let i=0; i<grandgrandChildren.length; i++) {
-                    var xx = this.reader.getFloat(grandgrandChildren[i], 'xx');
-                    var yy = this.reader.getFloat(grandgrandChildren[i], 'yy');
-                    var zz = this.reader.getFloat(grandgrandChildren[i], 'zz');
+                    let xx = this.reader.getFloat(grandgrandChildren[i], 'xx');
+                    let yy = this.reader.getFloat(grandgrandChildren[i], 'yy');
+                    let zz = this.reader.getFloat(grandgrandChildren[i], 'zz');
                     controlPoints.push([xx, yy, zz, 1]);
                 }
 
                 var patch = new Patch(this.scene, npointsU, npointsV, npartsU, npartsV, controlPoints);
 
                 this.primitives[primitiveId] = patch;
+            }
+            else if(primitiveType == 'cylinder2') {
+                let base_r = this.reader.getFloat(grandChildren[0], 'base');
+                let top_r = this.reader.getFloat(grandChildren[0], 'top');
+                let height = this.reader.getFloat(grandChildren[0], 'height');
+                let slices = this.reader.getFloat(grandChildren[0], 'slices');
+                let stacks = this.reader.getFloat(grandChildren[0], 'stacks');
 
+                var cylinder2 = new MyCylinder2(this.scene, base_r, top_r, height, slices, stacks);
 
+                this.primitives[primitiveId] = cylinder2;
             }
             else {
                 return "primitive type not valid"
@@ -1273,8 +1282,8 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //this.transverseTree();
-        this.cylinder.display();
+        this.transverseTree();
+        //this.cylinder.display();
     }
 
     transverseTree() {

@@ -241,6 +241,9 @@
                 <controlpoint xx="1.5" yy="1.5" zz="0.0" />
             </patch>
         </primitive>
+        <primitive id="TestCylinder2">
+            <cylinder2 base="3" top="3" height="5" slices="10" stacks="10"/>
+        </primitive>
     </primitives>
 
     <components>
@@ -565,7 +568,7 @@
             </children>
         </component>
 
-        <component id="patch">
+        <component id="Test">
             <transformation>
                 <translate x="0" y="5" z="5" />
             </transformation>
@@ -574,7 +577,7 @@
             </materials>
             <texture id="none" />
             <children>
-                <primitiveref id="TestPatch" />
+                <primitiveref id="TestCylinder2" />
             </children>
         </component>
 
@@ -589,7 +592,7 @@
             <children>
                 <componentref id="table" />
                 <componentref id="floor" />
-                <componentref id="patch" />
+                <componentref id="Test" />
                 <componentref id="lamp" />
                 <componentref id="chair1" />
                 <componentref id="chair2" />
