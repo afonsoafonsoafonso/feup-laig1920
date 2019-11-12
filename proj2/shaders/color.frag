@@ -23,7 +23,7 @@ void main() {
 
     float offset = sin((vTextureCoord.y - time) * 20.0) + 1.0;
 
-    fragColor = color + offset * 0.3;
+    fragColor = color + offset * 0.15;
 }
 
 //Aplique gradiente radial no fragment shader de forma a que a cor escureça do centro para os cantos da imagem.
