@@ -5,7 +5,7 @@
  * @param x - Scale of rectangle in X
  * @param y - Scale of rectangle in Y
  */
-class MyRectangle extends CGFobject {
+class MyOQueOStorDeviaTerFeito extends CGFobject {
 	constructor(scene, id, x1, x2, y1, y2) {
 		super(scene);
 		this.x1 = x1;
@@ -28,8 +28,8 @@ class MyRectangle extends CGFobject {
 
 		//Counter-clockwise reference of vertices
 		this.indices = [
-			0, 1, 2,
-			2, 1, 3,
+			0, 3, 1,
+			0, 2, 3,
 		];
 
 		//Facing Z positive

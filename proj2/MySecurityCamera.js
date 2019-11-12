@@ -7,8 +7,8 @@ class MySecurityCamera extends CGFobject {
 
     initBuffers(){
         this.shader = new CGFshader(this.scene.gl, "shaders/vertex.vert", "shaders/color.frag");
-        //this.shader.setUniformsValues({uSampler: 1});
-        this.secCamera = new MyRectangle(this.scene, 0, 0.5, 1, -1, -0.5);
+        this.shader.setUniformsValues({uSampler: 1});
+        this.secCamera = new MyOQueOStorDeviaTerFeito(this.scene, 0, 0.5, 1.0, -0.5, -1.0);
     }
 
     display(){
