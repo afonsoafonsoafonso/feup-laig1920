@@ -5,7 +5,10 @@ class MySecurityCamera extends CGFobject {
         this.initBuffers();
         this.timecount = 0;
     }
- 
+    
+    /**
+     * Initializes the shaders for the Security Cakera and the Rectangle Object where the RTT texture will be applied
+     */
     initBuffers(){
         this.shader = new CGFshader(this.scene.gl, "shaders/vertex.vert", "shaders/color.frag");
         this.shader.setUniformsValues({uSampler: 1});
@@ -13,11 +16,19 @@ class MySecurityCamera extends CGFobject {
         this.secCamera = new MyOQueOStorDeviaTerFeito(this.scene, 0, 0.5, 1.0, -0.5, -1.0);
     }
 
+    /**
+     * Every time the update function is called, the time counter is incremented and sent to the shader
+     */
     update(){
         this.timecount++;
         this.shader.setUniformsValues({time: this.timecount % 200});
     }
 
+    /**
+     * 
+     * Sets the Security Camera shader as active,
+     * Applies the texture to the primitive and then displays the rectangle on the bottom right corner
+     */
     display(){
         this.scene.pushMatrix();
         this.scene.setActiveShader(this.shader);

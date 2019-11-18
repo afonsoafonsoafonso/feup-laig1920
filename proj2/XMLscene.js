@@ -49,14 +49,13 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * 
+     * Sets the default camera as the one active, and as both scene camera and Security Camera
      */
     setDefaultCamera() {
-
-        //this.camera = new CGFcamera(45*DEGREE_TO_RAD, 5, 1000, vec3.fromValues(0, 0, 100), vec3.fromValues(0, 0, 0));
         this.camera = this.graph.views[this.graph.defaultViewID];
-        this.camera2 = this.graph.views[this.graph.defaultViewID];
         this.interface.setActiveCamera(this.camera);
+        this.sceneCam = this.camera;
+        this.securityCam = this.camera;
     }
 
     
@@ -68,16 +67,19 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * 
+     *  Updates Scene camera with the values provided from the interface
      */
     setCamera(id) {
         this.sceneCam = this.graph.views[id];
-        this.interface.setActiveCamera(this.sceneCam);
+        //this.interface.setActiveCamera(this.sceneCam);
     }
 
+    /**
+     *  Updates Security camera with the values provided from the interface
+     */
     setSecurityCamera(id) {     
         this.securityCam = this.graph.views[id];
-        this.interface.setActiveCamera(this.securityCam);
+        //this.interface.setActiveCamera(this.securityCam);
     }
 
     /**
@@ -145,6 +147,10 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
+    /**
+     * Renders the scene twice, first uses render to texture, so it uses the Security Camera 
+     * and then renders with the normal Scene Camera
+     */
     display(){
         this.textureRTT.attachToFrameBuffer();
         this.render(this.securityCam);

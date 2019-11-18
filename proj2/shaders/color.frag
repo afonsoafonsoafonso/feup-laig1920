@@ -25,5 +25,3 @@ void main() {
 
     fragColor = color + offset * 0.15;
 }
-
-//Aplique gradiente radial no fragment shader de forma a que a cor escureça do centro para os cantos da imagem.
