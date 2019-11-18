@@ -159,7 +159,7 @@ class XMLscene extends CGFscene {
     /**
      * Displays the scene.
      */
-    render(cam) { // TO-DO: MUDAR A CAMERA POR ARGUMENTO
+    render(cam) { 
         // ---- BEGIN Background, camera and axis setup
         this.camera = cam;
         this.interface.setActiveCamera(this.camera);
