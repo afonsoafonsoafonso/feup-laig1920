@@ -29,6 +29,7 @@ class KeyframeAnimation extends Animation {
         else this.running = false;
 
         if(this.running) {
+            //linear interpolation of all values
             var tx = this.keyframes[this.currKeyframe].tx + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].tx - this.keyframes[this.currKeyframe].tx) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var ty = this.keyframes[this.currKeyframe].ty + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].ty - this.keyframes[this.currKeyframe].ty) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var tz = this.keyframes[this.currKeyframe].tz + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].tz - this.keyframes[this.currKeyframe].tz) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
@@ -45,7 +46,6 @@ class KeyframeAnimation extends Animation {
             this.transfMatrix = mat4.rotate(this.transfMatrix, this.transfMatrix, rz*DEGREE_TO_RAD, [0, 0, 1]);
             this.transfMatrix = mat4.scale(this.transfMatrix, this.transfMatrix, [sx, sy, sz]);
         }
-        //linear interpolation of all values
     }
 
     apply() {

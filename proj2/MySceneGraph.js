@@ -752,35 +752,51 @@ class MySceneGraph {
 
 
             if (this.animations[animationId] != null)
-                return "ID must be unique for each primitive (conflict: ID = " + primitiveId + ")";
+                return "ID must be unique for each animation (conflict: ID = " + animationId + ")";
 
             grandChildren = children[i].children;
             
             for(var j = 0; j<grandChildren.length; j++) {
                 let inst = this.reader.getFloat(grandChildren[j], "instant");
-                //console.log("INST:", inst);
+                if (!(inst != null && !isNaN(inst)))
+                    return "unable to parse inst of the animation for ID = " + animationId;
 
                 let tx = this.reader.getFloat(grandChildren[j].children[0], "x");
-                //console.log("TX:", tx);
+                if (!(tx != null && !isNaN(tx)))
+                    return "unable to parse tx of the animation for ID = " + animationId;
+                
                 let ty = this.reader.getFloat(grandChildren[j].children[0], "y");
-                //console.log("TY:", ty);
+                if (!(ty != null && !isNaN(ty)))
+                    return "unable to parse ty of the animation for ID = " + animationId;
+                
                 let tz = this.reader.getFloat(grandChildren[j].children[0], "z");
-               // console.log("TZ:", tz);
+                if (!(tz != null && !isNaN(tz)))
+                    return "unable to parse tz of the animation for ID = " + animationId;
 
                 let rx = this.reader.getFloat(grandChildren[j].children[1], "angle_x");
-                //console.log("RX:", rx);
+                if (!(rx != null && !isNaN(rx)))
+                    return "unable to parse rx of the animation for ID = " + animationId;
+                
                 let ry = this.reader.getFloat(grandChildren[j].children[1], "angle_y");
-                //console.log("RY:", ry);
+                if (!(ry != null && !isNaN(ry)))
+                    return "unable to parse ry of the animation for ID = " + animationId;
+                
                 let rz = this.reader.getFloat(grandChildren[j].children[1], "angle_z");
-                //console.log("RZ:", rz);
-
+                if (!(rz != null && !isNaN(rz)))
+                    return "unable to parse rz of the animation for ID = " + animationId;
+                
                 let sx = this.reader.getFloat(grandChildren[j].children[2], "x");
-                //console.log("SX:", sx);
+                if (!(sx != null && !isNaN(sx)))
+                    return "unable to parse sx of the animation for ID = " + animationId;
+                
                 let sy = this.reader.getFloat(grandChildren[j].children[2], "y");
-                //console.log("SY:", sy);
+                if (!(sy != null && !isNaN(sy)))
+                    return "unable to parse sy of the animation for ID = " + animationId;
+                
                 let sz = this.reader.getFloat(grandChildren[j].children[2], "z");
-                //console.log("SZ:", sz);
-
+                if (!(sz != null && !isNaN(sz)))
+                    return "unable to parse sz of the animation for ID = " + animationId;
+                
                 let currKeyframe = new Keyframe(inst, tx, ty, tz, rx, ry, rz, sx, sy, sz);
                 keyframes.push(currKeyframe);
             }
@@ -1000,8 +1016,17 @@ class MySceneGraph {
                 var controlPoints = [];
                 for(let i=0; i<grandgrandChildren.length; i++) {
                     let xx = this.reader.getFloat(grandgrandChildren[i], 'xx');
+                    if (!(xx != null && !isNaN(xx)))
+                        return "unable to parse x of the primitive with ID = " + primitiveId;
+
                     let yy = this.reader.getFloat(grandgrandChildren[i], 'yy');
+                    if (!(yy != null && !isNaN(yy)))
+                        return "unable to parse yy of the primitive with ID = " + primitiveId;
+
                     let zz = this.reader.getFloat(grandgrandChildren[i], 'zz');
+                    if (!(zz != null && !isNaN(zz)))
+                        return "unable to parse zz of the primitive with ID = " + primitiveId;
+
                     controlPoints.push([xx, yy, zz, 1]);
                 }
 
@@ -1011,10 +1036,24 @@ class MySceneGraph {
             }
             else if(primitiveType == 'cylinder2') {
                 let base_r = this.reader.getFloat(grandChildren[0], 'base');
+                if (!(base_r != null && !isNaN(base_r)))
+                    return "unable to parse base_r of the primitive coordinates for ID = " + primitiveId;
+
                 let top_r = this.reader.getFloat(grandChildren[0], 'top');
+                if (!(top_r != null && !isNaN(top_r)))
+                    return "unable to parse top_r of the primitive coordinates for ID = " + primitiveId;
+
                 let height = this.reader.getFloat(grandChildren[0], 'height');
+                if (!(height != null && !isNaN(height)))
+                    return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
+
                 let slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
                 let stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+                if (!(stacks != null && !isNaN(stacks)))
+                    return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
 
                 var cylinder2 = new MyCylinder2(this.scene, base_r, top_r, height, slices, stacks);
 
