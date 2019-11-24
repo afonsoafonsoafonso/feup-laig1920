@@ -54,6 +54,9 @@
         <texture id="pillow" file="scenes/images/pillow.png" />
         <texture id="floor" file="scenes/images/floor.png" />
         <texture id="cola" file="scenes/images/cola.png" />
+        <texture id="keyboard" file="scenes/images/keyboard.png" />
+        <texture id="monitor" file="scenes/images/monitor.png" />
+        <texture id="lid" file="scenes/images/lid.png" />
     </textures>
 
     <materials>
@@ -125,7 +128,12 @@
 
         <transformation id="canTransform">
             <rotate axis="x" angle="-90" />
-            <translate x="1.0" y="0" z="2.4" />
+            <translate x="4.0" y="-4" z="2.4" />
+        </transformation>
+
+        <transformation id="canLidTransform">
+            <rotate axis="x" angle="-90" />
+            <translate x="4.0" y="-4" z="3.1" />
         </transformation>
 
         <transformation id="lampPostTransform">
@@ -216,7 +224,7 @@
             <cylinder base="0.1" top="0.1" height="2.4" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="lampPost">
-            <cylinder base="0.07" top="0.07" height="1" slices="30" stacks="5" /> 
+            <cylinder2 base="0.07" top="0.07" height="1" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="lampBase">
             <cylinder base="0.3" top="0.01" height="0.2" slices="30" stacks="5" /> 
@@ -247,7 +255,10 @@
             </patch>
         </primitive>
         <primitive id="TestCylinder2">
-            <cylinder2 base="0.2" top="0.2" height="0.7" slices="20" stacks="10"/>
+            <cylinder base="0.2" top="0.2" height="0.7" slices="20" stacks="10"/>
+        </primitive>
+        <primitive id="Circle">
+            <cylinder base="0.2" top="0" height="0" slices="30" stacks="5" /> 
         </primitive>
     </primitives>
 
@@ -330,7 +341,7 @@
             <transformation>
                 <transformationref id="tableTransform"/>
             </transformation>
-            <animationref id="crazy_mf"/>
+            
             <materials>
                 <material id="Material" />
             </materials>
@@ -367,7 +378,7 @@
                 <material id="black" />
                 <material id="Material" />
             </materials>
-            <texture id="cola" length_s="1" length_t="1"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="lampPost" />
             </children>
@@ -560,29 +571,74 @@
             </children>
         </component>
 
-        <component id="plane">
+        <component id="keyboard">
             <transformation>
-                <translate x="0" y="5" z="0" />
+                <translate x="1.2" y="2.45" z="4.5" />
+                <scale x="1.3" y="1" z="0.5" />
+                <rotate axis="y" angle="180" />
             </transformation>
             <materials>
                 <material id="white" />
             </materials>
-            <texture id="none"/>
+            <texture id="keyboard" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="TestPlane" />
             </children>
         </component>
 
-        <component id="Test">
+        <component id="monitor">
+            <transformation>
+                <translate x="1.2" y="3.5" z="3.5" />
+                <scale x="1" y="-0.5" z="0.5" />
+                <rotate axis="x" angle="180" />
+            </transformation>
+            <materials>
+                <material id="white" />
+            </materials>
+            <texture id="monitor" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="TestPatch" />
+            </children>
+        </component>
+
+        <component id="stand">
+            <transformation>
+                <translate x="1.2" y="3.2" z="2.65" />
+                <scale x="1" y="1.5" z="1" />
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="lampPost" />
+            </children>
+        </component>
+
+        <component id="can">
             <transformation>
                 <transformationref id="canTransform"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="white"/>
             </materials>
-            <texture id="none" />
+            <texture id="cola" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="TestCylinder2" />
+            </children>
+        </component>
+
+        <component id="canLid">
+            <transformation>
+                <transformationref id="canLidTransform"/>
+            </transformation>
+            <materials>
+                <material id="white"/>
+            </materials>
+            <texture id="none" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Circle" />
             </children>
         </component>
 
@@ -595,9 +651,13 @@
             </materials>
             <texture id="none" />
             <children>
+                <componentref id="stand" />
+                <componentref id="canLid" />
+                <componentref id="monitor" />
+                <componentref id="keyboard" />
                 <componentref id="table" />
                 <componentref id="floor" />
-                <componentref id="Test" />
+                <componentref id="can" />
                 <componentref id="lamp" />
                 <componentref id="chair1" />
                 <componentref id="chair2" />
