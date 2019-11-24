@@ -84,6 +84,12 @@
             <diffuse r="0" g="0" b="0" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </material>
+        <material id="screen" shininess="1">
+            <emission r="1" g="1" b="1" a="1" />
+            <ambient r="1" g="1" b="1" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
     </materials>
 
     <transformations>
@@ -192,7 +198,7 @@
     </transformations>
 
     <animations>
-        <animation id="crazy_mf">
+        <animation id="anim1">
             <keyframe instant="0">
                 <translate x="0" y="0" z="0" />
                 <rotate angle_x="0" angle_y="0" angle_z="0"/>
@@ -211,6 +217,51 @@
                 <scale x="1" y="1" z="1"/>
             </keyframe>
         </animation>
+
+        <animation id="levitation">
+            <keyframe instant="0">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0"/>
+                <scale x="1" y="1" z="1"/>
+            </keyframe>
+            <keyframe instant="5">
+                <translate x="0" y="4" z="0" />
+                <rotate angle_x="30" angle_y="30" angle_z="30" />
+                <scale x="1" y="1" z="1"/>
+            </keyframe>
+            <keyframe instant="10">
+                <translate x="0" y="4.6" z="0" />
+                <rotate angle_x="-30" angle_y="30" angle_z="-30" />
+                <scale x="1" y="1" z="1"/>
+            </keyframe>
+            <keyframe instant="15">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0"/>
+                <scale x="1" y="1" z="1"/>
+            </keyframe>
+        </animation>
+                <animation id="levitation2">
+            <keyframe instant="0">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0"/>
+                <scale x="1" y="1" z="1"/>
+            </keyframe>
+            <keyframe instant="5">
+                <translate x="0.6" y="4" z="1" />
+                <rotate angle_x="24" angle_y="50" angle_z="-23" />
+                <scale x="1.3" y="0.6" z="1.1"/>
+            </keyframe>
+            <keyframe instant="10">
+                <translate x="0.2" y="3.4" z="0.3" />
+                <rotate angle_x="3" angle_y="14" angle_z="-1" />
+                <scale x="0.84" y="1.6" z="0.6"/>
+            </keyframe>
+            <keyframe instant="15">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0"/>
+                <scale x="1" y="1" z="1"/>
+            </keyframe>
+        </animation>
     </animations>
 
     <primitives>
@@ -224,7 +275,7 @@
             <cylinder base="0.1" top="0.1" height="2.4" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="lampPost">
-            <cylinder2 base="0.07" top="0.07" height="1" slices="30" stacks="5" /> 
+            <cylinder base="0.07" top="0.07" height="1" slices="30" stacks="5" /> 
         </primitive>
         <primitive id="lampBase">
             <cylinder base="0.3" top="0.01" height="0.2" slices="30" stacks="5" /> 
@@ -254,8 +305,8 @@
                 <controlpoint xx="1.5" yy="1.5" zz="0.0" />
             </patch>
         </primitive>
-        <primitive id="TestCylinder2">
-            <cylinder base="0.2" top="0.2" height="0.7" slices="20" stacks="10"/>
+        <primitive id="cylinder2-can">
+            <cylinder2 base="0.2" top="0.2" height="0.7" slices="20" stacks="10"/>
         </primitive>
         <primitive id="Circle">
             <cylinder base="0.2" top="0" height="0" slices="30" stacks="5" /> 
@@ -388,7 +439,7 @@
             <transformation>
                 <transformationref id="lampTransform"/>
             </transformation>
-            <animationref id="crazy_mf"/>
+            <animationref id="anim1"/>
             <materials>
                 <material id="cream" />
             </materials>
@@ -490,7 +541,7 @@
             <transformation>
                 <transformationref id="chair1Transform"/>
             </transformation>
-            <animationref id="crazy_mf"/>
+            <animationref id="anim1"/>
             <materials>
                 <material id="Material" />
             </materials>
@@ -530,6 +581,7 @@
             <transformation>
                 <transformationref id="chair4Transform"/>
             </transformation>
+            <animationref id="levitation"/>
             <materials>
                 <material id="Material" />
             </materials>
@@ -593,7 +645,7 @@
                 <rotate axis="x" angle="180" />
             </transformation>
             <materials>
-                <material id="white" />
+                <material id="screen" />
             </materials>
             <texture id="monitor" length_s="1" length_t="1"/>
             <children>
@@ -620,12 +672,13 @@
             <transformation>
                 <transformationref id="canTransform"/>
             </transformation>
+            <animationref id="levitation2"/>
             <materials>
                 <material id="white"/>
             </materials>
             <texture id="cola" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="TestCylinder2" />
+                <primitiveref id="cylinder2-can" />
             </children>
         </component>
 
@@ -633,6 +686,7 @@
             <transformation>
                 <transformationref id="canLidTransform"/>
             </transformation>
+            <animationref id="levitation2"/>
             <materials>
                 <material id="white"/>
             </materials>
