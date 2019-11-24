@@ -23,4 +23,8 @@ class Patch extends CGFobject {
     display() {
         this.obj.display();
     }
+
+    updateTexCoords(length_s, length_t){
+
+	};
 };
