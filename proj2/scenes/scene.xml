@@ -53,7 +53,7 @@
         <texture id="metal" file="scenes/images/metal.png" />
         <texture id="pillow" file="scenes/images/pillow.png" />
         <texture id="floor" file="scenes/images/floor.png" />
-
+        <texture id="cola" file="scenes/images/cola.png" />
     </textures>
 
     <materials>
@@ -121,6 +121,11 @@
         <transformation id="lampTransform">
             <rotate axis="x" angle="-90" />
             <translate x="4.5" y="0" z="2.4" />
+        </transformation>
+
+        <transformation id="canTransform">
+            <rotate axis="x" angle="-90" />
+            <translate x="1.0" y="0" z="2.4" />
         </transformation>
 
         <transformation id="lampPostTransform">
@@ -242,7 +247,7 @@
             </patch>
         </primitive>
         <primitive id="TestCylinder2">
-            <cylinder2 base="3" top="3" height="5" slices="10" stacks="10"/>
+            <cylinder2 base="0.2" top="0.2" height="0.7" slices="20" stacks="10"/>
         </primitive>
     </primitives>
 
@@ -362,7 +367,7 @@
                 <material id="black" />
                 <material id="Material" />
             </materials>
-            <texture id="none" />
+            <texture id="cola" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="lampPost" />
             </children>
@@ -570,7 +575,7 @@
 
         <component id="Test">
             <transformation>
-                <translate x="0" y="5" z="5" />
+                <transformationref id="canTransform"/>
             </transformation>
             <materials>
                 <material id="Material" />
