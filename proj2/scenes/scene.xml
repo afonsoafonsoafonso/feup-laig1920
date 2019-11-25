@@ -56,7 +56,6 @@
         <texture id="cola" file="scenes/images/cola.png" />
         <texture id="keyboard" file="scenes/images/keyboard.png" />
         <texture id="monitor" file="scenes/images/monitor.png" />
-        <texture id="lid" file="scenes/images/lid.png" />
     </textures>
 
     <materials>
