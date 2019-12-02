@@ -25,8 +25,8 @@ class XMLscene extends CGFscene {
 
         this.initCameras();
         
-        this.textureRTT = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
-        this.secCamera = new MySecurityCamera(this);
+        //this.textureRTT = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+        //this.secCamera = new MySecurityCamera(this);
 
         this.enableTextures(true);
 
@@ -44,7 +44,7 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-        this.securityCam = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        //this.securityCam = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
         this.sceneCam = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
 
@@ -55,7 +55,7 @@ class XMLscene extends CGFscene {
         this.camera = this.graph.views[this.graph.defaultViewID];
         this.interface.setActiveCamera(this.camera);
         this.sceneCam = this.camera;
-        this.securityCam = this.camera;
+        //this.securityCam = this.camera;
     }
 
     
@@ -63,7 +63,7 @@ class XMLscene extends CGFscene {
         for(var i=0; i<this.graph.animationsIDs.length; i++) {
             this.graph.animations[this.graph.animationsIDs[i]].update(t);
         }
-        this.secCamera.update();
+        //this.secCamera.update();
     }
 
     /**
@@ -77,10 +77,10 @@ class XMLscene extends CGFscene {
     /**
      *  Updates Security camera with the values provided from the interface
      */
-    setSecurityCamera(id) {     
+    /*setSecurityCamera(id) {     
         this.securityCam = this.graph.views[id];
         //this.interface.setActiveCamera(this.securityCam);
-    }
+    }*/
 
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -151,15 +151,15 @@ class XMLscene extends CGFscene {
      * Renders the scene twice, first uses render to texture, so it uses the Security Camera 
      * and then renders with the normal Scene Camera
      */
-    display(){
+    display(){ /*
         this.textureRTT.attachToFrameBuffer();
         this.render(this.securityCam);
-        this.textureRTT.detachFromFrameBuffer();
-        this.render(this.sceneCam);
-
+        this.textureRTT.detachFromFrameBuffer();*/
+        this.render(this.sceneCam);        
+        /*
         this.gl.disable(this.gl.DEPTH_TEST);
         this.secCamera.display();
-        this.gl.enable(this.gl.DEPTH_TEST)
+        this.gl.enable(this.gl.DEPTH_TEST)*/
     }
 
     /**

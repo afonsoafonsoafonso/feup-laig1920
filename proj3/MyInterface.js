@@ -56,11 +56,11 @@ class MyInterface extends CGFinterface {
      */
     createViewsInterface() {
         this.selectedView = this.scene.graph.defaultViewID;
-        this.selectedSecurityView = this.scene.graph.defaultViewID;
+        //this.selectedSecurityView = this.scene.graph.defaultViewID;
         var folder = this.gui.addFolder("views");
         folder.open();
         folder.add(this, 'selectedView', this.scene.graph.viewsIDs).name('Camera').onChange(id => this.scene.setCamera(id));
-        folder.add(this, 'selectedSecurityView', this.scene.graph.viewsIDs).name('SecurityCamera').onChange(cancro => this.scene.setSecurityCamera(cancro));
+        //folder.add(this, 'selectedSecurityView', this.scene.graph.viewsIDs).name('SecurityCamera').onChange(cancro => this.scene.setSecurityCamera(cancro));
     }
 
     createLightsInterface() {
