@@ -26,7 +26,7 @@ class MySceneGraph {
         this.scene = scene;
         scene.graph = this;
 
-        this.cylinder = new MyCylinder2(this.scene, 2, 2, 5, 10, 10);
+        this.board = new MyBoard(this.scene);
 
         this.nodes = [];
 
@@ -138,7 +138,7 @@ class MySceneGraph {
 
         // <globals>
         if ((index = nodeNames.indexOf("globals")) == -1)
-            return "tag <globals> missing";
+            return "tag <globalsw> missing";
         else {
             if (index != AMBIENT_INDEX)
                 this.onXMLMinorError("tag <globals> out of order");
@@ -1321,8 +1321,8 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.transverseTree();
-        //this.cylinder.display();
+        //this.transverseTree();
+        this.board.display();
     }
 
     transverseTree() {
