@@ -27,7 +27,7 @@
     </textures>
 
     <materials>
-        <material id="brightWhite" shininess="10">
+        <material id="demoMaterial" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -50,23 +50,76 @@
         <primitive id="demoRectangle">
             <rectangle x1="-1" y1="-1" x2="1" y2="1" />
         </primitive>
-        <primitive id="boardEdge">
-            <cylinder base="0.2" top="0.2" height="5" slices="50" stacks="5" />
-        </primitive>
     </primitives>
 
     <components>
-        <component id="demoRoot">
+
+        <component id="skyBoxPlane6">
             <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
+                <rotate axis= "x" angle="-90" />
+                <translate x="0" y="-2" z="-1" />
             </transformation>
             <materials>
-                <material id="brightWhite" />
+                <material id="demoMaterial" />
             </materials>
-            <texture id="none"/>
+            <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
-                <primitiveref id="boardEdge" />
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBoxPlane5">
+            <transformation>
+                <rotate axis= "x" angle="90" />
+                <translate x="0" y="2" z="-1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="1.001" length_t="1.00" />
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBoxPlane4">
+            <transformation>
+                <rotate axis= "x" angle="180" />
+                <translate x="0" y="0" z="-3" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="0" length_t="0" />
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBoxPlane3">
+            <transformation>
+                <translate x="1" y="0" z="2" />
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="0" length_t="0" />
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBoxPlane2">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="0" length_t="0" />
+            <children>
+                <primitiveref id="demoRectangle" />
             </children>
         </component>
 
