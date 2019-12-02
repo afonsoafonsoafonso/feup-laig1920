@@ -56,7 +56,6 @@
         <texture id="cola" file="scenes/images/cola.png" />
         <texture id="keyboard" file="scenes/images/keyboard.png" />
         <texture id="monitor" file="scenes/images/monitor.png" />
-        <texture id="lid" file="scenes/images/lid.png" />
     </textures>
 
     <materials>
@@ -655,8 +654,8 @@
 
         <component id="stand">
             <transformation>
-                <translate x="1.2" y="3.2" z="2.65" />
-                <scale x="1" y="1.5" z="1" />
+                <translate x="1.2" y="3.4" z="2.65" />
+                <scale x="1" y="1" z="1" />
                 <rotate axis="x" angle="90" />
             </transformation>
             <materials>
