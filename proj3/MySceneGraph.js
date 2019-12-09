@@ -27,6 +27,7 @@ class MySceneGraph {
         scene.graph = this;
 
         this.board = new MyBoard(this.scene);
+        this.ship = new MyShip(this.scene);
 
         this.nodes = [];
 
@@ -1321,8 +1322,9 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.transverseTree();
-        this.board.display();
+        //this.transverseTree();
+        //this.board.display();
+        this.ship.display();
     }
 
     transverseTree() {
