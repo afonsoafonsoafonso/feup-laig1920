@@ -1322,8 +1322,10 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //this.transverseTree();
-        //this.board.display();
+        this.scene.enableTextures(true);
+        this.transverseTree();
+        this.scene.enableTextures(false);
+        this.board.display();
         this.ship.display();
     }
 

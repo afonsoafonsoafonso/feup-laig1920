@@ -3,8 +3,6 @@ class MyShip extends CGFobject {
         super(scene);
         this.ship = new MyCylinder(this.scene, 1, 1, 0.2, 20, 3);
         this.circle = new MyCylinder(this.scene, 1, 0, 0, 20, 20);
-
-        //this.initBuffers();
     }
 
     display(){
