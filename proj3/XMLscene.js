@@ -12,6 +12,7 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+        
     }
 
     /**
@@ -37,6 +38,8 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(50);
+
+        this.gameOrchestrator = new MyGameOrchestrator(this); //substituir por objeto do jogo
     }
 
     /**
@@ -155,7 +158,7 @@ class XMLscene extends CGFscene {
         this.textureRTT.attachToFrameBuffer();
         this.render(this.securityCam);
         this.textureRTT.detachFromFrameBuffer();*/
-        this.render(this.sceneCam);        
+        this.render(this.sceneCam);      
         /*
         this.gl.disable(this.gl.DEPTH_TEST);
         this.secCamera.display();
@@ -192,7 +195,7 @@ class XMLscene extends CGFscene {
             // Draw axis
             this.setDefaultAppearance();
             
-
+            this.gameOrchestrator.display();
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
         }
