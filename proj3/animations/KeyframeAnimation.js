@@ -21,14 +21,16 @@ class KeyframeAnimation extends Animation {
             this.running = true;
         }
 
-        if(this.currKeyframe != this.keyframes.length-1) {
+        if(this.currKeyframe != this.keyframes.length-1 && this.keyframes.length>this.currKeyframe+1) {
             if(this.currTime >= this.keyframes[this.currKeyframe+1].inst) {
                 this.currKeyframe++;
             }
         }
-        else this.running = false;
+        else {
+            this.running = false;
+        }
 
-        if(this.running) {
+        if(this.running && this.keyframes.length>this.currKeyframe+1) {
             //linear interpolation of all values
             var tx = this.keyframes[this.currKeyframe].tx + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].tx - this.keyframes[this.currKeyframe].tx) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var ty = this.keyframes[this.currKeyframe].ty + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].ty - this.keyframes[this.currKeyframe].ty) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
@@ -39,13 +41,25 @@ class KeyframeAnimation extends Animation {
             var sx = this.keyframes[this.currKeyframe].sx + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].sx - this.keyframes[this.currKeyframe].sx) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var sy = this.keyframes[this.currKeyframe].sy + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].sy - this.keyframes[this.currKeyframe].sy) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var sz = this.keyframes[this.currKeyframe].sz + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].sz - this.keyframes[this.currKeyframe].sz) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
-    
-            this.transfMatrix = mat4.translate(this.transfMatrix, this.transfMatrix, [tx, ty, tz]);
-            this.transfMatrix = mat4.rotate(this.transfMatrix, this.transfMatrix, rx*DEGREE_TO_RAD, [1, 0, 0]);
-            this.transfMatrix = mat4.rotate(this.transfMatrix, this.transfMatrix, ry*DEGREE_TO_RAD, [0, 1, 0]);
-            this.transfMatrix = mat4.rotate(this.transfMatrix, this.transfMatrix, rz*DEGREE_TO_RAD, [0, 0, 1]);
-            this.transfMatrix = mat4.scale(this.transfMatrix, this.transfMatrix, [sx, sy, sz]);
         }
+        else {
+            var tx = this.keyframes[this.currKeyframe].tx;
+            var ty = this.keyframes[this.currKeyframe].ty;
+            var tz = this.keyframes[this.currKeyframe].tz;
+
+            var rx = this.keyframes[this.currKeyframe].rx;
+            var ry = this.keyframes[this.currKeyframe].ry;
+            var rz = this.keyframes[this.currKeyframe].rz;
+
+            var sx = this.keyframes[this.currKeyframe].sx;
+            var sy = this.keyframes[this.currKeyframe].sy;
+            var sz = this.keyframes[this.currKeyframe].sz;
+        }
+        this.transfMatrix = mat4.translate(this.transfMatrix, this.transfMatrix, [tx, ty, tz]);
+        this.transfMatrix = mat4.rotate(this.transfMatrix, this.transfMatrix, rx*DEGREE_TO_RAD, [1, 0, 0]);
+        this.transfMatrix = mat4.rotate(this.transfMatrix, this.transfMatrix, ry*DEGREE_TO_RAD, [0, 1, 0]);
+        this.transfMatrix = mat4.rotate(this.transfMatrix, this.transfMatrix, rz*DEGREE_TO_RAD, [0, 0, 1]);
+        this.transfMatrix = mat4.scale(this.transfMatrix, this.transfMatrix, [sx, sy, sz]);
     }
 
     apply() {

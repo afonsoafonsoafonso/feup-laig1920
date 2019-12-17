@@ -1325,8 +1325,8 @@ class MySceneGraph {
         this.scene.enableTextures(true);
         this.transverseTree();
         this.scene.enableTextures(false);
-        this.board.display();
-        this.ship.display();
+        //this.board.display();
+        //this.ship.display();
     }
 
     transverseTree() {
