@@ -2,6 +2,7 @@ class MyGameOrchestrator extends CGFobject {
     constructor(scene) {
         super(scene);
         this.board = new MyBoard(scene);
+        this.cylinder = new MyCylinder(scene, 0.3, 0.3, 1, 5, 5);
         this.tiles = [];
 
         for(let i=1; i<=6; i++) {

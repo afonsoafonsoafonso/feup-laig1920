@@ -24,5 +24,7 @@ class MyTile extends CGFobject{
 
     display() {
         this.plane.display();
+
+        if(this.piece!=null) this.piece.display();
     }
 }
