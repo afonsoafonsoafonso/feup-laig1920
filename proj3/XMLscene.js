@@ -39,7 +39,10 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(50);
 
-        this.gameOrchestrator = new MyGameOrchestrator(this); //substituir por objeto do jogo
+        this.gameOrchestrator = new MyGameOrchestrator(this);
+        this.board = new MyBoard(this);
+
+        this.setPickEnabled(true);
     }
 
     /**
@@ -150,6 +153,21 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
+    logPicking() {
+		if (this.pickMode == false) {
+			if (this.pickResults != null && this.pickResults.length > 0) {
+				for (var i = 0; i < this.pickResults.length; i++) {
+					var obj = this.pickResults[i][0];
+					if (obj) {
+						var customId = this.pickResults[i][1];
+						console.log("Picked object: " + obj + ", with pick id " + customId);						
+					}
+				}
+				this.pickResults.splice(0, this.pickResults.length);
+			}
+		}
+	}
+
     /**
      * Renders the scene twice, first uses render to texture, so it uses the Security Camera 
      * and then renders with the normal Scene Camera
@@ -172,6 +190,10 @@ class XMLscene extends CGFscene {
         // ---- BEGIN Background, camera and axis setup
         this.camera = cam;
         this.interface.setActiveCamera(this.camera);
+
+        this.logPicking();
+        this.clearPickRegistration();
+
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -195,9 +217,10 @@ class XMLscene extends CGFscene {
             // Draw axis
             this.setDefaultAppearance();
             
+            //this.board.display();
             this.gameOrchestrator.display();
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            //this.graph.displayScene();
         }
         this.popMatrix();
         // ---- END Background, camera and axis setup
