@@ -27,7 +27,6 @@ class MySceneGraph {
         scene.graph = this;
 
         this.board = new MyBoard(this.scene);
-        this.ship = new MyShip(this.scene);
 
         this.nodes = [];
 

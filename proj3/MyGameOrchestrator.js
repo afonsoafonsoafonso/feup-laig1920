@@ -2,7 +2,7 @@ class MyGameOrchestrator extends CGFobject {
     constructor(scene) {
         super(scene);
         this.board = new MyBoard(scene);
-        this.cylinder = new MyCylinder(scene, 0.3, 0.3, 1, 5, 5);
+        this.piece = new MyPiece(scene);
         this.tiles = [];
 
         for(let i=1; i<=6; i++) {
@@ -11,6 +11,8 @@ class MyGameOrchestrator extends CGFobject {
                 this.tiles.push(currTile);
             }
         }
+
+        //boardSetup();
 
         this.initBuffers();
     }
@@ -27,10 +29,12 @@ class MyGameOrchestrator extends CGFobject {
                 this.scene.pushMatrix();
                 this.scene.registerForPick((i+0.5)*10 + j+0.5, this.tiles[c]);
                 this.scene.translate(j, 0.01, i);
+                this.tiles[c].setPiece(this.piece);
                 this.tiles[c].display();
                 this.scene.popMatrix(); 
                 c++;
             }
         }
     }
+
 }
