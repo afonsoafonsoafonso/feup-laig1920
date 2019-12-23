@@ -1,9 +1,10 @@
 class MyBoard extends CGFobject {
     constructor(scene) {
         super(scene);
+
         this.cylinder = new MyCylinder(this.scene, 0.015, 0.015, 1, 10, 5);
 
-        //this.initBuffers();
+        this.initBuffers();
     }
 
     display() {
