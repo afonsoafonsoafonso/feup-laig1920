@@ -194,7 +194,7 @@ class XMLscene extends CGFscene {
         // ---- BEGIN Background, camera and axis setup
         this.camera = cam;
         //this.interface.setActiveCamera(this.camera);
-
+        this.gameOrchestrator.orchestrate();
         this.logPicking();
         this.clearPickRegistration();
 
