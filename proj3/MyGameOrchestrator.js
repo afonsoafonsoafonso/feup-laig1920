@@ -8,7 +8,9 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=1; i<=6; i++) {
             for(let j=1; j<=6; j++) {
                 var currTile = new MyTile(scene, i, j);
-                this.tiles.push(currTile);
+                var key = i + '-' + j;
+                console.log(key);
+                this.tiles[key] = currTile;
             }
         }
 
@@ -23,16 +25,14 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     setupPickableGrid() {
-        var c = 0;
         for(let i=0.5; i<6.5; i++) {
             for(let j=0.5; j<6.5; j++) {
                 this.scene.pushMatrix();
-                this.scene.registerForPick((i+0.5)*10 + j+0.5, this.tiles[c]);
+                this.scene.registerForPick((i+0.5)*10 + j+0.5, this.tiles[(i+0.5) + '-' + (j+0.5)]);
                 this.scene.translate(j, 0.01, i);
-                this.tiles[c].setPiece(this.piece);
-                this.tiles[c].display();
+                this.tiles[(i+0.5) + '-' + (j+0.5)].setPiece(this.piece);
+                this.tiles[(i+0.5) + '-' + (j+0.5)].display();
                 this.scene.popMatrix(); 
-                c++;
             }
         }
     }
