@@ -59,7 +59,7 @@ class XMLscene extends CGFscene {
      */
     setDefaultCamera() {
         this.camera = this.graph.views[this.graph.defaultViewID];
-        this.interface.setActiveCamera(this.camera);
+        //this.interface.setActiveCamera(this.camera);
         this.sceneCam = this.camera;
         //this.securityCam = this.camera;
     }
@@ -193,7 +193,7 @@ class XMLscene extends CGFscene {
     render(cam) { 
         // ---- BEGIN Background, camera and axis setup
         this.camera = cam;
-        this.interface.setActiveCamera(this.camera);
+        //this.interface.setActiveCamera(this.camera);
 
         this.logPicking();
         this.clearPickRegistration();
