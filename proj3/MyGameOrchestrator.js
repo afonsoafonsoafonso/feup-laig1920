@@ -16,6 +16,34 @@ class MyGameOrchestrator extends CGFobject {
             }
         }
 
+        this.gameStates = {
+            'Menu' : 0,
+            'Next turn' : 1,
+            'Select Piece' : 2,
+            'Select Tile' : 3,
+            'Check Win' : 4,
+            'Win' : 5,
+
+            'Undo' : 9,
+            'Pause' :10
+        }
+        
+        this.events = {
+            'OnPVP' : 1,
+            'OnPvM' : 2,
+            'OnMvM' : 3,
+            'OnPieceSelect' : 4,
+            'OnTileSelect' : 5,
+            'OnBoost' : 6,
+            'OnReprogram' : 7,
+            'OnWin' : 8,
+            'OnUndo' : 9,
+            'OnNext' : 10,
+            'OnRematch' : 11,
+            
+            'OnPause' : 90,
+            'Unpause' : 99
+        }
         this.boardSetup();
 
         this.initBuffers();
