@@ -18,6 +18,11 @@ class MyGameOrchestrator extends CGFobject {
             }
         }
 
+        this.playerType = {
+            'Human' : 0,
+            'Machine' : 1
+        };
+        
         this.gameStates = {
             'Menu' : 0,
             'Next turn' : 1,
@@ -42,7 +47,7 @@ class MyGameOrchestrator extends CGFobject {
             'OnUndo' : 9,
             'OnNext' : 10,
             'OnRematch' : 11,
-            
+
             'OnPause' : 90,
             'Unpause' : 99
         }

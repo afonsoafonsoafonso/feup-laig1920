@@ -150,6 +150,7 @@ class XMLscene extends CGFscene {
 
         this.interface.createViewsInterface();
         this.interface.createLightsInterface();
+        this.interface.createGameInterface();
 
         this.sceneInited = true;
     }
