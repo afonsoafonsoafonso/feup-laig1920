@@ -11,7 +11,7 @@ function getUrlVars() {
     return vars;
 }	 
 //Include additional files here
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'primitives/MyRectangle.js', 'primitives/MyCylinder.js', 'primitives/MySphere.js','primitives/MyTriangle.js', 'MyNode.js', 'primitives/MyTorus.js', 'animations/Animation.js', 'animations/Keyframe.js', 'animations/KeyframeAnimation.js', 'shaders/MySecurityCamera.js', 'primitives/Plane.js', 'primitives/Patch.js', 'primitives/MyCylinder2.js', 'primitives/MyRectangle2.js', 'MyBoard.js', 'MyTile.js', 'primitives/MyCylinderClosed.js', 'MyPiece.js', 'MyGameOrchestrator.js',
+serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'primitives/MyRectangle.js', 'primitives/MyCylinder.js', 'primitives/MySphere.js','primitives/MyTriangle.js', 'MyNode.js', 'primitives/MyTorus.js', 'animations/Animation.js', 'animations/Keyframe.js', 'animations/KeyframeAnimation.js', 'shaders/MySecurityCamera.js', 'primitives/Plane.js', 'primitives/Patch.js', 'primitives/MyCylinder2.js', 'primitives/MyRectangle2.js', 'MyBoard.js', 'MyTile.js', 'MyPiece.js', 'MyGameOrchestrator.js',
 
 main=function()
 {
@@ -25,7 +25,7 @@ main=function()
     app.setScene(myScene);
     app.setInterface(myInterface);
 
-    myInterface.setActiveCamera(myScene.camera);
+    //myInterface.setActiveCamera(myScene.camera);
 
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
