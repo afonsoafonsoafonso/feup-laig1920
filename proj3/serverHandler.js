@@ -11,10 +11,6 @@ function getPrologRequest(requestString, onSuccess, onError, port) {
 }
 
 function makeRequest(requestString, handleReply) {
-    // Get Parameter Values
-    //var requestString = document.querySelector("#query_field").value;				
-    
-    // Make Request
     getPrologRequest(requestString, handleReply);
 }
 

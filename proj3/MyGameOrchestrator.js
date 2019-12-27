@@ -5,6 +5,8 @@ class MyGameOrchestrator extends CGFobject {
         this.pieces = [];
         this.tiles = [];
 
+        this.boardState = [];
+
         this.selectedTile = null;
 
         for(let i=1; i<=6; i++) {
@@ -57,6 +59,7 @@ class MyGameOrchestrator extends CGFobject {
     display() {
         this.board.display();
         this.setupPickableGrid();
+        //console.log(this.boardState);
     }
 
     setupPickableGrid() {
@@ -93,6 +96,7 @@ class MyGameOrchestrator extends CGFobject {
         piece = new MyPiece(this.scene,1);
         //piece.setTile(this.tiles['1-5']);
         this.tiles['1-5'].setPiece(piece);
+
         //
         piece = new MyPiece(this.scene,2);
         //piece.setTile(this.tiles['1-6']);
@@ -121,19 +125,32 @@ class MyGameOrchestrator extends CGFobject {
         piece = new MyPiece(this.scene,1);
         //piece.setTile(this.tiles['6-6']);
         this.tiles['6-6'].setPiece(piece);
+
+        this.updateBoardState();
     }
 
     clickHandler(obj, id) {
         if(this.selectedTile==null && obj.getPiece()!=null) {
             this.selectedTile = obj;
-            console.log('11111111');
         }
         else if(this.selectedTile!=null && obj.getPiece()==null) {
-            console.log('22222222');
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
             this.selectedTile = null;
         }
 
+    }
+
+    updateBoardState() {
+        this.boardState = [];
+        for(let i=1; i<=6; i++) {
+            let currRow = [];
+            for(let j=1; j<=6; j++) {
+                if(this.tiles[i + '-' + j].getPiece()==null) currRow.push(0);
+                else currRow.push(this.tiles[i + '-' + j].getPiece().level);
+            }
+            this.boardState.push(currRow);
+        }
+        //console.log(this.boardState);
     }
 
     move(x1, y1, x2, y2) {
