@@ -58,9 +58,7 @@ class MyInterface extends CGFinterface {
         this.selectedView = this.scene.graph.defaultViewID;
         //this.selectedSecurityView = this.scene.graph.defaultViewID;
         var folder = this.gui.addFolder("views");
-        folder.open();
         folder.add(this, 'selectedView', this.scene.graph.viewsIDs).name('Camera').onChange(id => this.scene.setCamera(id));
-        //folder.add(this, 'selectedSecurityView', this.scene.graph.viewsIDs).name('SecurityCamera').onChange(cancro => this.scene.setSecurityCamera(cancro));
     }
 
     createLightsInterface() {
@@ -73,5 +71,21 @@ class MyInterface extends CGFinterface {
             if(i>=this.scene.graph.lightsIDs.length) 
                 break;
         }
+    }
+
+    createGameInterface() {
+        this.undo = function(){
+            console.log("Fiz merda, volta atrás crl! *Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z*");
+        }
+        this.restart = function(){
+            console.log("Ragequit");
+        }
+        this.playerType = 0;
+        var folder = this.gui.addFolder("Game");
+        folder.open();
+        folder.add(this, 'playerType', this.scene.gameOrchestrator.playerType).name('PlayerA');
+        folder.add(this, 'playerType', this.scene.gameOrchestrator.playerType).name('PlayerB');
+        folder.add(this,'undo');
+        folder.add(this,'restart');
     }
 }
