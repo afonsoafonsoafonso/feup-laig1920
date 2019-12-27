@@ -3,6 +3,7 @@ class MyPiece extends CGFobject {
         super(scene);
         this.side = new MyCylinder(this.scene, 0.3, 0.3, 0.2, 20, 3);
         this.base = new MyCylinder(this.scene, 0.3, 0, 0, 20, 20);
+        this.level = level;
 
         if(level==3) {
             this.mat = new CGFappearance(scene);
