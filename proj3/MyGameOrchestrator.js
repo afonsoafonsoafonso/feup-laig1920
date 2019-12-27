@@ -58,6 +58,7 @@ class MyGameOrchestrator extends CGFobject {
 
        // console.log(this.gameState);
         this.boardSetup();
+        this.initialboard = [];
 
         this.initBuffers();
     }
@@ -134,6 +135,8 @@ class MyGameOrchestrator extends CGFobject {
         this.tiles['6-6'].setPiece(piece);
 
         this.updateBoardState();
+        this.initialboard = this.boardState.slice();
+        //console.log(this.initialboard);
     }
 
     clickHandler(obj, id) {
@@ -151,6 +154,7 @@ class MyGameOrchestrator extends CGFobject {
 
     }
 
+    //TODO: ADD HOME ROWS AND CHECK IF THEY HAVE A PIECE
     checkWin(){
 
     }
