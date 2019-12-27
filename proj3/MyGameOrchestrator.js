@@ -2,7 +2,7 @@ class MyGameOrchestrator extends CGFobject {
     constructor(scene) {
         super(scene);
         this.board = new MyBoard(scene);
-        this.piece = new MyPiece(scene, 3);
+        this.pieces = [];
         this.tiles = [];
 
         for(let i=1; i<=6; i++) {
@@ -14,7 +14,7 @@ class MyGameOrchestrator extends CGFobject {
             }
         }
 
-        //boardSetup();
+        this.boardSetup();
 
         this.initBuffers();
     }
@@ -30,11 +30,62 @@ class MyGameOrchestrator extends CGFobject {
                 this.scene.pushMatrix();
                 this.scene.registerForPick((i+0.5)*10 + j+0.5, this.tiles[(i+0.5) + '-' + (j+0.5)]);
                 this.scene.translate(j, 0.01, i);
-                this.tiles[(i+0.5) + '-' + (j+0.5)].setPiece(this.piece);
+                //this.tiles[(i+0.5) + '-' + (j+0.5)].setPiece(this.piece);
                 this.tiles[(i+0.5) + '-' + (j+0.5)].display();
                 this.scene.popMatrix(); 
             }
         }
     }
 
+    boardSetup() {
+        let piece;
+        // Player A home-row
+        piece = new MyPiece(this.scene,3);
+        piece.setTile(this.tiles['1-1']);
+        this.tiles['1-1'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,2);
+        piece.setTile(this.tiles['1-2']);
+        this.tiles['1-2'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,1);
+        piece.setTile(this.tiles['1-3']);
+        this.tiles['1-3'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,3);
+        piece.setTile(this.tiles['141']);
+        this.tiles['1-4'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,1);
+        piece.setTile(this.tiles['1-5']);
+        this.tiles['1-5'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,2);
+        piece.setTile(this.tiles['1-6']);
+        this.tiles['1-6'].setPiece(piece);
+        // Player B home-row
+        piece = new MyPiece(this.scene,1);
+        piece.setTile(this.tiles['6-1']);
+        this.tiles['6-1'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,3);
+        piece.setTile(this.tiles['6-2']);
+        this.tiles['6-2'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,2);
+        piece.setTile(this.tiles['6-3']);
+        this.tiles['6-3'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,2);
+        piece.setTile(this.tiles['6-4']);
+        this.tiles['6-4'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,3);
+        piece.setTile(this.tiles['6-5']);
+        this.tiles['6-5'].setPiece(piece);
+        //
+        piece = new MyPiece(this.scene,1);
+        piece.setTile(this.tiles['6-6']);
+        this.tiles['6-6'].setPiece(piece);
+    }
 }
