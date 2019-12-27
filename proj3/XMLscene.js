@@ -161,6 +161,7 @@ class XMLscene extends CGFscene {
 					if (obj) {
 						var customId = this.pickResults[i][1];
                         console.log("Picked object: " + obj + ", with pick id " + customId);
+                        
                         this.gameOrchestrator.clickHandler(obj, customId);				
 					}
 				}

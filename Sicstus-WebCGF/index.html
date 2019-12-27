@@ -40,6 +40,7 @@
 			
 			//Handle the Reply
 			function handleReply(data){
+				console.log(data.target.response);
 				document.querySelector("#query_result").innerHTML=data.target.response;
 			}
 		
