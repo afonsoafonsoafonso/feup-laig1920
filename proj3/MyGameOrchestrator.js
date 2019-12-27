@@ -168,6 +168,8 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     move(x1, y1, x2, y2) {
+        console.log(this.boardState);
+        console.log(valid_move(x1, y1, x2, y2, 1, this.boardState));
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                 this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());

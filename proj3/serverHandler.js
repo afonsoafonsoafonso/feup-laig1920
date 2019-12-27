@@ -10,7 +10,7 @@ function getPrologRequest(requestString, onSuccess, onError, port) {
     request.send();
 }
 
-function makeRequest(requestString, handleReply) {
+function makeRequest(requestString) {
     getPrologRequest(requestString, handleReply);
 }
 
@@ -20,4 +20,8 @@ function handleReply(data) {
     return data.target.response;
 }
 
-function 
+function valid_move(x1, y1, x2, y2, p, b) {
+    var requestString = 'valid_move(' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + ',' + p + ',' +  JSON.stringify(b) + ')';
+    console.log(requestString);
+    makeRequest(requestString);
+}
