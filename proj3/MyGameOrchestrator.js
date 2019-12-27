@@ -51,10 +51,13 @@ class MyGameOrchestrator extends CGFobject {
         this.initBuffers();
     }
 
+    update(t) {
+        // do something
+    }
+
     display() {
         this.board.display();
         this.setupPickableGrid();
-        //console.log(this.boardState);
     }
 
     setupPickableGrid() {
@@ -73,52 +76,39 @@ class MyGameOrchestrator extends CGFobject {
         let piece;
         // Player A home-row
         piece = new MyPiece(this.scene,3);
-        //piece.setTile(this.tiles['1-1']);
         this.tiles['1-1'].setPiece(piece);
         //
         piece = new MyPiece(this.scene,2);
-        piece.setTile(this.tiles['1-2']);
         this.tiles['1-2'].setPiece(piece);
         //
         piece = new MyPiece(this.scene,1);
-        //piece.setTile(this.tiles['1-3']);
         this.tiles['1-3'].setPiece(piece);
         //
         piece = new MyPiece(this.scene,3);
-        //piece.setTile(this.tiles['141']);
         this.tiles['1-4'].setPiece(piece);
         //
         piece = new MyPiece(this.scene,1);
-        //piece.setTile(this.tiles['1-5']);
         this.tiles['1-5'].setPiece(piece);
-
         //
         piece = new MyPiece(this.scene,2);
-        //piece.setTile(this.tiles['1-6']);
         this.tiles['1-6'].setPiece(piece);
         // Player B home-row
         piece = new MyPiece(this.scene,1);
-        //piece.setTile(this.tiles['6-1']);
         this.tiles['6-1'].setPiece(piece);
         //
         piece = new MyPiece(this.scene,3);
-        //piece.setTile(this.tiles['6-2']);
         this.tiles['6-2'].setPiece(piece);
         //
         piece = new MyPiece(this.scene,2);
-        //piece.setTile(this.tiles['6-3']);
         this.tiles['6-3'].setPiece(piece);
         //
         piece = new MyPiece(this.scene,2);
-        //piece.setTile(this.tiles['6-4']);
         this.tiles['6-4'].setPiece(piece);
         //
         piece = new MyPiece(this.scene,3);
-        //piece.setTile(this.tiles['6-5']);
         this.tiles['6-5'].setPiece(piece);
         //
         piece = new MyPiece(this.scene,1);
-        //piece.setTile(this.tiles['6-6']);
         this.tiles['6-6'].setPiece(piece);
 
         this.updateBoardState();
@@ -145,7 +135,6 @@ class MyGameOrchestrator extends CGFobject {
             }
             this.boardState.push(currRow);
         }
-        //console.log(this.boardState);
     }
 
     move(x1, y1, x2, y2) {
@@ -153,7 +142,6 @@ class MyGameOrchestrator extends CGFobject {
             if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                 this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
                 this.tiles[x1 + '-' + y1].unsetPiece();
-                
             }
         }
     }

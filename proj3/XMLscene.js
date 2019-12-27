@@ -69,6 +69,7 @@ class XMLscene extends CGFscene {
         for(var i=0; i<this.graph.animationsIDs.length; i++) {
             this.graph.animations[this.graph.animationsIDs[i]].update(t);
         }
+        this.gameOrchestrator.update(t);
         //this.secCamera.update();
     }
 
