@@ -16,6 +16,7 @@ class MyTile extends CGFobject{
     }
 
     setPiece(piece) {
+        piece.setTile(this);
         this.piece = piece;
     }
 
@@ -30,7 +31,6 @@ class MyTile extends CGFobject{
     display() {
         this.transparent.apply();
         this.plane.display();
-
         if(this.piece!=null) this.piece.display();
     }
 }

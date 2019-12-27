@@ -52,6 +52,8 @@ class MyPiece extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.popMatrix();
+
+        //console.log(this.tile);
     }
 
     setTile(tile) {
