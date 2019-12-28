@@ -16,12 +16,12 @@ function makeRequest(requestString) {
 
 //Handle the Reply
 function handleReply(data) {
+    //console.log(data.target.response);
     console.log(data.target.response);
-    return data.target.response;
 }
 
 function valid_move(x1, y1, x2, y2, p, b) {
     var requestString = 'valid_move(' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + ',' + p + ',' +  JSON.stringify(b) + ')';
-    console.log(requestString);
+    //console.log(requestString);
     makeRequest(requestString);
 }

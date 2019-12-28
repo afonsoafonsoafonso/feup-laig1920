@@ -9,6 +9,20 @@ class MyGameOrchestrator extends CGFobject {
 
         this.selectedTile = null;
 
+        // Deixar BaseA/BaseB + X como key ou alterar para as respetivas coordenadas?
+        for(let i=1; i<=6; i++) {
+            var currTile = new MyTile(scene, 0, i);
+            var key = 0 + '-' + i;
+            console.log(key);
+            this.tiles[key] = currTile;
+        }
+        for(let i=1; i<=6; i++) {
+            var currTile = new MyTile(scene, 7, i);
+            var key = 7 + '-' + i;
+            console.log(key);
+            this.tiles[key] = currTile;
+        }
+
         for(let i=1; i<=6; i++) {
             for(let j=1; j<=6; j++) {
                 var currTile = new MyTile(scene, i, j);
@@ -65,13 +79,32 @@ class MyGameOrchestrator extends CGFobject {
         this.setupPickableGrid();
     }
 
+    // tl;dr ID's (picking) das tiles das bases: 1,2,3,4,5,6 para jogador A e 71,72,73,74,75,76 para jogar B
     setupPickableGrid() {
+        //setup player base tiles
         for(let i=0.5; i<6.5; i++) {
+            this.scene.pushMatrix();
+            // picking id only accepts numbers so player A base tiles will have this stupid ID with a single number 
+            this.scene.registerForPick(i+0.5, this.tiles['0-' + (i+0.5)]);
+            this.scene.translate(i, 0.01, 0.5);
+            this.tiles['0-' + (i+0.5)].display();
+            this.scene.popMatrix();
+        }
+        for(let i=0.5; i<6.5; i++) {
+            this.scene.pushMatrix();
+            // picking id only accepts numbers so player A base tiles will have this stupid ID with a single number 
+            this.scene.registerForPick(7*10 + i+0.5, this.tiles['7-' + (i+0.5)]);
+            this.scene.translate(i, 0.01, 7.5);
+            this.tiles['7-' + (i+0.5)].display();
+            this.scene.popMatrix();
+        }
+        //setup playble tiles
+        for(let i=1.5; i<7.5; i++) {
             for(let j=0.5; j<6.5; j++) {
                 this.scene.pushMatrix();
-                this.scene.registerForPick((i+0.5)*10 + j+0.5, this.tiles[(i+0.5) + '-' + (j+0.5)]);
+                this.scene.registerForPick((i-0.5)*10 + j+0.5, this.tiles[(i-0.5) + '-' + (j+0.5)]);
                 this.scene.translate(j, 0.01, i);
-                this.tiles[(i+0.5) + '-' + (j+0.5)].display();
+                this.tiles[(i-0.5) + '-' + (j+0.5)].display();
                 this.scene.popMatrix(); 
             }
         }
@@ -127,11 +160,11 @@ class MyGameOrchestrator extends CGFobject {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
             this.selectedTile = null;
         }
-
     }
 
     updateBoardState() {
         this.boardState = [];
+        this.boardState.push([-1, -1, -1, -1, -1, -1]);
         for(let i=1; i<=6; i++) {
             let currRow = [];
             for(let j=1; j<=6; j++) {
@@ -140,11 +173,12 @@ class MyGameOrchestrator extends CGFobject {
             }
             this.boardState.push(currRow);
         }
+        this.boardState.push([-2, -2, -2, -2, -2, -2]);
     }
 
     move(x1, y1, x2, y2) {
         console.log(this.boardState);
-        console.log(valid_move(x1, y1, x2, y2, 1, this.boardState));
+        valid_move(x1, y1, x2, y2, 1, this.boardState);
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                 this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
