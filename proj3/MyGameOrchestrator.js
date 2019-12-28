@@ -209,12 +209,14 @@ class MyGameOrchestrator extends CGFobject {
 
     move(x1, y1, x2, y2) {
         console.log(this.boardState);
-        valid_move(x1, y1, x2, y2, 1, this.boardState);
+        // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
+        valid_move(x1, y1-1, x2, y2-1, 1, this.boardState);
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                 this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
                 this.tiles[x1 + '-' + y1].unsetPiece();
             }
+            this.updateBoardState();
         }
     }
 }
