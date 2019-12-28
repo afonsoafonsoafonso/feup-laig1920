@@ -65,13 +65,30 @@ class MyGameOrchestrator extends CGFobject {
             'OnPause' : 90,
             'Unpause' : 99
         }
+
+        this.gameState = this.gameStates.Menu;
+        this.playerA = this.playerType.Human;
+        this.playerB = this.playerType.Human;
+
+       // console.log(this.gameState);
         this.boardSetup();
+        this.initialboard = [];
 
         this.initBuffers();
     }
 
+    orchestrate(){
+    }
+
+    start(playerA, playerB){
+        this.playerA = playerA;
+        this.playerB = playerB;
+        this.boardSetup();
+        this.gameState = this.gameStates["Select Piece"];
+    }
+
     update(t) {
-        // do something
+        //animator update
     }
 
     display() {
@@ -102,7 +119,8 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=1.5; i<7.5; i++) {
             for(let j=0.5; j<6.5; j++) {
                 this.scene.pushMatrix();
-                this.scene.registerForPick((i-0.5)*10 + j+0.5, this.tiles[(i-0.5) + '-' + (j+0.5)]);
+                if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"])
+                    this.scene.registerForPick((i+0.5)*10 + j+0.5, this.tiles[(i+0.5) + '-' + (j+0.5)]);
                 this.scene.translate(j, 0.01, i);
                 this.tiles[(i-0.5) + '-' + (j+0.5)].display();
                 this.scene.popMatrix(); 
@@ -150,16 +168,27 @@ class MyGameOrchestrator extends CGFobject {
         this.tiles['6-6'].setPiece(piece);
 
         this.updateBoardState();
+        this.initialboard = this.boardState.slice();
+        //console.log(this.initialboard);
     }
 
     clickHandler(obj, id) {
         if(this.selectedTile==null && obj.getPiece()!=null) {
             this.selectedTile = obj;
+            this.gameState = this.gameStates["Select Tile"];
         }
         else if(this.selectedTile!=null && obj.getPiece()==null) {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
             this.selectedTile = null;
+            this.gameState = this.gameStates["Check Win"];
+            this.checkWin();
+            this.gameState = this.gameStates["Select Piece"];
         }
+    }
+
+    //TODO: ADD HOME ROWS AND CHECK IF THEY HAVE A PIECE
+    checkWin(){
+
     }
 
     updateBoardState() {

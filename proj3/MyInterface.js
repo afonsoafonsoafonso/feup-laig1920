@@ -19,6 +19,7 @@ class MyInterface extends CGFinterface {
         //  http://workshop.chromeexperiments.com/examples/gui
 
         this.gui = new dat.GUI();
+        this.display = new dat.GUI();
 
         // add a group of controls (and open/expand by defult)
 
@@ -77,15 +78,21 @@ class MyInterface extends CGFinterface {
         this.undo = function(){
             console.log("Fiz merda, volta atrás crl! *Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z*");
         }
-        this.restart = function(){
+        this.start = function(){
+            this.scene.gameOrchestrator.start(this.playerTypeA, this.playerTypeB);
             console.log("Ragequit");
         }
-        this.playerType = 0;
+        this.playerTypeA = 0;
+        this.playerTypeB = 0;
         var folder = this.gui.addFolder("Game");
         folder.open();
-        folder.add(this, 'playerType', this.scene.gameOrchestrator.playerType).name('PlayerA');
-        folder.add(this, 'playerType', this.scene.gameOrchestrator.playerType).name('PlayerB');
+        folder.add(this, 'playerTypeA', this.scene.gameOrchestrator.playerType).name('PlayerA');
+        folder.add(this, 'playerTypeB', this.scene.gameOrchestrator.playerType).name('PlayerB');
         folder.add(this,'undo');
-        folder.add(this,'restart');
+        folder.add(this,'start');
     }
+     /*
+    createDisplay(){
+        this.display.add()
+    }*/
 }
