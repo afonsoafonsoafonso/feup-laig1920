@@ -76,11 +76,12 @@ class MyInterface extends CGFinterface {
 
     createGameInterface() {
         this.undo = function(){
-            console.log("Fiz merda, volta atrás crl! *Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z*");
+            this.scene.gameOrchestrator.undo();
+            //console.log("Fiz merda, volta atrás crl! *Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z*");
         }
         this.start = function(){
             this.scene.gameOrchestrator.start(this.playerTypeA, this.playerTypeB);
-            console.log("Ragequit");
+            //console.log("Ragequit");
         }
         this.playerTypeA = 0;
         this.playerTypeB = 0;

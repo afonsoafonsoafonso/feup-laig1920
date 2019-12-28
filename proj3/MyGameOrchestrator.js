@@ -4,6 +4,7 @@ class MyGameOrchestrator extends CGFobject {
         this.board = new MyBoard(scene);
         this.pieces = [];
         this.tiles = [];
+        this.movegames = [[]];
 
         this.boardState = [];
 
@@ -13,13 +14,13 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=1; i<=6; i++) {
             var currTile = new MyTile(scene, 0, i);
             var key = 0 + '-' + i;
-            console.log(key);
+            //console.log(key);
             this.tiles[key] = currTile;
         }
         for(let i=1; i<=6; i++) {
             var currTile = new MyTile(scene, 7, i);
             var key = 7 + '-' + i;
-            console.log(key);
+            //console.log(key);
             this.tiles[key] = currTile;
         }
 
@@ -27,7 +28,7 @@ class MyGameOrchestrator extends CGFobject {
             for(let j=1; j<=6; j++) {
                 var currTile = new MyTile(scene, i, j);
                 var key = i + '-' + j;
-                console.log(key);
+                //console.log(key);
                 this.tiles[key] = currTile;
             }
         }
@@ -70,9 +71,11 @@ class MyGameOrchestrator extends CGFobject {
         this.playerA = this.playerType.Human;
         this.playerB = this.playerType.Human;
 
-       // console.log(this.gameState);
+        this.printState();
         this.boardSetup();
         this.initialboard = [];
+
+        
 
         this.initBuffers();
     }
@@ -80,11 +83,16 @@ class MyGameOrchestrator extends CGFobject {
     orchestrate(){
     }
 
+    printState(){
+        console.log("currently in ", this.gameState);
+    }
+
     start(playerA, playerB){
         this.playerA = playerA;
         this.playerB = playerB;
         this.boardSetup();
         this.gameState = this.gameStates["Select Piece"];
+        this.printState();
     }
 
     update(t) {
@@ -130,6 +138,7 @@ class MyGameOrchestrator extends CGFobject {
         }
     }
 
+    
     boardSetup() {
         let piece;
         // Player A home-row
@@ -169,26 +178,33 @@ class MyGameOrchestrator extends CGFobject {
         piece = new MyPiece(this.scene,1);
         this.tiles['6-6'].setPiece(piece);
 
-        this.updateBoardState();
-        this.initialboard = this.boardState.slice();
+        //this.updateBoardState();
+        //this.initialboard = this.boardState.slice();
         //console.log(this.initialboard);
+    }
+
+    undo(){
+        this.loadBoardState();
     }
 
     clickHandler(obj, id) {
         if(this.selectedTile==null && obj.getPiece()!=null) {
             this.selectedTile = obj;
             this.gameState = this.gameStates["Select Tile"];
+            this.printState();
         }
         else if(this.selectedTile!=null && obj.getPiece()==null) {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
             this.selectedTile = null;
             this.gameState = this.gameStates["Check Win"];
+            this.printState();
             this.checkWin();
             this.gameState = this.gameStates["Select Piece"];
+            this.printState();
         }
     }
 
-    //TODO: ADD HOME ROWS AND CHECK IF THEY HAVE A PIECE
+    //TODO: ADD HOME ROWS AND CHECK IF THEY HAVE A PIECEgit 
     checkWin(){
 
     }
@@ -205,18 +221,48 @@ class MyGameOrchestrator extends CGFobject {
             this.boardState.push(currRow);
         }
         this.boardState.push([-2, -2, -2, -2, -2, -2]);
+        this.movegames.push(this.boardState);
+    }
+
+    loadBoardState() {
+        let previous = this.movegames.pop();
+        //console.log(previous);
+        let piece = new MyPiece(this.scene, 1);
+        let piece2 = new MyPiece(this.scene, 2);
+        let piece3 = new MyPiece(this.scene, 3);
+        for(let i=1; i<=6; i++) {           
+            for(let j=0; j<=5; j++) {
+                //console.log(i,j,previous[i][j]);
+                //this.tiles[i + '-' + j].unsetPiece();
+                if(previous[i][j] != 0){
+                    switch(previous[i][j]){
+                        case 1:
+                            this.tiles[i + '-' + (j+1)].setPiece(piece);
+                            break;
+                        case 2:
+                            this.tiles[i + '-' + (j+1)].setPiece(piece2);
+                            break;
+                        case 3:
+                            this.tiles[i + '-' + (j+1)].setPiece(piece3);
+                            break;     
+                    }
+                } else this.tiles[i + '-' + (j+1)].unsetPiece();
+                    
+            }
+        }
     }
 
     move(x1, y1, x2, y2) {
-        console.log(this.boardState);
+        //console.log(this.boardState);
         // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
+        this.updateBoardState();
         valid_move(x1, y1-1, x2, y2-1, 1, this.boardState);
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                 this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
                 this.tiles[x1 + '-' + y1].unsetPiece();
             }
-            this.updateBoardState();
+            
         }
     }
 }
