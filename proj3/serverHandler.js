@@ -14,16 +14,11 @@ function makeRequest(requestString, replyHandler) {
     getPrologRequest(requestString, replyHandler);
 }
 
-//Handle the Reply
-function handleReply(data) {
-    window.reply=data.target.response;
-}
-
 function valid_move(x1, y1, x2, y2, p, b, replyHandler) {
     var requestString = 'valid_move(' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + ',' + p + ',' +  JSON.stringify(b) + ')';
     makeRequest(requestString, replyHandler);
 }
 
 function ping_server() {
-    //makeRequest('ping');
+    makeRequest('ping');
 }

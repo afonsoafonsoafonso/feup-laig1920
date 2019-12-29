@@ -94,7 +94,7 @@ class MyGameOrchestrator extends CGFobject {
         this.playerB = playerB;
         this.boardSetup();
         this.gameState = this.gameStates["Select Piece"];
-        //this.ping_server();
+        this.ping_server();
         this.printState();
     }
 
@@ -259,9 +259,12 @@ class MyGameOrchestrator extends CGFobject {
         //console.log(this.boardState);
         // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
         this.updateBoardState();
-        valid_move(x1, y1-1, x2, y2-1, 1, this.boardState, data => this.replyHandler(data));
-        console.log("reply value:", this.request);
-        if(this.request==1) {
+        // checks if move is valid. make_move then handles prolog request result
+        valid_move(x1, y1-1, x2, y2-1, 1, this.boardState, data => this.make_move(data, x1, y1, x2, y2));
+    }
+
+    make_move(data, x1, y1, x2, y2) {
+        if(data.target.response==1) {
             if(this.tiles[x1 + '-' + y1].getPiece() != null) {
                 if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                     this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
@@ -269,11 +272,6 @@ class MyGameOrchestrator extends CGFobject {
                 }
             }
         }
-        else {/*merda para avisar jogador de cena inválida ou whatever*/}
-        this.request=null;
-    }
-
-    replyHandler(data) {
-        this.request = data.target.response;
+        else {/*faz algo uma merda caso não seja válido (avisar o user ou assim)*/}
     }
 }
