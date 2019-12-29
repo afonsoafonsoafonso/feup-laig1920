@@ -108,6 +108,8 @@ print_header_line(_).
 parse_input(valid_move(X1, Y1, X2, Y2, P, B), 1):- valid_move(X1, Y1, X2, Y2, P, B).
 parse_input(valid_move(_, _, _, _, _, _), 0).
 
+parse_input(ping, yes).
+
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).

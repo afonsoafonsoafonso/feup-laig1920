@@ -7,19 +7,21 @@ class MyGameOrchestrator extends CGFobject {
 
         this.boardState = [];
 
+        this.request = null;
+
         this.selectedTile = null;
 
         // Deixar BaseA/BaseB + X como key ou alterar para as respetivas coordenadas?
         for(let i=1; i<=6; i++) {
             var currTile = new MyTile(scene, 0, i);
             var key = 0 + '-' + i;
-            console.log(key);
+            //console.log(key);
             this.tiles[key] = currTile;
         }
         for(let i=1; i<=6; i++) {
             var currTile = new MyTile(scene, 7, i);
             var key = 7 + '-' + i;
-            console.log(key);
+            //console.log(key);
             this.tiles[key] = currTile;
         }
 
@@ -27,7 +29,7 @@ class MyGameOrchestrator extends CGFobject {
             for(let j=1; j<=6; j++) {
                 var currTile = new MyTile(scene, i, j);
                 var key = i + '-' + j;
-                console.log(key);
+                //console.log(key);
                 this.tiles[key] = currTile;
             }
         }
@@ -85,6 +87,8 @@ class MyGameOrchestrator extends CGFobject {
         this.playerB = playerB;
         this.boardSetup();
         this.gameState = this.gameStates["Select Piece"];
+        ping_server();
+        //alert(window.value);
     }
 
     update(t) {
@@ -208,15 +212,23 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     move(x1, y1, x2, y2) {
-        console.log(this.boardState);
+        //console.log(this.boardState);
         // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
-        valid_move(x1, y1-1, x2, y2-1, 1, this.boardState);
-        if(this.tiles[x1 + '-' + y1].getPiece() != null) {
-            if(this.tiles[x2 + '-' + y2].getPiece() == null) {
-                this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
-                this.tiles[x1 + '-' + y1].unsetPiece();
+        valid_move(x1, y1-1, x2, y2-1, 1, this.boardState, data => this.replyHandler(data));
+        console.log("REQUEST VALUE:", this.request);
+        if(this.request==1) {
+            if(this.tiles[x1 + '-' + y1].getPiece() != null) {
+                if(this.tiles[x2 + '-' + y2].getPiece() == null) {
+                    this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
+                    this.tiles[x1 + '-' + y1].unsetPiece();
+                }
+                this.updateBoardState();
             }
-            this.updateBoardState();
         }
+        this.request=null;
+    }
+
+    replyHandler(data) {
+        this.request = data.target.response;
     }
 }
