@@ -4,6 +4,7 @@ class MyPiece extends CGFobject {
         this.side = new MyCylinder(this.scene, 0.3, 0.3, 0.2, 20, 3);
         this.base = new MyCylinder(this.scene, 0.3, 0, 0, 20, 20);
         this.level = level;
+        this.animation = null;
 
         if(level==3) {
             this.mat = new CGFappearance(scene);

@@ -26,4 +26,8 @@ class MyAnimator {
         this.currTime = t;
         if(this.currAnim!=null) this.currAnim.update(t);
     }
+
+    setAnimation(piece) {
+        piece.animation = this;
+    }
 }
