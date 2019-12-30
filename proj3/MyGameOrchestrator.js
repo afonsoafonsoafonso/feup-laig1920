@@ -196,8 +196,14 @@ class MyGameOrchestrator extends CGFobject {
     }
     
     nextTurn(){
+        if(this.movegames.length < 2) {
+            console.log("Joga primeiro Boi, Ainda é a tua vez, conas.")
+            return
+        }
+
         this.playerAturn = !this.playerAturn;
         this.gameState = this.gameStates["Select Piece"];
+        this.movegames = [[]];
     }
 
     clickHandler(obj, id) {
@@ -217,7 +223,7 @@ class MyGameOrchestrator extends CGFobject {
         }
     }
 
-    //TODO: ADD HOME ROWS AND CHECK IF THEY HAVE A PIECEgit 
+    //TODO: AND CHECK IF THEY HAVE A PIECE
     checkWin(){
 
     }
@@ -238,6 +244,9 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     loadBoardState() {
+        //console.log("Moves: ", this.movegames);
+        if (this.movegames.length < 2)
+            return;
         let previous = this.movegames.pop();
         //console.log(previous);
         let piece = new MyPiece(this.scene, 1);
