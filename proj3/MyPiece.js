@@ -6,6 +6,8 @@ class MyPiece extends CGFobject {
         this.level = level;
         this.animation = null;
 
+        this.ongoingAnimation = false;
+
         if(level==3) {
             this.mat = new CGFappearance(scene);
             this.mat.setAmbient(255/255, 20/255, 20/255, 1.0);

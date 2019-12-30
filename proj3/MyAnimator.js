@@ -6,10 +6,13 @@ class MyAnimator {
         this.running = false;
         this.startTime = t;
         this.currTime;
+        this.piece = null;
         console.log(t);
     }
 
-    calculate_animation(col1, row1, col2, row2) {
+    calculate_animation(piece, col1, row1, col2, row2) {
+        this.piece = piece;
+        this.piece.ongoingAnimation = true;
         var keyframes = [];
         keyframes.push(Keyframe(this.currTime, 0, 0, 0, 0, 0, 0, 0, 0, 0));
         keyframes.push(Keyframe(this.currTime+2*1000, 0, 2, 0, 0, 0, 0, 0, 0, 0));
@@ -25,6 +28,7 @@ class MyAnimator {
     update(t) {
         this.currTime = t;
         if(this.currAnim!=null) this.currAnim.update(t);
+        if(this.currAnim.running==false) {this.currAnim = null; this.piece = null; this.running = false;}
     }
 
     setAnimation(piece) {

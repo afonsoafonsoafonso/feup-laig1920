@@ -31,6 +31,6 @@ class MyTile extends CGFobject{
     display() {
         this.transparent.apply();
         this.plane.display();
-        if(this.piece!=null) this.piece.display();
+        if(this.piece!=null && this.piece.ongoingAnimation==false) this.piece.display();
     }
 }
