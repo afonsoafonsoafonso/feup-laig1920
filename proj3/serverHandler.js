@@ -10,18 +10,15 @@ function getPrologRequest(requestString, onSuccess, onError, port) {
     request.send();
 }
 
-function makeRequest(requestString) {
-    getPrologRequest(requestString, handleReply);
+function makeRequest(requestString, replyHandler) {
+    getPrologRequest(requestString, replyHandler);
 }
 
-//Handle the Reply
-function handleReply(data) {
-    //console.log(data.target.response);
-    console.log(data.target.response);
-}
-
-function valid_move(x1, y1, x2, y2, p, b) {
+function valid_move(x1, y1, x2, y2, p, b, replyHandler) {
     var requestString = 'valid_move(' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + ',' + p + ',' +  JSON.stringify(b) + ')';
-    //console.log(requestString);
-    makeRequest(requestString);
+    makeRequest(requestString, replyHandler);
+}
+
+function ping_server() {
+    makeRequest('ping');
 }
