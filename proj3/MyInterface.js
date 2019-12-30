@@ -83,6 +83,10 @@ class MyInterface extends CGFinterface {
             this.scene.gameOrchestrator.start(this.playerTypeA, this.playerTypeB);
             //console.log("Ragequit");
         }
+        this.endTurn = function(){
+            this.scene.gameOrchestrator.nextTurn();
+            console.log("acabei.");
+        }
         this.playerTypeA = 0;
         this.playerTypeB = 0;
         var folder = this.gui.addFolder("Game");
@@ -91,6 +95,7 @@ class MyInterface extends CGFinterface {
         folder.add(this, 'playerTypeB', this.scene.gameOrchestrator.playerType).name('PlayerB');
         folder.add(this,'undo');
         folder.add(this,'start');
+        folder.add(this, 'endTurn');
     }
      /*
     createDisplay(){

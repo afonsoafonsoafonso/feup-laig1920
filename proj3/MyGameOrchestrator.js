@@ -35,6 +35,8 @@ class MyGameOrchestrator extends CGFobject {
             }
         }
 
+        this.playerAturn = false;
+
         this.playerType = {
             'Human' : 0,
             'Machine' : 1
@@ -94,7 +96,8 @@ class MyGameOrchestrator extends CGFobject {
         this.playerB = playerB;
         this.boardSetup();
         this.gameState = this.gameStates["Select Piece"];
-        this.ping_server();
+        this.playerAturn = true;
+        ping_server();
         this.printState();
     }
 
@@ -107,7 +110,7 @@ class MyGameOrchestrator extends CGFobject {
         this.setupPickableGrid();
     }
 
-    // tl;dr ID's (picking) das tiles das bases: 1,2,3,4,5,6 para jogador A e 71,72,73,74,75,76 para jogar B
+    // tl;dr ID's (picking) das tiles das bases: 1,2,3,4,5,6 para jogador A e 71,72,73,74,75,76 para jogador B
     setupPickableGrid() {
         //setup player base tiles
         for(let i=0.5; i<6.5; i++) {
@@ -188,10 +191,17 @@ class MyGameOrchestrator extends CGFobject {
 
     undo(){
         this.loadBoardState();
+        if (this.gameState == this.gameStates["Next turn"])
+            this.gameState = this.gameStates["Select Piece"];
+    }
+    
+    nextTurn(){
+        this.playerAturn = !this.playerAturn;
+        this.gameState = this.gameStates["Select Piece"];
     }
 
     clickHandler(obj, id) {
-        if(this.selectedTile==null && obj.getPiece()!=null) {
+        if(this.selectedTile == null && obj.getPiece()!=null) {
             this.selectedTile = obj;
             this.gameState = this.gameStates["Select Tile"];
             this.printState();
@@ -257,10 +267,12 @@ class MyGameOrchestrator extends CGFobject {
 
     move(x1, y1, x2, y2) {
         //console.log(this.boardState);
+        let player = 1;
+        if (!this.playerAturn)  player = 2;
         // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
         this.updateBoardState();
         // checks if move is valid. make_move then handles prolog request result
-        valid_move(x1, y1-1, x2, y2-1, 1, this.boardState, data => this.make_move(data, x1, y1, x2, y2));
+        valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move(data, x1, y1, x2, y2));
     }
 
     make_move(data, x1, y1, x2, y2) {
@@ -271,6 +283,8 @@ class MyGameOrchestrator extends CGFobject {
                     this.tiles[x1 + '-' + y1].unsetPiece();
                 }
             }
+            if (this.gameState == this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"])
+                this.gameState = this.gameStates["Next turn"];
         }
         else {/*faz algo uma merda caso não seja válido (avisar o user ou assim)*/}
     }
