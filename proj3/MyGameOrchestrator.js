@@ -282,11 +282,14 @@ class MyGameOrchestrator extends CGFobject {
         if (!this.playerAturn)  player = 2;
         // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
         this.updateBoardState();
+        // calculates animation for piece
+        
         // checks if move is valid. make_move then handles prolog request result
         valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move(data, x1, y1, x2, y2));
     }
 
     make_move(data, x1, y1, x2, y2) {
+        this.tiles[x1 + '-' + y1].getPiece().ongoingAnimation = true;
         if(data.target.response==1) {
             if(this.tiles[x1 + '-' + y1].getPiece() != null) {
                 if(this.tiles[x2 + '-' + y2].getPiece() == null) {
@@ -298,5 +301,8 @@ class MyGameOrchestrator extends CGFobject {
                 this.gameState = this.gameStates["Next turn"];
         }
         else {/*faz algo uma merda caso não seja válido (avisar o user ou assim)*/}
+
+        this.tiles[x2 + '-' + y2].getPiece().ongoingAnimation = false;
+        
     }
 }
