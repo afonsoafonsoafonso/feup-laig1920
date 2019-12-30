@@ -5,6 +5,8 @@ class MyGameOrchestrator extends CGFobject {
         this.pieces = [];
         this.tiles = [];
 
+        this.animaton = null;
+
         this.boardState = [];
 
         this.selectedTile = null;
@@ -88,7 +90,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     update(t) {
-        //animator update
+        if(this.animator==null) {this.animator = new MyAnimator(this.scene, this, t); console.log(t);}
     }
 
     display() {
@@ -109,7 +111,6 @@ class MyGameOrchestrator extends CGFobject {
         }
         for(let i=0.5; i<6.5; i++) {
             this.scene.pushMatrix();
-            // picking id only accepts numbers so player A base tiles will have this stupid ID with a single number 
             this.scene.registerForPick(7*10 + i+0.5, this.tiles['7-' + (i+0.5)]);
             this.scene.translate(i, 0.01, 7.5);
             this.tiles['7-' + (i+0.5)].display();
