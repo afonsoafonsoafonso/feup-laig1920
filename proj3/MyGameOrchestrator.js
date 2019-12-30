@@ -49,8 +49,9 @@ class MyGameOrchestrator extends CGFobject {
             'Next turn' : 1,
             'Select Piece' : 2,
             'Select Tile' : 3,
-            'Check Win' : 4,
-            'Win' : 5,
+            'Animation' : 4,
+            'Check Win' : 5,
+            'Win' : 6,
 
             'Undo' : 9,
             'Pause' :10
@@ -277,46 +278,44 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     move(x1, y1, x2, y2) {
-<<<<<<< HEAD
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             //console.log(this.boardState);
             this.animator.calculate_animation(x1, y1, x2, y2);
             this.animator.setAnimation(this.tiles[x1 + '-' + y1]);
+            
             let player = 1;
             if (!this.playerAturn)  player = 2;
             // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
             this.updateBoardState();
             // checks if move is valid. make_move then handles prolog request result
-            valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move(data, x1, y1, x2, y2));
+            valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move_animation(data, x1, y1, x2, y2));
         }
-=======
-        //console.log(this.boardState);
-        let player = 1;
-        if (!this.playerAturn)  player = 2;
-        // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
-        this.updateBoardState();
-        // calculates animation for piece
-        
-        // checks if move is valid. make_move then handles prolog request result
-        valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move(data, x1, y1, x2, y2));
->>>>>>> 365797e63baae8ca113101a6fb4febdf4aaf03b4
     }
 
-    make_move(data, x1, y1, x2, y2) {
+    make_move_animation(data, x1, y1, x2, y2) {
         this.tiles[x1 + '-' + y1].getPiece().ongoingAnimation = true;
         if(data.target.response==1) {
-            if(this.tiles[x1 + '-' + y1].getPiece() != null) {
-                if(this.tiles[x2 + '-' + y2].getPiece() == null) {
-                    this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
-                    this.tiles[x1 + '-' + y1].unsetPiece();
-                }
-            }
-            if (this.gameState == this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"])
-                this.gameState = this.gameStates["Next turn"];
+
+            this.gameState = this.gameStates.Animation;
+            // Fazer a animação 
+
+
+            // Quando a animação acabar o animator chamar o make move com as coords das tiles para fazer o move nas tiles
+            
         }
         else {/*faz algo uma merda caso não seja válido (avisar o user ou assim)*/}
 
         this.tiles[x2 + '-' + y2].getPiece().ongoingAnimation = false;
         
+    }
+
+    make_move(x1, y1, x2, y2){
+        if(this.tiles[x1 + '-' + y1].getPiece() != null) {
+            if(this.tiles[x2 + '-' + y2].getPiece() == null) {
+                this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
+                this.tiles[x1 + '-' + y1].unsetPiece();
+            }
+        }   if (this.gameState == this.gameStates.Animation)
+            this.gameState = this.gameStates["Next turn"];
     }
 }

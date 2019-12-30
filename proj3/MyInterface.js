@@ -85,7 +85,7 @@ class MyInterface extends CGFinterface {
         }
         this.endTurn = function(){
             this.scene.gameOrchestrator.nextTurn();
-            console.log("acabei.");
+            //console.log("acabei.");
         }
         this.playerTypeA = 0;
         this.playerTypeB = 0;
