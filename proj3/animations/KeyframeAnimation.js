@@ -27,8 +27,9 @@ class KeyframeAnimation extends Animation {
             }
         }
         else {
-            console.log("RUNNING EQUAL FALSE");
+            //console.log("RUNNING EQUAL FALSE");
             this.running = false;
+            this.end = true;
         }
 
         if(this.running && this.keyframes.length>this.currKeyframe+1) {
@@ -36,9 +37,6 @@ class KeyframeAnimation extends Animation {
             var tx = this.keyframes[this.currKeyframe].tx + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].tx - this.keyframes[this.currKeyframe].tx) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var ty = this.keyframes[this.currKeyframe].ty + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].ty - this.keyframes[this.currKeyframe].ty) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var tz = this.keyframes[this.currKeyframe].tz + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].tz - this.keyframes[this.currKeyframe].tz) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
-            console.log("TX", tx);
-            console.log("TY", ty);
-            console.log("TZ", tz);
             var rx = this.keyframes[this.currKeyframe].rx + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].rx - this.keyframes[this.currKeyframe].rx) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var ry = this.keyframes[this.currKeyframe].ry + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].ry - this.keyframes[this.currKeyframe].ry) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var rz = this.keyframes[this.currKeyframe].rz + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].rz - this.keyframes[this.currKeyframe].rz) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));

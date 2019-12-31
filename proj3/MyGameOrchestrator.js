@@ -5,7 +5,7 @@ class MyGameOrchestrator extends CGFobject {
         this.pieces = [];
         this.tiles = [];
         this.movegames = [[]];
-        this.currMove=
+        this.currMove=[];
 
         this.animator = null;
 
@@ -110,6 +110,10 @@ class MyGameOrchestrator extends CGFobject {
         if(this.animator==null) {this.animator = new MyAnimator(this.scene, this, t); console.log(t);}
         if(this.gameState == this.gameStates["Animation"]) {
             this.animator.update(t);
+            if(this.animator.running==false) {
+                this.animator.endAnimation();
+                this.make_move();
+            }
         }
 
     }
@@ -205,6 +209,7 @@ class MyGameOrchestrator extends CGFobject {
     }
     
     nextTurn(){
+        this.currMove = [];
         if(this.movegames.length < 2) {
             console.log("Joga primeiro Boi, Ainda é a tua vez, conas.")
             return
@@ -284,6 +289,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     move(x1, y1, x2, y2) {
+        this.currMove.push(x1, y1, x2, y2);
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             //console.log(this.boardState);
             //this.animator.calculate_animation(x1, y1, x2, y2);
@@ -294,12 +300,16 @@ class MyGameOrchestrator extends CGFobject {
             // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
             this.updateBoardState();
             // checks if move is valid. make_move then handles prolog request result
-            valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move_animation(data, x1, y1, x2, y2));
+            valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move_animation(data));
         }
     }
 
-    make_move_animation(data, x1, y1, x2, y2) {
-        this.tiles[x1 + '-' + y1].getPiece().ongoingAnimation = true;
+    make_move_animation(data) {
+        var x1 = this.currMove[0];
+        var y1 = this.currMove[1];
+        var x2 = this.currMove[2];
+        var y2 = this.currMove[3];
+        //this.tiles[x1 + '-' + y1].getPiece().ongoingAnimation = true;
         if(data.target.response==1) {
             this.gameState = this.gameStates.Animation;
             // Fazer a animação 
@@ -308,13 +318,18 @@ class MyGameOrchestrator extends CGFobject {
         }
     }
 
-    make_move(x1, y1, x2, y2){
+    make_move() {
+        var x1 = this.currMove[0];
+        var y1 = this.currMove[1];
+        var x2 = this.currMove[2];
+        var y2 = this.currMove[3];
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                 this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
                 this.tiles[x1 + '-' + y1].unsetPiece();
             }
-        }   if (this.gameState == this.gameStates.Animation)
-            this.gameState = this.gameStates["Next turn"];
+        }
+        console.log("AWDOAWD");
+        this.gameState = this.gameStates["Next turn"];
     }
 }

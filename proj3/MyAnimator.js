@@ -12,7 +12,7 @@ class MyAnimator {
 
     calculate_animation(piece, row1, col1, row2, col2) {
         this.piece = piece;
-        this.piece.ongoingAnimation = true;
+        this.running = true;
         var keyframes = [];
         var secondsSinceStart = (this.currTime - this.startTime)/1000;
         //console.log("SECONDS SINCE START:", secondsSinceStart/1000);
@@ -31,10 +31,11 @@ class MyAnimator {
         this.currTime = t;
         if(this.currAnim!=null) {
             this.currAnim.update(t);
-            if(this.currAnim.running = false) {
+            if(this.currAnim.end == true) {
                 this.running = false;
             }
         }
+        else { console.log("AWDWA"); }
         //if(this.currAnim!=null && this.currAnim.running==false) {this.currAnim = null; this.piece = null; this.running = false;}
     }
 
@@ -43,7 +44,7 @@ class MyAnimator {
     }
 
     endAnimation() {
-        this.piece.animation = null;
+        if(this.piece!=null) this.piece.animation = null;
         this.currAnim = null;
     }
 }
