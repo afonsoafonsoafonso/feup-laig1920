@@ -35,8 +35,6 @@ class MyAnimator {
                 this.running = false;
             }
         }
-        else { console.log("AWDWA"); }
-        //if(this.currAnim!=null && this.currAnim.running==false) {this.currAnim = null; this.piece = null; this.running = false;}
     }
 
     setAnimation(piece) {

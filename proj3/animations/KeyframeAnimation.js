@@ -17,6 +17,7 @@ class KeyframeAnimation extends Animation {
         this.transfMatrix = mat4.create();
         this.currTime = t - this.startTime;
 
+
         if(this.currTime >= this.keyframes[0].inst) {
             this.running = true;
         }
