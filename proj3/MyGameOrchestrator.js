@@ -5,6 +5,7 @@ class MyGameOrchestrator extends CGFobject {
         this.pieces = [];
         this.tiles = [];
         this.movegames = [[]];
+        this.currMove=
 
         this.animator = null;
 
@@ -105,7 +106,12 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     update(t) {
+        if(this.animator!=null) this.animator.currTime = t;
         if(this.animator==null) {this.animator = new MyAnimator(this.scene, this, t); console.log(t);}
+        if(this.gameState == this.gameStates["Animation"]) {
+            this.animator.update(t);
+        }
+
     }
 
     display() {
@@ -280,8 +286,8 @@ class MyGameOrchestrator extends CGFobject {
     move(x1, y1, x2, y2) {
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             //console.log(this.boardState);
-            this.animator.calculate_animation(x1, y1, x2, y2);
-            this.animator.setAnimation(this.tiles[x1 + '-' + y1]);
+            //this.animator.calculate_animation(x1, y1, x2, y2);
+            //this.animator.setAnimation(this.tiles[x1 + '-' + y1]);
             
             let player = 1;
             if (!this.playerAturn)  player = 2;
@@ -295,18 +301,11 @@ class MyGameOrchestrator extends CGFobject {
     make_move_animation(data, x1, y1, x2, y2) {
         this.tiles[x1 + '-' + y1].getPiece().ongoingAnimation = true;
         if(data.target.response==1) {
-
             this.gameState = this.gameStates.Animation;
             // Fazer a animação 
-
-
-            // Quando a animação acabar o animator chamar o make move com as coords das tiles para fazer o move nas tiles
-            
+            this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
+            this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());            
         }
-        else {/*faz algo uma merda caso não seja válido (avisar o user ou assim)*/}
-
-        this.tiles[x2 + '-' + y2].getPiece().ongoingAnimation = false;
-        
     }
 
     make_move(x1, y1, x2, y2){

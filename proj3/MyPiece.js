@@ -33,9 +33,14 @@ class MyPiece extends CGFobject {
         this.tile = null;
     }
 
-    display(){
+    display(){        
         this.scene.pushMatrix();
         this.mat.apply();
+
+        if(this.animation!=null) {
+            this.animation.apply();
+        }
+
         this.scene.translate(0, 0.2, 0);
 
         this.scene.pushMatrix();
@@ -56,8 +61,6 @@ class MyPiece extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.popMatrix();
-
-        //console.log(this.tile);
     }
 
     setTile(tile) {

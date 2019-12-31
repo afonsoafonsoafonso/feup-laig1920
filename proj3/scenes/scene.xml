@@ -50,19 +50,7 @@
     </transformations>
 
     <animations>
-        <animation id="anim">
-            <keyframe instant="0">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="0"/>
-                <scale x="1" y="1" z="1"/>
-            </keyframe>
 
-            <keyframe instant="5">
-                <translate x="0" y="5" z="0" />
-                <rotate angle_x="0" angle_y="180" angle_z="60"/>
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-        </animation>
     </animations>
 
     <primitives>

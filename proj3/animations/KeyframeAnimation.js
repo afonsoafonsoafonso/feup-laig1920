@@ -27,6 +27,7 @@ class KeyframeAnimation extends Animation {
             }
         }
         else {
+            console.log("RUNNING EQUAL FALSE");
             this.running = false;
         }
 
@@ -35,6 +36,9 @@ class KeyframeAnimation extends Animation {
             var tx = this.keyframes[this.currKeyframe].tx + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].tx - this.keyframes[this.currKeyframe].tx) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var ty = this.keyframes[this.currKeyframe].ty + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].ty - this.keyframes[this.currKeyframe].ty) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var tz = this.keyframes[this.currKeyframe].tz + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].tz - this.keyframes[this.currKeyframe].tz) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
+            console.log("TX", tx);
+            console.log("TY", ty);
+            console.log("TZ", tz);
             var rx = this.keyframes[this.currKeyframe].rx + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].rx - this.keyframes[this.currKeyframe].rx) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var ry = this.keyframes[this.currKeyframe].ry + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].ry - this.keyframes[this.currKeyframe].ry) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
             var rz = this.keyframes[this.currKeyframe].rz + (this.currTime - this.keyframes[this.currKeyframe].inst)*((this.keyframes[this.currKeyframe+1].rz - this.keyframes[this.currKeyframe].rz) / (this.keyframes[this.currKeyframe+1].inst - this.keyframes[this.currKeyframe].inst));
@@ -55,6 +59,7 @@ class KeyframeAnimation extends Animation {
             var sy = this.keyframes[this.currKeyframe].sy;
             var sz = this.keyframes[this.currKeyframe].sz;
         }
+        //console.log("END OF UPDATE");
         this.transfMatrix = mat4.translate(this.transfMatrix, this.transfMatrix, [tx, ty, tz]);
         this.transfMatrix = mat4.rotate(this.transfMatrix, this.transfMatrix, rx*DEGREE_TO_RAD, [1, 0, 0]);
         this.transfMatrix = mat4.rotate(this.transfMatrix, this.transfMatrix, ry*DEGREE_TO_RAD, [0, 1, 0]);
@@ -63,6 +68,7 @@ class KeyframeAnimation extends Animation {
     }
 
     apply() {
+        //console.log("END OF APPLY");
         this.scene.multMatrix(this.transfMatrix);
     }
 }
