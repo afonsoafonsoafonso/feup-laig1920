@@ -228,12 +228,7 @@ class MyGameOrchestrator extends CGFobject {
         }
         else if(this.selectedTile!=null && obj.getPiece()==null) {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
-            this.selectedTile = null;
-            this.gameState = this.gameStates["Check Win"];
-            this.printState();
-            this.checkWin();
-            this.gameState = this.gameStates["Select Piece"];
-            this.printState();
+            this.selectedTile = null;  
         }
     }
 
@@ -305,16 +300,22 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     make_move_animation(data) {
-        var x1 = this.currMove[0];
-        var y1 = this.currMove[1];
-        var x2 = this.currMove[2];
-        var y2 = this.currMove[3];
+        
         //this.tiles[x1 + '-' + y1].getPiece().ongoingAnimation = true;
         if(data.target.response==1) {
+
+            var x1 = this.currMove[0];
+            var y1 = this.currMove[1];
+            var x2 = this.currMove[2];
+            var y2 = this.currMove[3];
             this.gameState = this.gameStates.Animation;
+            this.printState();
             // Fazer a animação 
             this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
             this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());            
+        } else {
+            this.gameState = this.gameStates["Select Piece"];
+            this.printState();
         }
     }
 
@@ -330,6 +331,11 @@ class MyGameOrchestrator extends CGFobject {
             }
         }
         console.log("AWDOAWD");
+        this.gameState = this.gameStates["Check Win"];
+        this.printState();
+        this.checkWin();
         this.gameState = this.gameStates["Next turn"];
+        this.printState();
+        this.animator = null;
     }
 }
