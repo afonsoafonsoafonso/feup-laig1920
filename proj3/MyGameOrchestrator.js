@@ -285,6 +285,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     move(x1, y1, x2, y2) {
+        this.currMove = [];
         this.currMove.push(x1, y1, x2, y2);
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             //console.log(this.boardState);

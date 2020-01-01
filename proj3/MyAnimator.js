@@ -16,10 +16,10 @@ class MyAnimator {
         var keyframes = [];
         var secondsSinceStart = (this.currTime - this.startTime)/10000;
         //console.log("SECONDS SINCE START:", secondsSinceStart/1000);
-        keyframes.push(new Keyframe(secondsSinceStart, 0, 0, 0, 0, 0, 0, 1, 1, 1));
+        keyframes.push(new Keyframe(secondsSinceStart+0.2, 0, 0, 0, 0, 0, 0, 1, 1, 1));
         keyframes.push(new Keyframe(secondsSinceStart+0.5, 0, 2, 0, 0, 0, 0, 1, 1, 1));
         keyframes.push(new Keyframe(secondsSinceStart+1, col2-col1, 2, row2-row1, 0, 0, 0, 1, 1, 1));
-        keyframes.push(new Keyframe(secondsSinceStart+1.5, col2-col1, 0, row2-row1, 0, 0, 0, 1, 1, 1));
+        keyframes.push(new Keyframe(secondsSinceStart+1.3, col2-col1, 0, row2-row1, 0, 0, 0, 1, 1, 1));
         this.currAnim = new KeyframeAnimation(this.scene, 'move', keyframes);
     }
 
