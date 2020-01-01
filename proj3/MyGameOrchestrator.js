@@ -203,6 +203,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     undo(){
+        this.currMove = [];
         this.loadBoardState();
         if (this.gameState == this.gameStates["Next turn"])
             this.gameState = this.gameStates["Select Piece"];
@@ -314,6 +315,7 @@ class MyGameOrchestrator extends CGFobject {
             this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
             this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());            
         } else {
+            this.currMove = [];
             this.gameState = this.gameStates["Select Piece"];
             this.printState();
         }
