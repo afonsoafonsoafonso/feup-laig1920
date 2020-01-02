@@ -8,6 +8,7 @@ class MyGameOrchestrator extends CGFobject {
         this.currMove=[];
         this.theme = false;
         this.chainMoves = [];
+        this.validChainMove = false;
 
         this.animator = null;
 
@@ -141,7 +142,7 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=0.5; i<6.5; i++) {
             this.scene.pushMatrix();
             // picking id only accepts numbers so player A base tiles will have this stupid ID with a single number
-            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState != this.gameStates["Chain Move"]) 
+            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState == this.gameStates["Chain Move"]) 
                 this.scene.registerForPick(7*10 + i+0.5, this.tiles['7-' + (i+0.5)]);
             this.scene.translate(i, 0.01, 7.5);
             this.tiles['7-' + (i+0.5)].display();
@@ -151,7 +152,7 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=1.5; i<7.5; i++) {
             for(let j=0.5; j<6.5; j++) {
                 this.scene.pushMatrix();
-                if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState != this.gameStates["Chain Move"])
+                if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState == this.gameStates["Chain Move"])
                     this.scene.registerForPick((i-0.5)*10 + j+0.5, this.tiles[(i-0.5) + '-' + (j+0.5)]);
                 this.scene.translate(j, 0.01, i);
                 this.tiles[(i-0.5) + '-' + (j+0.5)].display();
@@ -243,12 +244,24 @@ class MyGameOrchestrator extends CGFobject {
         }
         else if(this.gameState == this.gameStates["Chain Move"] && obj.getPiece()!=null) {
             console.log("ADWWADWD2");
-            this.chainMoves.push([obj.row, obj.col]);
-            console.log(this.chainMoves);
+            let len = this.chainMoves.length;
+            let P;
+            if(this.playerAturn) P=1;
+            else P=2;
+            //if chain move is valid, pushes it to the array
+            this.updateBoardState();
+            let noPiece = false;
+            valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.chain_move(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
         }
         else if(this.gameState == this.gameStates["Chain Move"] && obj.getPiece()==null) {
-            console.log("ADWWADWD3");
-            console.log("EXECUTAR CHAIN MOVE DO ESTRONDO\n");
+            let P;
+            if(this.playerAturn) P=1;
+            else P=2;
+            let len = this.chainMoves.length;
+            //if chain move
+            this.updateBoardState();
+            let noPiece = true;
+            valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.chain_move(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
         }
     }
 
@@ -317,20 +330,33 @@ class MyGameOrchestrator extends CGFobject {
             // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
             this.updateBoardState();
             // checks if move is valid. make_move then handles prolog request result
-            valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move_animation(data));
+            valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move_animation(data, x1, y1, x2, y2));
         }
     }
 
-    make_move_animation(data) {
+
+    chain_move(data, x1, y1, x3, y3, noPiece) {
+        console.log("AODNAWOINDAÇOUNBDALWJNDAWNDAWJIKDAWNLOKI", noPiece);
+        if(data.target.response==1) {
+            this.chainMoves.push([x3, x3]);
+
+            if(noPiece) { // talvez depois criar make_chain_move_animation devido ao reprogram coordinates ou para meter o rocket boost explicito
+                this.currMove = [];
+                this.currMove.push(x1, y1, x3, y3);
+                this.make_move_animation(data, x1, y1, x3, y3)
+            }
+        }
+    }
+
+    make_move_animation(data, x1, y1, x2, y2) {
         
         //this.tiles[x1 + '-' + y1].getPiece().ongoingAnimation = true;
         if(data.target.response==1) {
-
-            var x1 = this.currMove[0];
-            var y1 = this.currMove[1];
-            var x2 = this.currMove[2];
-            var y2 = this.currMove[3];
-            this.gameState = this.gameStates.Animation;
+            //var x1 = this.currMove[0];
+            //var y1 = this.currMove[1];
+            //var x2 = this.currMove[2];
+            //var y2 = this.currMove[3];
+            this.gameState = this.gameStates['Animation'];
             this.printState();
             // Fazer a animação 
             this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
