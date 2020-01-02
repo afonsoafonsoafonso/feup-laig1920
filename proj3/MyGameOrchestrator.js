@@ -132,7 +132,7 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=0.5; i<6.5; i++) {
             this.scene.pushMatrix();
             // picking id only accepts numbers so player A base tiles will have this stupid ID with a single number 
-            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"])
+            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState != this.gameStates["Chain Move"])
                 this.scene.registerForPick(i+0.5, this.tiles['0-' + (i+0.5)]);
             this.scene.translate(i, 0.01, 0.5);
             this.tiles['0-' + (i+0.5)].display();
@@ -141,7 +141,7 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=0.5; i<6.5; i++) {
             this.scene.pushMatrix();
             // picking id only accepts numbers so player A base tiles will have this stupid ID with a single number
-            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"]) 
+            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState != this.gameStates["Chain Move"]) 
                 this.scene.registerForPick(7*10 + i+0.5, this.tiles['7-' + (i+0.5)]);
             this.scene.translate(i, 0.01, 7.5);
             this.tiles['7-' + (i+0.5)].display();
@@ -151,7 +151,7 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=1.5; i<7.5; i++) {
             for(let j=0.5; j<6.5; j++) {
                 this.scene.pushMatrix();
-                if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"])
+                if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState != this.gameStates["Chain Move"])
                     this.scene.registerForPick((i-0.5)*10 + j+0.5, this.tiles[(i-0.5) + '-' + (j+0.5)]);
                 this.scene.translate(j, 0.01, i);
                 this.tiles[(i-0.5) + '-' + (j+0.5)].display();
