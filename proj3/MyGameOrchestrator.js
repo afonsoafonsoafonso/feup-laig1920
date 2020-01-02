@@ -259,9 +259,7 @@ class MyGameOrchestrator extends CGFobject {
             return;
         let previous = this.movegames.pop();
         //console.log(previous);
-        let piece = new MyPiece(this.scene, 1);
-        let piece2 = new MyPiece(this.scene, 2);
-        let piece3 = new MyPiece(this.scene, 3);
+        
         for(let i=1; i<=6; i++) {           
             for(let j=0; j<=5; j++) {
                 //console.log(i,j,previous[i][j]);
@@ -269,13 +267,16 @@ class MyGameOrchestrator extends CGFobject {
                 if(previous[i][j] != 0){
                     switch(previous[i][j]){
                         case 1:
+                            var piece = new MyPiece(this.scene, 1);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;
                         case 2:
-                            this.tiles[i + '-' + (j+1)].setPiece(piece2);
+                            var piece = new MyPiece(this.scene, 2);
+                            this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;
                         case 3:
-                            this.tiles[i + '-' + (j+1)].setPiece(piece3);
+                            var piece = new MyPiece(this.scene, 3);
+                            this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;     
                     }
                 } else this.tiles[i + '-' + (j+1)].unsetPiece();
