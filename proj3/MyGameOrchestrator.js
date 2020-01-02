@@ -133,7 +133,7 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=0.5; i<6.5; i++) {
             this.scene.pushMatrix();
             // picking id only accepts numbers so player A base tiles will have this stupid ID with a single number 
-            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState != this.gameStates["Chain Move"])
+            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState == this.gameStates["Chain Move"])
                 this.scene.registerForPick(i+0.5, this.tiles['0-' + (i+0.5)]);
             this.scene.translate(i, 0.01, 0.5);
             this.tiles['0-' + (i+0.5)].display();
@@ -221,6 +221,7 @@ class MyGameOrchestrator extends CGFobject {
         }
 
         this.playerAturn = !this.playerAturn;
+        this.selectedTile = null;
         this.gameState = this.gameStates["Select Piece"];
         this.movegames = [[]];
     }
@@ -345,6 +346,10 @@ class MyGameOrchestrator extends CGFobject {
                 this.currMove.push(x1, y1, x3, y3);
                 this.make_move_animation(data, x1, y1, x3, y3)
             }
+        } else {
+            this.currMove = [];
+            this.gameState = this.gameStates["Select Piece"];
+            this.printState();
         }
     }
 
