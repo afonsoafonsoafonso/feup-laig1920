@@ -15,7 +15,6 @@ class MyAnimator {
         this.running = true;
         var keyframes = [];
         var secondsSinceStart = (this.currTime - this.startTime)/10000;
-        //console.log("SECONDS SINCE START:", secondsSinceStart/1000);
         keyframes.push(new Keyframe(secondsSinceStart+0.2, 0, 0, 0, 0, 0, 0, 1, 1, 1));
         keyframes.push(new Keyframe(secondsSinceStart+0.5, 0, 2, 0, 0, 0, 0, 1, 1, 1));
         keyframes.push(new Keyframe(secondsSinceStart+1, col2-col1, 2, row2-row1, 0, 0, 0, 1, 1, 1));
@@ -29,7 +28,6 @@ class MyAnimator {
 
     update(t) {
         this.currTime = t;
-        console.log(this.currTime/10000);
         if(this.currAnim!=null) {
             this.currAnim.update(t);
             if(this.currAnim.end == true) {

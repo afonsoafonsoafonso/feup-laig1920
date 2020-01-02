@@ -7,6 +7,8 @@ class MyGameOrchestrator extends CGFobject {
         this.movegames = [[]];
         this.currMove=[];
 
+        this.chainMoves = [];
+
         this.animator = null;
 
         this.boardState = [];
@@ -50,9 +52,10 @@ class MyGameOrchestrator extends CGFobject {
             'Next turn' : 1,
             'Select Piece' : 2,
             'Select Tile' : 3,
-            'Animation' : 4,
-            'Check Win' : 5,
-            'Win' : 6,
+            'Chain Move' : 4,
+            'Animation' : 5,
+            'Check Win' : 6,
+            'Win' : 7,
 
             'Undo' : 9,
             'Pause' :10
@@ -231,6 +234,18 @@ class MyGameOrchestrator extends CGFobject {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
             this.selectedTile = null;  
         }
+        else if(this.selectedTile!=null && obj.getPiece()!=null && this.gameState != this.gameStates["Chain Move"]) {
+            this.gameState = this.gameStates["Chain Move"];
+            this.chainMoves.push([this.selectedTile.row, this.selectedTile.col]);
+            this.chainMoves.push([obj.row, obj.col]);
+        }
+        else if(this.gameState == this.gameStates["Chain Move"] && obj.getPiece()!=null) {
+            this.chainMoves.push([obj.row, obj.col]);
+            console.log(this.chainMoves);
+        }
+        else if(this.gameState == this.gameStates["Chain Move"] && obj.getPiece()==null) {
+            console.log("EXECUTAR CHAIN MOVE DO ESTRONDO\n");
+        }
     }
 
     //TODO: AND CHECK IF THEY HAVE A PIECE
@@ -334,7 +349,6 @@ class MyGameOrchestrator extends CGFobject {
                 this.tiles[x1 + '-' + y1].unsetPiece();
             }
         }
-        console.log("AWDOAWD");
         this.gameState = this.gameStates["Check Win"];
         this.printState();
         this.checkWin();

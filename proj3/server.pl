@@ -108,6 +108,9 @@ print_header_line(_).
 parse_input(valid_move(X1, Y1, X2, Y2, P, B), 1):- valid_move(X1, Y1, X2, Y2, P, B).
 parse_input(valid_move(_, _, _, _, _, _), 0).
 
+parse_input(valid_chain_move(X1, Y1, X2, Y2, X3, Y3, P, B, Choice), 1):- valid_chain_move(X1, Y1, X2, Y2, X3, Y3, P, B, Choice).
+parse_input(valid_chain_move(_, _, _, _, _, _, _, _, _), 0).
+
 parse_input(ping, yes).
 
 parse_input(handshake, handshake).
