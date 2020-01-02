@@ -225,25 +225,29 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     clickHandler(obj, id) {
-        if(this.selectedTile == null && obj.getPiece()!=null) {
+        console.log("CLICK HANDLER");
+        if(this.selectedTile == null && obj.getPiece()!=null && this.gameState != this.gameStates["Chain Move"]) {
             this.selectedTile = obj;
             this.gameState = this.gameStates["Select Tile"];
             this.printState();
         }
-        else if(this.selectedTile!=null && obj.getPiece()==null) {
+        else if(this.selectedTile!=null && obj.getPiece()==null && this.gameState != this.gameStates["Chain Move"]) {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
-            this.selectedTile = null;  
+            this.selectedTile = null;
         }
         else if(this.selectedTile!=null && obj.getPiece()!=null && this.gameState != this.gameStates["Chain Move"]) {
+            console.log("ADWWADWD1");
             this.gameState = this.gameStates["Chain Move"];
             this.chainMoves.push([this.selectedTile.row, this.selectedTile.col]);
             this.chainMoves.push([obj.row, obj.col]);
         }
         else if(this.gameState == this.gameStates["Chain Move"] && obj.getPiece()!=null) {
+            console.log("ADWWADWD2");
             this.chainMoves.push([obj.row, obj.col]);
             console.log(this.chainMoves);
         }
         else if(this.gameState == this.gameStates["Chain Move"] && obj.getPiece()==null) {
+            console.log("ADWWADWD3");
             console.log("EXECUTAR CHAIN MOVE DO ESTRONDO\n");
         }
     }
