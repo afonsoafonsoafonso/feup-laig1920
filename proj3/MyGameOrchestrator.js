@@ -6,7 +6,7 @@ class MyGameOrchestrator extends CGFobject {
         this.tiles = [];
         this.movegames = [[]];
         this.currMove=[];
-
+        this.theme = false;
         this.chainMoves = [];
 
         this.animator = null;
