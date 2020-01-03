@@ -69,6 +69,8 @@ class MyGameOrchestrator extends CGFobject {
         this.playerA = this.playerType.Human;
         this.playerB = this.playerType.Human;
         this.totalSeconds;
+        this.playerAScore = 0;
+        this.playerBScore = 0;
 
         this.printState();
         this.boardSetup();
@@ -274,14 +276,22 @@ class MyGameOrchestrator extends CGFobject {
     //TODO: AND CHECK IF THEY HAVE A PIECE
     checkWin(){
         this.updateBoardState();
-        if(this.playerAturn) end_game_A(this.boardState, data=>this.game_over(data));
-        else end_game_B(this.boardState, data=>this.game_over(data));
+        if(this.playerAturn) end_game_A(this.boardState, data=>this.game_over("a",data));
+        else end_game_B(this.boardState, data=>this.game_over("b",data));
     }
 
-    game_over(data) {
+    game_over(player,data) {
         if(data.target.response==1) {
             console.log("GAME OVER BOYS");
+            this.updateScore(player);
         } else this.movegames.pop();
+    }
+
+    updateScore(player){
+        if(player == "a")
+            document.getElementById("playerAScore").innerHTML = "Player A: " + ++this.playerAScore;
+        else
+            document.getElementById("playerBScore").innerHTML = "Player B: " + ++this.playerBScore;
     }
 
     chooseBoost(){
