@@ -273,6 +273,7 @@ class MyGameOrchestrator extends CGFobject {
 
     //TODO: AND CHECK IF THEY HAVE A PIECE
     checkWin(){
+        this.updateBoardState();
         if(this.playerAturn) end_game_A(this.boardState, data=>this.game_over(data));
         else end_game_B(this.boardState, data=>this.game_over(data));
     }
@@ -280,7 +281,7 @@ class MyGameOrchestrator extends CGFobject {
     game_over(data) {
         if(data.target.response==1) {
             console.log("GAME OVER BOYS");
-        }
+        } else this.movegames.pop();
     }
 
     chooseBoost(){
@@ -296,17 +297,25 @@ class MyGameOrchestrator extends CGFobject {
     
     updateBoardState() {
         this.boardState = [];
-        this.boardState.push([-1, -1, -1, -1, -1, -1]);
-        for(let i=1; i<=6; i++) {
+        for(let i=0; i<=7; i++) {
             let currRow = [];
             for(let j=1; j<=6; j++) {
-                if(this.tiles[i + '-' + j].getPiece()==null) currRow.push(0);
-                else currRow.push(this.tiles[i + '-' + j].getPiece().level);
+                switch(i){
+                    case 0: if(this.tiles[i + '-' + j].getPiece()==null) currRow.push(-1);
+                            else currRow.push(this.tiles[i + '-' + j].getPiece().level);
+                            break;
+                    case 7 :  if(this.tiles[i + '-' + j].getPiece()==null) currRow.push(-2);
+                            else currRow.push(this.tiles[i + '-' + j].getPiece().level);
+                             break;
+                    default: if(this.tiles[i + '-' + j].getPiece()==null) currRow.push(0);
+                            else currRow.push(this.tiles[i + '-' + j].getPiece().level);
+                            break;
+                }
             }
             this.boardState.push(currRow);
         }
-        this.boardState.push([-2, -2, -2, -2, -2, -2]);
         this.movegames.push(this.boardState);
+        //console.log(this.boardState);
     }
 
     loadBoardState() {
@@ -370,6 +379,7 @@ class MyGameOrchestrator extends CGFobject {
                 this.make_move_animation(data, x1, y1, x3, y3)
             }
         } else {
+            this.selectedTile = null;
             this.currMove = [];
             this.gameState = this.gameStates["Select Piece"];
             this.printState();
@@ -384,6 +394,11 @@ class MyGameOrchestrator extends CGFobject {
             this.gameState = this.gameStates["Check Win"];
             this.checkWin();
             this.gameState = this.gameStates["Next turn"];
+        } else {
+            this.selectedTile = null;
+            this.currMove = [];
+            this.gameState = this.gameStates["Select Piece"];
+            this.printState();
         }
     }
 
