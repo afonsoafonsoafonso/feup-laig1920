@@ -54,40 +54,25 @@ class MyGameOrchestrator extends CGFobject {
             'Select Piece' : 2,
             'Select Tile' : 3,
             'Chain Move' : 4,
-            'Animation' : 5,
-            'Check Win' : 6,
-            'Win' : 7,
+            'Choice' : 5,
+            'Animation' : 6,
+            'Check Win' : 7,
+            'Win' : 8,
 
             'Undo' : 9,
             'Pause' :10
-        }
-        
-        this.events = {
-            'OnPVP' : 1,
-            'OnPvM' : 2,
-            'OnMvM' : 3,
-            'OnPieceSelect' : 4,
-            'OnTileSelect' : 5,
-            'OnBoost' : 6,
-            'OnReprogram' : 7,
-            'OnWin' : 8,
-            'OnUndo' : 9,
-            'OnNext' : 10,
-            'OnRematch' : 11,
-
-            'OnPause' : 90,
-            'Unpause' : 99
         }
 
         this.gameState = this.gameStates.Menu;
         this.playerA = this.playerType.Human;
         this.playerB = this.playerType.Human;
+        this.totalSeconds;
 
         this.printState();
         this.boardSetup();
         this.initialboard = [];
 
-        
+        var timerVar = setInterval(this.countTimer, 1000);
 
         this.initBuffers();
     }
@@ -121,10 +106,18 @@ class MyGameOrchestrator extends CGFobject {
         }
 
     }
-
     display() {
+        
         this.board.display();
         this.setupPickableGrid();
+    }
+
+    countTimer() {
+        if(this.totalSeconds == null)
+            this.totalSeconds = 1;
+        this.totalSeconds++;
+       //console.log(this.totalSeconds);
+       document.getElementById("timer").innerHTML = "Timer: " + this.totalSeconds;
     }
 
     // tl;dr ID's (picking) das tiles das bases: 1,2,3,4,5,6 para jogador A e 71,72,73,74,75,76 para jogador B
@@ -160,7 +153,6 @@ class MyGameOrchestrator extends CGFobject {
             }
         }
     }
-
     
     boardSetup() {
         let piece;

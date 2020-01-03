@@ -18,8 +18,7 @@ class MyInterface extends CGFinterface {
         // init GUI. For more information on the methods, check:
         //  http://workshop.chromeexperiments.com/examples/gui
 
-        this.gui = new dat.GUI();
-        this.display = new dat.GUI();
+        this.gui = new dat.GUI(); 
 
         // add a group of controls (and open/expand by defult)
 
