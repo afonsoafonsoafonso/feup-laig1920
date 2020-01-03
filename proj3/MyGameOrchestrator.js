@@ -273,8 +273,8 @@ class MyGameOrchestrator extends CGFobject {
     }
     chooseReprogram(){
         if(this.gameState == this.gameStates.Choice)
-            this.gameState = this.gameStates.Reprogram;
-        this.printState();
+            //this.gameState = this.gameStates.Reprogram;
+        //this.printState();
     }
     
     updateBoardState() {
