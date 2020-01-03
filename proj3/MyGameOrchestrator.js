@@ -224,22 +224,22 @@ class MyGameOrchestrator extends CGFobject {
 
     clickHandler(obj, id) {
         console.log("CLICK HANDLER");
-        if(this.selectedTile == null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
+        if(obj != this.selectedTile && this.selectedTile == null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
             this.selectedTile = obj;
             this.gameState = this.gameStates["Select Tile"];
             this.printState();
         }
-        else if(this.selectedTile!=null && obj.getPiece()==null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
+        else if(obj != this.selectedTile &&this.selectedTile!=null && obj.getPiece()==null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
             this.selectedTile = null;
         }
-        else if(this.selectedTile!=null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
+        else if(obj != this.selectedTile &&this.selectedTile!=null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
             console.log("Press M for Rocket Boost or J for Reprogram Coordinates");
             this.chainMoves.push([this.selectedTile.row, this.selectedTile.col]);
             this.chainMoves.push([obj.row, obj.col]);
             this.gameState = this.gameStates.Choice;
         }
-        else if(this.gameState == this.gameStates['Boost'] && obj.getPiece()!=null) {
+        else if(obj != this.selectedTile &&this.gameState == this.gameStates['Boost'] && obj.getPiece()!=null) {
             console.log("ADWWADWD2");
             let len = this.chainMoves.length;
             let P;
@@ -250,7 +250,7 @@ class MyGameOrchestrator extends CGFobject {
             let noPiece = false;
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
         }
-        else if(this.gameState == this.gameStates['Boost'] && obj.getPiece()==null) {
+        else if(obj != this.selectedTile &&this.gameState == this.gameStates['Boost'] && obj.getPiece()==null) {
             console.log("merda")
             let P;
             if(this.playerAturn) P=1;
@@ -263,7 +263,7 @@ class MyGameOrchestrator extends CGFobject {
             console.log("this.chainMoves[len-1][1]-1", this.chainMoves[len-1][1]-1);
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
         }
-        else if(this.gameState == this.gameStates['Reprogram'] && obj.getPiece()==null) {
+        else if(obj != this.selectedTile &&this.gameState == this.gameStates['Reprogram'] && obj.getPiece()==null) {
             let P;
             if(this.playerAturn) P=1;
             else P=2;
