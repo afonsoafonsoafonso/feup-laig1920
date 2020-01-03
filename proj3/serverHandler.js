@@ -25,6 +25,16 @@ function valid_chain_move(x1, y1, x2, y2, x3, y3, p, b, Choice, replyHandler) {
     makeRequest(requestString, replyHandler);
 }
 
+function end_game_A(b, replyHandler) {
+    var requestString = 'end_game_A(' + JSON.stringify(b) + ')';
+    makeRequest(requestString, replyHandler);
+}
+
+function end_game_B(b, replyHandler) {
+    var requestString = 'end_game_B(' + JSON.stringify(b) + ')';
+    makeRequest(requestString, replyHandler); 
+}
+
 function ping_server() {
     makeRequest('ping');
 }

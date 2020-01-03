@@ -257,6 +257,8 @@ class MyGameOrchestrator extends CGFobject {
             //if chain move
             this.updateBoardState();
             let noPiece = true;
+            console.log("this.chainMoves[len-1][0]", this.chainMoves[len-1][0]);
+            console.log("this.chainMoves[len-1][1]-1", this.chainMoves[len-1][1]-1);
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
         }
         else if(this.gameState == this.gameStates['Reprogram'] && obj.getPiece()==null) {
@@ -271,7 +273,14 @@ class MyGameOrchestrator extends CGFobject {
 
     //TODO: AND CHECK IF THEY HAVE A PIECE
     checkWin(){
+        if(this.playerAturn) end_game_A(this.boardState, data=>this.game_over(data));
+        else end_game_B(this.boardState, data=>this.game_over(data));
+    }
 
+    game_over(data) {
+        if(data.target.response==1) {
+            console.log("GAME OVER BOYS");
+        }
     }
 
     chooseBoost(){
@@ -372,6 +381,8 @@ class MyGameOrchestrator extends CGFobject {
             this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
             this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
             this.tiles[x1 + '-' + y1].unsetPiece();
+            this.gameState = this.gameStates["Check Win"];
+            this.checkWin();
             this.gameState = this.gameStates["Next turn"];
         }
     }
