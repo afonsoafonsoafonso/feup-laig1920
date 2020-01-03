@@ -128,7 +128,7 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=0.5; i<6.5; i++) {
             this.scene.pushMatrix();
             // picking id only accepts numbers so player A base tiles will have this stupid ID with a single number 
-            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState == this.gameStates["Boost"])
+            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState == this.gameStates["Boost"] || this.gameState == this.gameStates["Reprogram"])
                 this.scene.registerForPick(i+0.5, this.tiles['0-' + (i+0.5)]);
             this.scene.translate(i, 0.01, 0.5);
             this.tiles['0-' + (i+0.5)].display();
@@ -137,7 +137,7 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=0.5; i<6.5; i++) {
             this.scene.pushMatrix();
             // picking id only accepts numbers so player A base tiles will have this stupid ID with a single number
-            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState == this.gameStates["Boost"]) 
+            if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState == this.gameStates["Boost"] || this.gameState == this.gameStates["Reprogram"]) 
                 this.scene.registerForPick(7*10 + i+0.5, this.tiles['7-' + (i+0.5)]);
             this.scene.translate(i, 0.01, 7.5);
             this.tiles['7-' + (i+0.5)].display();
@@ -147,7 +147,7 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=1.5; i<7.5; i++) {
             for(let j=0.5; j<6.5; j++) {
                 this.scene.pushMatrix();
-                if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState == this.gameStates["Boost"])
+                if(this.gameState ==  this.gameStates["Select Piece"] || this.gameState == this.gameStates["Select Tile"] || this.gameState == this.gameStates["Boost"] || this.gameState == this.gameStates["Reprogram"])
                     this.scene.registerForPick((i-0.5)*10 + j+0.5, this.tiles[(i-0.5) + '-' + (j+0.5)]);
                 this.scene.translate(j, 0.01, i);
                 this.tiles[(i-0.5) + '-' + (j+0.5)].display();
@@ -222,16 +222,16 @@ class MyGameOrchestrator extends CGFobject {
 
     clickHandler(obj, id) {
         console.log("CLICK HANDLER");
-        if(this.selectedTile == null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"]) {
+        if(this.selectedTile == null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
             this.selectedTile = obj;
             this.gameState = this.gameStates["Select Tile"];
             this.printState();
         }
-        else if(this.selectedTile!=null && obj.getPiece()==null && this.gameState != this.gameStates["Boost"]) {
+        else if(this.selectedTile!=null && obj.getPiece()==null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
             this.selectedTile = null;
         }
-        else if(this.selectedTile!=null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"]) {
+        else if(this.selectedTile!=null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
             console.log("Press M for Rocket Boost or J for Reprogram Coordinates");
             this.chainMoves.push([this.selectedTile.row, this.selectedTile.col]);
             this.chainMoves.push([obj.row, obj.col]);
@@ -246,7 +246,7 @@ class MyGameOrchestrator extends CGFobject {
             //if chain move is valid, pushes it to the array
             this.updateBoardState();
             let noPiece = false;
-            valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.chain_move(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
+            valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
         }
         else if(this.gameState == this.gameStates['Boost'] && obj.getPiece()==null) {
             console.log("merda")
@@ -257,7 +257,15 @@ class MyGameOrchestrator extends CGFobject {
             //if chain move
             this.updateBoardState();
             let noPiece = true;
-            valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.chain_move(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
+            valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
+        }
+        else if(this.gameState == this.gameStates['Reprogram'] && obj.getPiece()==null) {
+            let P;
+            if(this.playerAturn) P=1;
+            else P=2;
+            let len = this.chainMoves.length;
+            this.updateBoardState();
+            valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 1, data=>this.reprogram_coordinates(data, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
         }
     }
 
@@ -272,9 +280,9 @@ class MyGameOrchestrator extends CGFobject {
         this.printState();
     }
     chooseReprogram(){
-        //if(this.gameState == this.gameStates.Choice)
-            //this.gameState = this.gameStates.Reprogram;
-        //this.printState();
+        if(this.gameState == this.gameStates.Choice)
+            this.gameState = this.gameStates.Reprogram;
+        this.printState();
     }
     
     updateBoardState() {
@@ -342,7 +350,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
 
-    chain_move(data, x1, y1, x3, y3, noPiece) {
+    rocket_boost(data, x1, y1, x3, y3, noPiece) {
         console.log("AODNAWOINDAÇOUNBDALWJNDAWNDAWJIKDAWNLOKI", noPiece);
         if(data.target.response==1) {
             this.chainMoves.push([x3, x3]);
@@ -356,6 +364,15 @@ class MyGameOrchestrator extends CGFobject {
             this.currMove = [];
             this.gameState = this.gameStates["Select Piece"];
             this.printState();
+        }
+    }
+
+    reprogram_coordinates(data, x1, y1, x2, y2, x3, y3) {
+        if(data.target.response==1) {
+            this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
+            this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
+            this.tiles[x1 + '-' + y1].unsetPiece();
+            this.gameState = this.gameStates["Next turn"];
         }
     }
 
