@@ -79,7 +79,7 @@ class XMLscene extends CGFscene {
     setCamera(id) {
         this.sceneCam = this.graph.views[id];
         console.log("Camera ID: ", id);
-        //this.interface.setActiveCamera(this.sceneCam);
+        this.interface.setActiveCamera(this.sceneCam);
     }
 
     /**
@@ -89,7 +89,13 @@ class XMLscene extends CGFscene {
         this.securityCam = this.graph.views[id];
         //this.interface.setActiveCamera(this.securityCam);
     }*/
+    setTheme(theme){
+        var filename=getUrlVars()['file'] || (theme + ".xml");
 
+	    // create and load graph, and associate it to scene. 
+        // Check console for loading errors
+	    var myGraph = new MySceneGraph(filename, this);
+    }
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -225,7 +231,7 @@ class XMLscene extends CGFscene {
             //this.board.display();
             this.gameOrchestrator.display();
             // Displays the scene (MySceneGraph function).
-            //this.graph.displayScene();
+            this.graph.displayScene();
         }
         this.popMatrix();
         // ---- END Background, camera and axis setup

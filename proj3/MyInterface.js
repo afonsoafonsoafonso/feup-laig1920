@@ -79,20 +79,25 @@ class MyInterface extends CGFinterface {
             this.scene.gameOrchestrator.undo();
             //console.log("Fiz merda, volta atrás crl! *Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z*");
         }
+
         this.start = function(){
             this.scene.gameOrchestrator.start(this.playerTypeA, this.playerTypeB);
             //console.log("Ragequit");
         }
+
         this.endTurn = function(){
             this.scene.gameOrchestrator.nextTurn();
             //console.log("acabei.");
         }
+
+        this.theme = this.scene.gameOrchestrator.themes.Scene;
         this.playerTypeA = 0;
         this.playerTypeB = 0;
         var folder = this.gui.addFolder("Game");
         folder.open();
         folder.add(this, 'playerTypeA', this.scene.gameOrchestrator.playerType).name('PlayerA');
         folder.add(this, 'playerTypeB', this.scene.gameOrchestrator.playerType).name('PlayerB');
+        folder.add(this, 'theme', this.scene.gameOrchestrator.themes).name('Theme').onChange(theme => this.scene.setTheme(theme));
         folder.add(this,'undo');
         folder.add(this,'start');
         folder.add(this, 'endTurn');

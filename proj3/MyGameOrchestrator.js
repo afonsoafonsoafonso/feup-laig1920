@@ -65,6 +65,11 @@ class MyGameOrchestrator extends CGFobject {
             'Reprogram' :12
         }
 
+        this.themes = {
+            'Scene' : "Scene",
+            'Scene2' : "Scene2"
+        }
+
         this.gameState = this.gameStates.Menu;
         this.playerA = this.playerType.Human;
         this.playerB = this.playerType.Human;
