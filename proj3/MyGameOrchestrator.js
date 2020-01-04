@@ -271,6 +271,7 @@ class MyGameOrchestrator extends CGFobject {
             this.updateBoardState();
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 1, data=>this.reprogram_coordinates(data, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
         }
+        console.log("CHAIN MOVE ARRAY:", this.chainMoves);
     }
 
     //TODO: AND CHECK IF THEY HAVE A PIECE
@@ -381,7 +382,7 @@ class MyGameOrchestrator extends CGFobject {
     rocket_boost(data, x1, y1, x3, y3, noPiece) {
         console.log("AODNAWOINDAÇOUNBDALWJNDAWNDAWJIKDAWNLOKI", noPiece);
         if(data.target.response==1) {
-            this.chainMoves.push([x3, x3]);
+            this.chainMoves.push([x3, y3]);
 
             if(noPiece) { // talvez depois criar make_chain_move_animation devido ao reprogram coordinates ou para meter o rocket boost explicito
                 this.currMove = [];
