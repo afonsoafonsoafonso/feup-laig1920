@@ -233,7 +233,7 @@ class MyGameOrchestrator extends CGFobject {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
             this.selectedTile = null;
         }
-        else if(this.selectedTile!=null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
+        else if(this.selectedTile!=null && obj.getPiece()!=null /*&& this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]*/) {
             console.log("Press M for Rocket Boost or J for Reprogram Coordinates");
             this.chainMoves.push([this.selectedTile.row, this.selectedTile.col]);
             this.chainMoves.push([obj.row, obj.col]);
@@ -414,13 +414,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     make_move_animation(data, x1, y1, x2, y2) {
-        
-        //this.tiles[x1 + '-' + y1].getPiece().ongoingAnimation = true;
         if(data.target.response==1) {
-            //var x1 = this.currMove[0];
-            //var y1 = this.currMove[1];
-            //var x2 = this.currMove[2];
-            //var y2 = this.currMove[3];
             this.gameState = this.gameStates['Animation'];
             this.printState();
             // Fazer a animação 
