@@ -215,8 +215,11 @@ class MyGameOrchestrator extends CGFobject {
             console.log("Joga primeiro Boi, Ainda é a tua vez, conas.")
             return
         }
-
         this.playerAturn = !this.playerAturn;
+        if(this.playerAturn && this.playerA == this.playerType.Human)
+            this.scene.setCamera("playerA");
+        else if(!this.playerAturn && this.playerB == this.playerType.Human)
+            this.scene.setCamera("playerB");
         this.selectedTile = null;
         this.gameState = this.gameStates["Select Piece"];
         this.movegames = [[]];

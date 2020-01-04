@@ -1,13 +1,13 @@
 <lxs>
     <scene root="demoRoot" axis_length="5"/>
 
-    <views default="playerB">
-        <perspective id="playerA" near="0.1" far="500" angle="45">
+    <views default="playerA">
+        <perspective id="playerB" near="0.1" far="500" angle="45">
             <from x="3" y="10" z="10" />
             <to x="3" y="-5" z="0" />
         </perspective>
 
-        <perspective id="playerB" near="0.1" far="500" angle="45">
+        <perspective id="playerA" near="0.1" far="500" angle="45">
             <from x="3" y="10" z="-2" />
             <to x="3" y="7" z="0" />
         </perspective>
