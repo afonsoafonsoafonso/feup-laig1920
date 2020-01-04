@@ -19,20 +19,32 @@ canvas {
 }
 
 .hud {
-    padding-left: 80%;
-    width: 100px;
     height: 55px;
     position: absolute;
     color: white;
 }
+#timer{
+    padding-left: 20%;
+    float: left;
+    
+}
+
+#playerAScore{
+    float: left;
+}
+
+#playerBScore{
+    float: left;
+}
+
 </style>
 </head>
 <body>
 
 <script src="main.js"></script>
 <div class="hud">
-    <div id="timer">Timer: 1</div>
     <div id="playerAScore">PlayerA: 0</div>
+    <div id="timer">Timer: 00:01</div>
     <div id="playerBScore">PlayerB: 0</div>
 </div>
 
