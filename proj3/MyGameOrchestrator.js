@@ -241,7 +241,7 @@ class MyGameOrchestrator extends CGFobject {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
             this.selectedTile = null;
         }
-        else if(obj != this.selectedTile &&this.selectedTile!=null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
+        else if(this.selectedTile!=null && obj.getPiece()!=null /*&& this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]*/) {
             console.log("Press M for Rocket Boost or J for Reprogram Coordinates");
             this.chainMoves.push([this.selectedTile.row, this.selectedTile.col]);
             this.chainMoves.push([obj.row, obj.col]);
@@ -279,6 +279,7 @@ class MyGameOrchestrator extends CGFobject {
             this.updateBoardState();
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 1, data=>this.reprogram_coordinates(data, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
         }
+        console.log("CHAIN MOVE ARRAY:", this.chainMoves);
     }
 
     //TODO: AND CHECK IF THEY HAVE A PIECE
@@ -389,7 +390,7 @@ class MyGameOrchestrator extends CGFobject {
     rocket_boost(data, x1, y1, x3, y3, noPiece) {
         console.log("AODNAWOINDAÇOUNBDALWJNDAWNDAWJIKDAWNLOKI", noPiece);
         if(data.target.response==1) {
-            this.chainMoves.push([x3, x3]);
+            this.chainMoves.push([x3, y3]);
 
             if(noPiece) { // talvez depois criar make_chain_move_animation devido ao reprogram coordinates ou para meter o rocket boost explicito
                 this.currMove = [];
@@ -421,13 +422,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     make_move_animation(data, x1, y1, x2, y2) {
-        
-        //this.tiles[x1 + '-' + y1].getPiece().ongoingAnimation = true;
         if(data.target.response==1) {
-            //var x1 = this.currMove[0];
-            //var y1 = this.currMove[1];
-            //var x2 = this.currMove[2];
-            //var y2 = this.currMove[3];
             this.gameState = this.gameStates['Animation'];
             this.printState();
             // Fazer a animação 
