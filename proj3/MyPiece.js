@@ -1,14 +1,15 @@
 class MyPiece extends CGFobject {
-    constructor(scene, level) {
+    constructor(scene, models, level) {
         super(scene);
        // this.cenas = new CGFOBJModel(this.scene, 'models/ship/[.obj] (Sh3d adapted)/Arc170.obj');
-        this.side = new MyCylinder(this.scene, 0.3, 0.3, 0.2, 20, 3);
-        this.base = new MyCylinder(this.scene, 0.3, 0, 0, 20, 20);
+        //this.side = new MyCylinder(this.scene, 0.3, 0.3, 0.2, 20, 3);
+        //this.base = new MyCylinder(this.scene, 0.3, 0, 0, 20, 20);
         this.level = level;
         this.animation = null;
+        this.models = models;
         //proj3\models\ship2\Wraith Raider Starship\Wraith Raider Starship.obj
         //proj3\models\ship\[.obj] (Sh3d adapted)\Arc170.obj
-        if(level==3) {
+        /* if(level==3) {
             this.mat = new CGFappearance(scene);
             this.mat.setAmbient(255/255, 20/255, 20/255, 1.0);
             this.mat.setDiffuse(255/255, 20/255, 20/255, 1.0);
@@ -28,7 +29,7 @@ class MyPiece extends CGFobject {
             this.mat.setDiffuse(0/255, 156/255, 255/255, 1.0);
             this.mat.setSpecular(0/255, 156/255, 255/255, 1.0);
             this.mat.setShininess(10.0);
-        }
+        } */
         
         this.tile = null;
     }
@@ -36,14 +37,15 @@ class MyPiece extends CGFobject {
     display(){        
         this.scene.pushMatrix();
         
-        this.mat.apply();
+        //this.mat.apply();
 
         if(this.animation!=null) {
             this.animation.apply();
         }
 
         this.scene.translate(0, 0.2, 0);
-        
+        this.models[this.level-1].display();
+        /*
         if(!this.scene.gameOrchestrator.theme) {
             this.scene.pushMatrix();
             this.scene.rotate(Math.PI/2, 1, 0, 0);
@@ -64,9 +66,7 @@ class MyPiece extends CGFobject {
         } else  {
             this.scene.scale(0.001,0.001,0.001);  
             this.cenas.display();
-        }
-        
-
+        }*/
         this.scene.popMatrix();
     }
 

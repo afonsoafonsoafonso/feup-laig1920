@@ -3,6 +3,10 @@ class MyGameOrchestrator extends CGFobject {
         super(scene);
         this.board = new MyBoard(scene);
         this.pieces = [];
+        this.pieceModels = [];
+        this.pieceModels.push(new MyPieceModel(this.scene, 1));
+        this.pieceModels.push(new MyPieceModel(this.scene, 2));
+        this.pieceModels.push(new MyPieceModel(this.scene, 3));
         this.tiles = [];
         this.movegames = [[]];
         this.currMove=[];
@@ -166,40 +170,40 @@ class MyGameOrchestrator extends CGFobject {
     boardSetup() {
         let piece;
         // Player A home-row
-        piece = new MyPiece(this.scene,3);
+        piece = new MyPiece(this.scene, this.pieceModels, 3);
         this.tiles['1-1'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,2);
+        piece = new MyPiece(this.scene, this.pieceModels, 2);
         this.tiles['1-2'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,1);
+        piece = new MyPiece(this.scene, this.pieceModels, 1);
         this.tiles['1-3'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,3);
+        piece = new MyPiece(this.scene, this.pieceModels, 3);
         this.tiles['1-4'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,1);
+        piece = new MyPiece(this.scene, this.pieceModels, 1);
         this.tiles['1-5'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,2);
+        piece = new MyPiece(this.scene, this.pieceModels, 2);
         this.tiles['1-6'].setPiece(piece);
         // Player B home-row
-        piece = new MyPiece(this.scene,1);
+        piece = new MyPiece(this.scene, this.pieceModels, 1);
         this.tiles['6-1'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,3);
+        piece = new MyPiece(this.scene, this.pieceModels, 3);
         this.tiles['6-2'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,2);
+        piece = new MyPiece(this.scene, this.pieceModels, 2);
         this.tiles['6-3'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,2);
+        piece = new MyPiece(this.scene, this.pieceModels, 2);
         this.tiles['6-4'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,3);
+        piece = new MyPiece(this.scene, this.pieceModels, 3);
         this.tiles['6-5'].setPiece(piece);
         //
-        piece = new MyPiece(this.scene,1);
+        piece = new MyPiece(this.scene, this.pieceModels, 1);
         this.tiles['6-6'].setPiece(piece);
 
         //this.updateBoardState();
