@@ -355,15 +355,15 @@ class MyGameOrchestrator extends CGFobject {
                 if(previous[i][j] != 0){
                     switch(previous[i][j]){
                         case 1:
-                            var piece = new MyPiece(this.scene, 1);
+                            var piece = new MyPiece(this.scene, this.pieceModels, 1);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;
                         case 2:
-                            var piece = new MyPiece(this.scene, 2);
+                            var piece = new MyPiece(this.scene,this.pieceModels, 2);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;
                         case 3:
-                            var piece = new MyPiece(this.scene, 3);
+                            var piece = new MyPiece(this.scene,this.pieceModels, 3);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;     
                     }
