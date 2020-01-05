@@ -443,7 +443,7 @@ class MyGameOrchestrator extends CGFobject {
             var moves = JSON.parse(data.target.response);
             console.log("LIST OF POSSIBLE MOVES:", moves);
             var move = moves[Math.floor(Math.random()*moves.length)];
-            console.log("RANDOM CHOSEN MOVE:", move);
+            console.log("RANDOM CHOSEN MOVE (adicionar 1 a y aqui):", move);
             if(chainmove==0) {
                 console.log("CHAINMOVE==0 (normal move)");
                 this.cpu_moves.push([move[0], move[1]+1]);
