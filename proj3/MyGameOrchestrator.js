@@ -106,6 +106,7 @@ class MyGameOrchestrator extends CGFobject {
         this.playerB = playerB;
         this.boardSetup();
         this.playerAturn = true;
+        document.getElementById("playerAScore").className = "turn";
         if(this.playerA == this.playerType.Human) this.gameState = this.gameStates["Select Piece"];
         else {
             this.gameState = this.gameStates["CPU Turn"];
@@ -123,6 +124,7 @@ class MyGameOrchestrator extends CGFobject {
         this.playerB = playerB;
         this.boardSetup();
         this.playerAturn = true;
+        document.getElementById("playerAScore").className = "turn";
         if(this.playerA == this.playerType.Human) this.gameState = this.gameStates["Select Piece"];
         else {
             this.gameState = this.gameStates["CPU Turn"];
@@ -179,7 +181,7 @@ class MyGameOrchestrator extends CGFobject {
             minute = "0" + minute;
         if(seconds < 10)
             seconds = "0" + seconds;
-        document.getElementById("timer").innerHTML = "Timer: "+ minute + ":" + seconds;
+        document.getElementById("timer").innerHTML = "Timer : "+ minute + ":" + seconds;
        
     }
 
@@ -279,10 +281,16 @@ class MyGameOrchestrator extends CGFobject {
                 return
             }
             this.playerAturn = !this.playerAturn;
-            if(this.playerAturn /*&& this.playerA == this.playerType.Human*/)
+            if(this.playerAturn /*&& this.playerA == this.playerType.Human*/){
+                document.getElementById("playerAScore").className = "turn";
+                document.getElementById("playerBScore").className = null;
                 this.scene.setCamera("playerA");
-            else if(!this.playerAturn /*&& this.playerB == this.playerType.Human*/)
+            }
+            else if(!this.playerAturn /*&& this.playerB == this.playerType.Human*/){
+                document.getElementById("playerBScore").className = "turn";
+                document.getElementById("playerAScore").className = null;
                 this.scene.setCamera("playerB");
+            }
             this.selectedTile = null;
             if((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human))
                     this.gameState = this.gameStates["Select Piece"];
@@ -370,9 +378,9 @@ class MyGameOrchestrator extends CGFobject {
 
     updateScore(player){
         if(player == "a")
-            document.getElementById("playerAScore").innerHTML = "Player A: " + ++this.playerAScore;
+            document.getElementById("playerAScore").innerHTML = "Player A : " + ++this.playerAScore;
         else
-            document.getElementById("playerBScore").innerHTML = "Player B: " + ++this.playerBScore;
+            document.getElementById("playerBScore").innerHTML = "Player B : " + ++this.playerBScore;
     }
 
     chooseBoost(){
