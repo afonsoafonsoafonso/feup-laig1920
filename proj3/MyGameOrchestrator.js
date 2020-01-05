@@ -415,21 +415,21 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     cpu_turn(done, chainmove) {
-        console.log("HERE1");
+        console.log("CPU_TURN BEGIN");
         this.updateBoardState();
         let P;
         if(this.playerAturn) P=1;
         else P=2;
         if(chainmove==0) {
-            console.log("HERE2");
+            console.log("CHAIN_MOVE=0 -> next: valid_moves");
             valid_moves(this.boardState, P, data=>this.cpu_move(data, 0));
         }
         else {
-            console.log("HERE3");
+            console.log("CHAIN_MOVE!=0");
             var choice = Math.round(Math.random()) + 1;
             var lastMove = this.cpu_moves[this.cpu_moves.length-1];
-            console.log("CHOICE", choice);
-            console.log("LAST MOVE", lastMove);
+            console.log("LAST MOVE:", lastMove);
+            console.log("CHAIN MOVE CHOICE:", choice);
             if(choice==1) valid_reprogram_coordinates(this.cpu_moves[0][0], this.cpu_moves[0][1]-1, lastMove[0], lastMove[1]-1, P, this.boardState, data=>this.cpu_move(data, 1));
             else if(choice==2) valid_rocket_boosts(this.cpu_moves[0][0], this.cpu_moves[0][1]-1, lastMove[0], lastMove[1]-1, P, this.boardState, data=>this.cpu_move(data, 2))
         }
@@ -437,23 +437,24 @@ class MyGameOrchestrator extends CGFobject {
 
     cpu_move(data, chainmove) {
         if(data.target.response!=0) {
-            console.log("HERE4");
+            console.log("CPU_MOVE BEGIN");
             var moves = JSON.parse(data.target.response);
-            console.log("MOVES", moves);
+            console.log("LIST OF POSSIBLE MOVES:", moves);
             var move = moves[Math.floor(Math.random()*moves.length)];
-            console.log("MOVE", move);
-
             if(chainmove==0) {
-                console.log("HERE5");
+                console.log("CHAINMOVE==0 (normal move)");
                 this.cpu_moves.push([move[0], move[1]+1]);
                 this.cpu_moves.push([move[2], move[3]+1]);
                 if(this.tiles[move[2] + '-' + (move[3]+1)].getPiece()==null) {
+                        console.log("NORMAL MOVE GET_PIECE==NULL -> animation");
                         let x1 = move[0];
                         let y1 = move[1]+1;
-                        console.log("X1", x1);
-                        console.log("Y1", y1);
+                        console.log("RANDOM CHOSEN MOVE ROW:", x1);
+                        console.log("RANDOM CHOSEN MOVE COL:", y1);
                         let x2 = move[2];
                         let y2 = move[3]+1;
+                        console.log("RANDOM CHOSEN MOVE DEST ROW:", x2);
+                        console.log("RANDOM CHOSEN MOVE DEST COL:", y2);
                         this.currMove = [];
                         this.currMove.push(x1, y1, x2, y2);
                         this.gameState = this.gameStates['Animation'];
@@ -464,38 +465,48 @@ class MyGameOrchestrator extends CGFobject {
                     
                 }
                 else {
-                    console.log("move2", move[2]);
-                    console.log("move3", move[3]);
-                    console.log("WTF1");
+                    console.log("NORMAL MOVE GET_PIECE!=NULL -> CPU_TURN(false, 1)");
                     this.cpu_turn(false, 1);
                 }
             }
             else {
-                console.log("HERE6");
+                console.log("CHAIN_MOVE!=0 -> ESTAMOS NUM CHAINMOVE");
                 if(chainmove==1) { // reprogram coordinates
+                    console.log("CHAINMOVE==1 -> REPROGRAM COORDINATES");
                     let x1 = this.cpu_moves[0][0];
                     let y1 = this.cpu_moves[0][1];
                     let x2 = this.cpu_moves[this.cpu_moves.length-1][0];
                     let y2 = this.cpu_moves[this.cpu_moves.length-1][1];
                     let x3 = move[0];
                     let y3 = move[1]+1;
+                    console.log("CASA ORINAL ROW:", x1);
+                    console.log("CASA ORIGINAL COL:", y1);
+                    console.log("LAST MOVE ROW (casa onde este reprogram ta a ser feito):", x2);
+                    console.log("LAST MOVE COL:", y2);
+                    console.log("CASA DESTINO PEÇA REPROGRAMADA ROW:", x3);
+                    console.log("CASA DESTINO PEÇA REPROGRAMADA COL:", y3);
                     this.cpu_moves.push(move[0], move[1]+1);
                     this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
                     this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
                     this.tiles[x1 + '-' + y1].unsetPiece();
-                    /*this.gameState = this.gameStates["Check Win"];
-                    this.checkWin();
-                    this.gameState = this.gameStates["Next turn"];*/
                 }
                 else if(chainmove==2) {
+                    console.log("CHAINMOVE==2 -> ROCKET BOOST");
                     let x1 = this.cpu_moves[0][0];
                     let y1 = this.cpu_moves[0][1];
                     let x2 = this.cpu_moves[this.cpu_moves.length-1][0];
                     let y2 = this.cpu_moves[this.cpu_moves.length-1][1];
                     let x3 = move[0];
                     let y3 = move[1]+1;
+                    console.log("CASA ORINAL ROW:", x1);
+                    console.log("CASA ORIGINAL COL:", y1);
+                    console.log("LAST MOVE ROW (casa onde este boost ta a ser feito):", x2);
+                    console.log("LAST MOVE COL:", y2);
+                    console.log("CASA DESTINO ROW:", x3);
+                    console.log("CASA DESTINO COL:", y3);
                     this.cpu_moves.push(move[0], move[1]+1);
                     if(this.tiles[x3 + '-' + y3].getPiece()==null) {
+                        console.log("CASA FINAL BOOST SEM PEÇA -> animation")
                         this.currMove = [];
                         this.currMove.push(x1, y1, x3, y3);
                         this.gameState = this.gameStates['Animation'];
@@ -505,7 +516,7 @@ class MyGameOrchestrator extends CGFobject {
                         this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
                     }
                     else {
-                        console.log("WTF2");
+                        console.log("CASA FINAL BOOST COM PEÇA -> cpu_turn(false, 1)");
                         this.cpu_turn(false, 1);
                     }
                 }
