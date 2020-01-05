@@ -533,6 +533,9 @@ class MyGameOrchestrator extends CGFobject {
                 }
             }
         }
+        else {
+            this.cpu_turn(false, chainmove);
+        }
     }
 
 
