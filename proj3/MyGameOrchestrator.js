@@ -446,6 +446,7 @@ class MyGameOrchestrator extends CGFobject {
             console.log("RANDOM CHOSEN MOVE (adicionar 1 a y aqui):", move);
             if(chainmove==0) {
                 console.log("CHAINMOVE==0 (normal move)");
+                console.log("CPU MOVES LIST:", this.cpu_moves);
                 this.cpu_moves.push([move[0], move[1]+1]);
                 this.cpu_moves.push([move[2], move[3]+1]);
                 console.log("CPU MOVES LIST:", this.cpu_moves);
@@ -490,8 +491,8 @@ class MyGameOrchestrator extends CGFobject {
                     console.log("LAST MOVE COL:", y2);
                     console.log("CASA DESTINO PEÇA REPROGRAMADA ROW:", x3);
                     console.log("CASA DESTINO PEÇA REPROGRAMADA COL:", y3);
-                    this.cpu_moves = [];
                     this.cpu_moves.push(move[0], move[1]+1);
+                    this.cpu_moves = [];
                     this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
                     this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
                     this.tiles[x1 + '-' + y1].unsetPiece();
@@ -510,7 +511,9 @@ class MyGameOrchestrator extends CGFobject {
                     console.log("LAST MOVE COL:", y2);
                     console.log("CASA DESTINO ROW:", x3);
                     console.log("CASA DESTINO COL:", y3);
+                    console.log("CPU MOVES LIST:", this.cpu_moves);
                     this.cpu_moves.push(move[0], move[1]+1);
+                    console.log("CPU MOVES LIST:", this.cpu_moves);
                     if(this.tiles[x3 + '-' + y3].getPiece()==null) {
                         console.log("CASA FINAL BOOST SEM PEÇA -> animation")
                         this.currMove = [];
