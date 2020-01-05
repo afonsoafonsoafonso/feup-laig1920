@@ -265,6 +265,7 @@ class MyGameOrchestrator extends CGFobject {
 
     undo(){
         this.currMove = [];
+        this.currMoves = [];
         this.loadBoardState();
         if (this.gameState == this.gameStates["Next turn"])
             this.gameState = this.gameStates["Select Piece"];
@@ -611,7 +612,7 @@ class MyGameOrchestrator extends CGFobject {
             if(noPiece) { // talvez depois criar make_chain_move_animation devido ao reprogram coordinates ou para meter o rocket boost explicito
                 this.currMove = [];
                 this.currMove.push(x1, y1, x3, y3);
-                this.make_move_animation(data, x1, y1, x3, y3)
+                this.make_move_animation(data, x1, y1, x3, y3);
             }
         } else {
             this.selectedTile = null;
@@ -645,8 +646,9 @@ class MyGameOrchestrator extends CGFobject {
             this.gameState = this.gameStates['Animation'];
             this.printState();
             // Fazer a animação 
-            this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
-            this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());            
+            //this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
+            this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(), this.currMoves);      
+            this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());      
         } else {
             this.currMove = [];
             this.gameState = this.gameStates["Select Piece"];
