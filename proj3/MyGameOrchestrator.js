@@ -629,13 +629,16 @@ class MyGameOrchestrator extends CGFobject {
     reprogram_coordinates(data, x1, y1, x2, y2, x3, y3) {
         if(data.target.response==1) {
             // NEW ANIM HERE
+            this.gameState = this.gameStates['Animation'];
+            this.printState();
             this.currMoves.push(new Move(1, x1, y1, x2, y2, x3, y3));
-            this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
-            this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
-            this.tiles[x1 + '-' + y1].unsetPiece();
+            this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(),this.currMoves);
+            this.animator.setAnimation(this.tiles[x1 + '-' + y1]);
+            /*
             this.gameState = this.gameStates["Check Win"];
             this.checkWin();
             this.gameState = this.gameStates["Next turn"];
+            */
         } else {
             this.selectedTile = null;
             this.currMove = [];
@@ -661,11 +664,19 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     make_move() {
-        let x1 = this.currMove[0];
-        let y1 = this.currMove[1];
-        let x2 = this.currMove[2];
-        let y2 = this.currMove[3];
-        if(this.tiles[x1 + '-' + y1].getPiece() != null) {
+        let x1 = this.currMoves[0].x1;
+        let y1 = this.currMoves[0].y1;
+        let x2 = this.currMoves[this.currMoves.length-1].x2;
+        let y2 = this.currMoves[this.currMoves.length-1].y2;
+        let x3 = this.currMoves[this.currMoves.length-1].x3;
+        let y3 = this.currMoves[this.currMoves.length-1].y3;
+
+        if(this.currMoves[this.currMoves.length-1].type==1) {
+            this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
+            this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
+            this.tiles[x1 + '-' + y1].unsetPiece();
+        }
+        else if(this.tiles[x1 + '-' + y1].getPiece() != null && this.currMoves[this.currMoves.length-1].type!=1) {
             if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                 this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
                 this.tiles[x1 + '-' + y1].unsetPiece();

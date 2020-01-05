@@ -6,6 +6,7 @@ class MyPiece extends CGFobject {
         //this.base = new MyCylinder(this.scene, 0.3, 0, 0, 20, 20);
         this.level = level;
         this.animation = null;
+        this.reprogramAnim = null;
         this.models = models;
         //proj3\models\ship2\Wraith Raider Starship\Wraith Raider Starship.obj
         //proj3\models\ship\[.obj] (Sh3d adapted)\Arc170.obj
@@ -41,6 +42,9 @@ class MyPiece extends CGFobject {
 
         if(this.animation!=null) {
             this.animation.apply();
+        }
+        else if(this.reprogramAnim!=null) {
+            this.reprogramAnim.apply();
         }
 
         this.scene.translate(0, 0.2, 0);
