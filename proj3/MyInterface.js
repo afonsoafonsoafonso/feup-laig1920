@@ -23,6 +23,7 @@ class MyInterface extends CGFinterface {
         // add a group of controls (and open/expand by defult)
 
         this.initKeys();
+        this.inited = false;
 
         return true;
     }
@@ -56,6 +57,7 @@ class MyInterface extends CGFinterface {
      * Interface functions
      */
     createViewsInterface() {
+        this.inited = true;
         this.selectedView = this.scene.graph.defaultViewID;
         //this.selectedSecurityView = this.scene.graph.defaultViewID;
         var folder = this.gui.addFolder("views");

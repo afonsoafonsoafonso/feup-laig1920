@@ -145,7 +145,7 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        this.setDefaultCamera();
+        
 
         this.axis = new CGFaxis(this, this.graph.referenceLength);
 
@@ -154,10 +154,12 @@ class XMLscene extends CGFscene {
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
 
         this.initLights();
-
-        this.interface.createViewsInterface();
-        this.interface.createLightsInterface();
-        this.interface.createGameInterface();
+        if(!this.interface.inited) {
+            this.setDefaultCamera();
+            this.interface.createViewsInterface();
+            this.interface.createLightsInterface();
+            this.interface.createGameInterface();
+        }
 
         this.sceneInited = true;
     }

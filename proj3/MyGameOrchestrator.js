@@ -137,8 +137,14 @@ class MyGameOrchestrator extends CGFobject {
         if(this.totalSeconds == null)
             this.totalSeconds = 1;
         this.totalSeconds++;
-       //console.log(this.totalSeconds);
-       document.getElementById("timer").innerHTML = "Timer: " + this.totalSeconds;
+        var minute = Math.floor(totalSeconds / 60);
+        var seconds = totalSeconds - (minute * 60);
+        if(minute < 10)
+            minute = "0" + minute;
+        if(seconds < 10)
+            seconds = "0" + seconds;
+        document.getElementById("timer").innerHTML = "Timer: "+ minute + ":" + seconds;
+       
     }
 
     // tl;dr ID's (picking) das tiles das bases: 1,2,3,4,5,6 para jogador A e 71,72,73,74,75,76 para jogador B
