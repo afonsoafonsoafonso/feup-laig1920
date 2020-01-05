@@ -443,6 +443,7 @@ class MyGameOrchestrator extends CGFobject {
             var moves = JSON.parse(data.target.response);
             console.log("LIST OF POSSIBLE MOVES:", moves);
             var move = moves[Math.floor(Math.random()*moves.length)];
+            console.log("RANDOM CHOSEN MOVE:", move);
             if(chainmove==0) {
                 console.log("CHAINMOVE==0 (normal move)");
                 this.cpu_moves.push([move[0], move[1]+1]);
@@ -514,7 +515,7 @@ class MyGameOrchestrator extends CGFobject {
                         this.gameState = this.gameStates['Animation'];
                         this.printState();
                         // Fazer a animação 
-                        this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
+                        this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x3, y3);
                         this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
                     }
                     else {
