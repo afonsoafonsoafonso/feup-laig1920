@@ -3,6 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>LAIG - XERO-G</title>
+    <link href='https://fonts.googleapis.com/css?family=Orbitron&text=0123456789:' rel='stylesheet' type='text/css'>
     <link rel="icon" href="data:,">
 
 <style>
@@ -18,34 +19,56 @@ canvas {
     height: 100%;
 }
 
+@font-face {
+	font-family: 'digital';
+	src: url('http://thecodeplayer.com/uploads/fonts/DS-DIGI.TTF');
+}
+
 .hud {
     height: 55px;
+    width: 100%;
     position: absolute;
     color: white;
+    font-family: 'Orbitron',Verdana;
 }
 #timer{
-    padding-left: 20%;
-    float: left;
-    
+    padding: 10px;
+	overflow: hidden;
+	display: block;
+	border: 1px solid #efefef;
+	border-radius: 3px;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #playerAScore{
-    float: left;
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
 }
 
 #playerBScore{
-    float: left;
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
 }
 
+.turn {
+    border-bottom: 2px solid #efefef;
+}
 </style>
 </head>
 <body>
 
 <script src="main.js"></script>
 <div class="hud">
-    <div id="playerAScore">PlayerA: 0</div>
+    <div id="playerAScore">PlayerA : 0</div>
     <div id="timer">Timer: 00:01</div>
-    <div id="playerBScore">PlayerB: 0</div>
+    <div id="playerBScore">PlayerB : 0</div>
 </div>
 
 </body>
