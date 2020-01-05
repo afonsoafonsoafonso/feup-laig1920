@@ -82,8 +82,14 @@ class MyInterface extends CGFinterface {
             //console.log("Fiz merda, volta atrás crl! *Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z*");
         }
 
+        this.restart = function(){
+            this.scene.gameOrchestrator.restart(this.playerTypeA, this.playerTypeB);
+        }
+
         this.start = function(){
             this.scene.gameOrchestrator.start(this.playerTypeA, this.playerTypeB);
+            folder.remove(start);
+            folder.add(this,'restart');
             //console.log("Ragequit");
         }
 
@@ -101,8 +107,9 @@ class MyInterface extends CGFinterface {
         folder.add(this, 'playerTypeB', this.scene.gameOrchestrator.playerType).name('PlayerB');
         folder.add(this, 'theme', this.scene.gameOrchestrator.themes).name('Theme').onChange(theme => this.scene.setTheme(theme));
         folder.add(this,'undo');
-        folder.add(this,'start');
+        var start = folder.add(this,'start');
         folder.add(this, 'endTurn');
+        
     }
      /*
     createDisplay(){
