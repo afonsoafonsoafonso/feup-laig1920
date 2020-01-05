@@ -3,10 +3,12 @@ class MyAnimator {
         this.scene = scene;
         this.orchestrator = orchestrator;
         this.currAnim = null;
+        this.reprogramAnim = null;
         this.running = false;
         this.startTime = t;
         this.currTime;
         this.piece = null;
+        this.reprogramPiece = null;
         //console.log(t);
     }
 
@@ -66,18 +68,35 @@ class MyAnimator {
                 console.log("X3", x3);
                 console.log("Y3", y3);
                 if(i!=moves.length-1) {
-                    keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
-                    t+=0.5;
-                    keyframes.push(new Keyframe(t, y3-y1, 1, x3-x1, 0, 0, 0, 1, 1, 1));
-                    t+=0.5;
-                    keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
-                    t+=0.5;
+                        keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        keyframes.push(new Keyframe(t, y3-y1, 1, x3-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
                 }
                 else {
-                    keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
-                    t+=0.5;
-                    keyframes.push(new Keyframe(t, y3-y1, 0, x3-x1, 0, 0, 0, 1, 1, 1));
-                    t+=0.5;
+                    if(moves[i].type==2) {
+                        keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        keyframes.push(new Keyframe(t, y3-y1, 0, x3-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                    }
+                    else {
+                        let reprogramKeyframes = [];
+                        reprogramKeyframes.push(new Keyframe(t-0.5, y2, 0, x2, 0, 0, 0, 1, 1, 1));
+                        keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
+                        reprogramKeyframes.push(new Keyframe(t, (y3-y2)/2, 1, (x3-x2)/2, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        keyframes.push(new Keyframe(t, y2-y1, 0, x2-x1, 0, 0, 0, 1, 1, 1));
+                        reprogramKeyframes.push(new Keyframe(t, y3-y2, 0, x3-x2, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        this.reprogramAnim = new KeyframeAnimation(this.scene, 'reprogram', reprogramKeyframes);
+                        //setting reprogram animation on piece
+                        //this.orchestrator.tiles[x2 + '-' + y2].getPiece().setAnimation(this.reprogramAnim);
+                        this.reprogramPiece = this.orchestrator.tiles[x2 + '-' + y2].getPiece();
+                        this.setReprogramAnim(this.orchestrator.tiles[x2 + '-' + y2].getPiece());
+                    }
                 }
             }
         }
@@ -96,14 +115,24 @@ class MyAnimator {
                 this.running = false;
             }
         }
+        if(this.reprogramAnim!=null) {
+            this.reprogramAnim.update(t);
+        }
     }
 
     setAnimation(piece) {
         piece.animation = this;
     }
 
+    setReprogramAnim(piece) {
+        piece.reprogramAnim = this.reprogramAnim;
+    }
+
     endAnimation() {
+        console.log("CURR MOVESSSS", this.orchestrator.currMoves);
         if(this.piece!=null) this.piece.animation = null;
+        if(this.reprogramPiece!=null) this.reprogramPiece.reprogramAnim = null;
+        this.reprogramAnim = null;
         this.currAnim = null;
     }
 }
