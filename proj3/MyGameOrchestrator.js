@@ -234,7 +234,7 @@ class MyGameOrchestrator extends CGFobject {
     
     nextTurn(){
         this.currMove = [];
-        if(this.movegames.length < 2) {
+        if(((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human)) && this.movegames.length < 2) {
             console.log("Joga primeiro Boi, Ainda é a tua vez, conas.")
             return
         }
