@@ -49,6 +49,8 @@ class MyAnimator {
             var x3;
             var y3;
             var t = secondsSinceStart+2;
+            var reprogramKeyframes = [];
+            reprogramKeyframes.push(new Keyframe(t, 0, 0, 0, 0, 0, 0, 1, 1, 1));
             keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
             t+=0.5;
             keyframes.push(new Keyframe(t, y2-y1, 1, x2-x1, 0, 0, 0, 1, 1, 1));
@@ -85,14 +87,14 @@ class MyAnimator {
                         t+=0.5;
                     }
                     else {
-                        let reprogramKeyframes = [];
+                        
                         console.log("")
-                        reprogramKeyframes.push(new Keyframe(t-0.5, y2, 0, x2, 0, 0, 0, 1, 1, 1));
+                        reprogramKeyframes.push(new Keyframe(t-0.2, (y3-y2)*0.4, 1, (x3-x2)*0.4, 0, 0, 0, 1, 1, 1));
                         keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
-                        reprogramKeyframes.push(new Keyframe(t, (y3-y2)/2, 1, (x3-x2)/2, 0, 0, 0, 1, 1, 1));
+                        reprogramKeyframes.push(new Keyframe(t-0.4, (y3-y2)*0.7, 1, (x3-x2)*0.7, 0, 0, 0, 1, 1, 1));
                         t+=0.5;
                         keyframes.push(new Keyframe(t, y2-y1, 0, x2-x1, 0, 0, 0, 1, 1, 1));
-                        reprogramKeyframes.push(new Keyframe(t, y3-y2, 0, x3-x2, 0, 0, 0, 1, 1, 1));
+                        reprogramKeyframes.push(new Keyframe(t-0.4, y3-y2, 0, x3-x2, 0, 0, 0, 1, 1, 1));
                         t+=0.5;
                         this.reprogramAnim = new KeyframeAnimation(this.scene, 'reprogram', reprogramKeyframes);
                         //setting reprogram animation on piece
