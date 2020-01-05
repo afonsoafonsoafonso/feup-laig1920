@@ -7,7 +7,7 @@ class MyAnimator {
         this.startTime = t;
         this.currTime;
         this.piece = null;
-        console.log(t);
+        //console.log(t);
     }
 
     calculate_animation(piece, row1, col1, row2, col2) {

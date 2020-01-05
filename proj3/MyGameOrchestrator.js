@@ -118,7 +118,7 @@ class MyGameOrchestrator extends CGFobject {
 
     update(t) {
         if(this.animator!=null) this.animator.currTime = t;
-        if(this.animator==null) {this.animator = new MyAnimator(this.scene, this, t); console.log(t);}
+        if(this.animator==null) {this.animator = new MyAnimator(this.scene, this, t);}
         if(this.gameState == this.gameStates["Animation"]) {
             this.animator.update(t);
             if(this.animator.running==false) {
