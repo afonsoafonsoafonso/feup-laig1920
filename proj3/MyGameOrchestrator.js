@@ -448,6 +448,7 @@ class MyGameOrchestrator extends CGFobject {
                 console.log("CHAINMOVE==0 (normal move)");
                 this.cpu_moves.push([move[0], move[1]+1]);
                 this.cpu_moves.push([move[2], move[3]+1]);
+                console.log("CPU MOVES LIST:", this.cpu_moves);
                 if(this.tiles[move[2] + '-' + (move[3]+1)].getPiece()==null) {
                         console.log("NORMAL MOVE GET_PIECE==NULL -> animation");
                         let x1 = move[0];
@@ -462,6 +463,7 @@ class MyGameOrchestrator extends CGFobject {
                         this.currMove.push(x1, y1, x2, y2);
                         this.gameState = this.gameStates['Animation'];
                         this.printState();
+                        this.cpu_moves = [];
                         // Fazer a animação 
                         this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
                         this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
@@ -488,6 +490,7 @@ class MyGameOrchestrator extends CGFobject {
                     console.log("LAST MOVE COL:", y2);
                     console.log("CASA DESTINO PEÇA REPROGRAMADA ROW:", x3);
                     console.log("CASA DESTINO PEÇA REPROGRAMADA COL:", y3);
+                    this.cpu_moves = [];
                     this.cpu_moves.push(move[0], move[1]+1);
                     this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
                     this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
@@ -514,6 +517,7 @@ class MyGameOrchestrator extends CGFobject {
                         this.currMove.push(x1, y1, x3, y3);
                         this.gameState = this.gameStates['Animation'];
                         this.printState();
+                        this.cpu_moves = [];
                         // Fazer a animação 
                         this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x3, y3);
                         this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
