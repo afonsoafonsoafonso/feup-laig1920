@@ -104,13 +104,14 @@ class MyGameOrchestrator extends CGFobject {
         this.playerA = playerA;
         this.playerB = playerB;
         this.boardSetup();
+        this.playerAturn = true;
         if(this.playerA == this.playerType.Human) this.gameState = this.gameStates["Select Piece"];
         else {
             this.gameState = this.gameStates["CPU Turn"];
             this.cpu_turn(false, 0);
         }
         this.scene.setCamera("playerA");
-        this.playerAturn = true;
+        
         ping_server();
         this.printState();
     }
