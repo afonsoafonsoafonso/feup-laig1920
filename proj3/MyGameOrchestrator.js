@@ -324,7 +324,7 @@ class MyGameOrchestrator extends CGFobject {
                 valid_move(this.selectedTile.row, this.selectedTile.col-1, obj.row, obj.col-1, player, this.boardState, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
             }
             else {
-                this.currMoves.push(new Move(2, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
+                //this.currMoves.push(new Move(2, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
                 valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, player, this.boardState, 2, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
             }
         }
@@ -633,7 +633,7 @@ class MyGameOrchestrator extends CGFobject {
             this.printState();
             this.currMoves.push(new Move(1, x1, y1, x2, y2, x3, y3));
             this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(),this.currMoves);
-            this.animator.setAnimation(this.tiles[x1 + '-' + y1]);
+            this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
             /*
             this.gameState = this.gameStates["Check Win"];
             this.checkWin();

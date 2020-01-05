@@ -33,6 +33,7 @@ class MyAnimator {
         keyframes.push(new Keyframe(secondsSinceStart, 0, 0, 0, 0, 0, 0, 1, 1, 1));
         keyframes.push(new Keyframe(secondsSinceStart+0.5, 0, 2, 0, 0, 0, 0, 1, 1, 1));
         if(moves.length==1 && moves[0].type==0) {
+            console.log("MOVE NORMAL");
             var x1 = moves[0].x1;
             var y1 = moves[0].y1;
             var x2 = moves[0].x2;
@@ -85,6 +86,7 @@ class MyAnimator {
                     }
                     else {
                         let reprogramKeyframes = [];
+                        console.log("")
                         reprogramKeyframes.push(new Keyframe(t-0.5, y2, 0, x2, 0, 0, 0, 1, 1, 1));
                         keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
                         reprogramKeyframes.push(new Keyframe(t, (y3-y2)/2, 1, (x3-x2)/2, 0, 0, 0, 1, 1, 1));
