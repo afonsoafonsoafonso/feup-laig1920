@@ -234,25 +234,27 @@ class MyGameOrchestrator extends CGFobject {
     }
     
     nextTurn(){
-        this.currMove = [];
-        if(((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human)) && this.movegames.length < 2) {
-            console.log("Joga primeiro Boi, Ainda é a tua vez, conas.")
-            return
+        if(this.gameState != this.gameStates.Animation){
+            this.currMove = [];
+            if(((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human)) && this.movegames.length < 2) {
+                console.log("Joga primeiro Boi, Ainda é a tua vez, conas.")
+                return
+            }
+            this.playerAturn = !this.playerAturn;
+            if(this.playerAturn /*&& this.playerA == this.playerType.Human*/)
+                this.scene.setCamera("playerA");
+            else if(!this.playerAturn /*&& this.playerB == this.playerType.Human*/)
+                this.scene.setCamera("playerB");
+            this.selectedTile = null;
+            if((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human))
+                    this.gameState = this.gameStates["Select Piece"];
+            else {
+                console.log("PAOWNDOAWNDOAWNODNAWOIDN");
+                this.gameState = this.gameStates["CPU Turn"];
+                this.cpu_turn(false, 0);
+            }
+            this.movegames = [[]];
         }
-        this.playerAturn = !this.playerAturn;
-        if(this.playerAturn /*&& this.playerA == this.playerType.Human*/)
-            this.scene.setCamera("playerA");
-        else if(!this.playerAturn /*&& this.playerB == this.playerType.Human*/)
-            this.scene.setCamera("playerB");
-        this.selectedTile = null;
-        if((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human))
-                this.gameState = this.gameStates["Select Piece"];
-        else {
-            console.log("PAOWNDOAWNDOAWNODNAWOIDN");
-            this.gameState = this.gameStates["CPU Turn"];
-            this.cpu_turn(false, 0);
-        }
-        this.movegames = [[]];
     }
 
     clickHandler(obj, id) {
