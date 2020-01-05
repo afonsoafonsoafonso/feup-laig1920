@@ -68,12 +68,13 @@ class MyAnimator {
                 console.log("X3", x3);
                 console.log("Y3", y3);
                 if(i!=moves.length-1) {
-                        keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
-                        t+=0.5;
-                        keyframes.push(new Keyframe(t, y3-y1, 1, x3-x1, 0, 0, 0, 1, 1, 1));
-                        t+=0.5;
-                        keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
-                        t+=0.5;
+                    console.log("NOT LAST ITEM OF ARRAY");
+                    keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
+                    t+=0.5;
+                    keyframes.push(new Keyframe(t, y3-y1, 1, x3-x1, 0, 0, 0, 1, 1, 1));
+                    t+=0.5;
+                    keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
+                    t+=0.5;
                 }
                 else {
                     if(moves[i].type==2) {

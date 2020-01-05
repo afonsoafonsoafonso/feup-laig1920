@@ -612,10 +612,10 @@ class MyGameOrchestrator extends CGFobject {
     rocket_boost(data, x1, y1, x2, y2, x3, y3, noPiece) {
         if(data.target.response==1) {
             this.chainMoves.push([x3, y3]);
-            this.currMoves.push(new Move(2, x1, y1, x2, y2, x3, y3));
             if(noPiece) { // talvez depois criar make_chain_move_animation devido ao reprogram coordinates ou para meter o rocket boost explicito
                 this.currMove = [];
                 this.currMove.push(x1, y1, x3, y3);
+                this.currMoves.push(new Move(2, x1, y1, x2, y2, x3, y3));
                 this.make_move_animation(data, x1, y1, x3, y3);
             }
         } else {
@@ -676,11 +676,13 @@ class MyGameOrchestrator extends CGFobject {
             this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
             this.tiles[x1 + '-' + y1].unsetPiece();
         }
-        else if(this.tiles[x1 + '-' + y1].getPiece() != null && this.currMoves[this.currMoves.length-1].type!=1) {
-            if(this.tiles[x2 + '-' + y2].getPiece() == null) {
-                this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
-                this.tiles[x1 + '-' + y1].unsetPiece();
-            }
+        else if(this.currMoves[this.currMoves.length-1].type==2) {
+            this.tiles[x3 + '-' + y3].setPiece(this.tiles[x1 + '-' + y1].getPiece());
+            this.tiles[x1 + '-' + y1].unsetPiece();
+        }
+        else if(this.tiles[x1 + '-' + y1].getPiece() != null && this.currMoves[this.currMoves.length-1].type==0) {
+            this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
+            this.tiles[x1 + '-' + y1].unsetPiece();
         }
         this.gameState = this.gameStates["Check Win"];
         this.printState();
