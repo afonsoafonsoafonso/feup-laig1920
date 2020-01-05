@@ -182,8 +182,7 @@ class XMLscene extends CGFscene {
 	}
 
     /**
-     * Renders the scene twice, first uses render to texture, so it uses the Security Camera 
-     * and then renders with the normal Scene Camera
+     * Renders the scene
      */
     display(){ /*
         this.textureRTT.attachToFrameBuffer();
