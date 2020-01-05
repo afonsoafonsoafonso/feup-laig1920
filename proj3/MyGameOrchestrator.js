@@ -234,6 +234,7 @@ class MyGameOrchestrator extends CGFobject {
     }
     
     nextTurn(){
+        this.cpu_moves = [];
         if(this.gameState != this.gameStates.Animation){
             this.currMove = [];
             if(((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human)) && this.movegames.length < 2) {
