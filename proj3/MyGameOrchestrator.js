@@ -311,8 +311,14 @@ class MyGameOrchestrator extends CGFobject {
             else player=2;
             this.updateBoardState();
             let len = this.chainMoves.length;
-            if(this.gameState != this.gameStates['Boost']) valid_move(this.selectedTile.row, this.selectedTile.col-1, obj.row, obj.col-1, player, this.boardState, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
-            else valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, player, this.boardState, 2, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
+            console.log("PUUUUSHHHHHHHHHHHH");
+            if(this.gameState != this.gameStates['Boost']) { 
+                valid_move(this.selectedTile.row, this.selectedTile.col-1, obj.row, obj.col-1, player, this.boardState, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
+            }
+            else {
+                this.currMoves.push(new Move(2, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
+                valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, player, this.boardState, 2, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
+            }
         }
         else if(obj != this.selectedTile && this.gameState == this.gameStates['Boost'] && obj.getPiece()!=null) {
             let len = this.chainMoves.length;
@@ -322,9 +328,11 @@ class MyGameOrchestrator extends CGFobject {
             //if chain move is valid, pushes it to the array
             this.updateBoardState();
             let noPiece = false;
+            console.log("PUUUUSHHHHHHHHHHHH");
+            this.currMoves.push(new Move(2, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col, noPiece));
         }
-        else if(obj != this.selectedTile &&this.gameState == this.gameStates['Boost'] && obj.getPiece()==null) {
+        else if(obj != this.selectedTile && this.gameState == this.gameStates['Boost'] && obj.getPiece()==null) {
             let P;
             if(this.playerAturn) P=1;
             else P=2;
@@ -332,6 +340,8 @@ class MyGameOrchestrator extends CGFobject {
             //if chain move
             this.updateBoardState();
             let noPiece = true;
+            console.log("PUUUUSHHHHHHHHHHHH");
+            //this.currMoves.push(new Move(2, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col, noPiece));
         }
         else if(obj != this.selectedTile &&this.gameState == this.gameStates['Reprogram'] && obj.getPiece()==null) {
