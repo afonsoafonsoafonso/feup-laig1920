@@ -103,6 +103,7 @@ class MyAnimator {
     }
 
     endAnimation() {
+        console.log("CURR MOVESSSS", this.orchestrator.currMoves);
         if(this.piece!=null) this.piece.animation = null;
         this.currAnim = null;
     }

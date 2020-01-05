@@ -273,10 +273,9 @@ class MyGameOrchestrator extends CGFobject {
     
     nextTurn(){
         this.cpu_moves = [];
-        console.log("CURR MOVESSSS", this.currMoves);
-        this.currMoves=[];
         if(this.gameState != this.gameStates.Animation){
             this.currMove = [];
+            this.currMoves=[];
             if(((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human)) && this.movegames.length < 2) {
                 console.log("Joga primeiro Boi, Ainda é a tua vez, conas.")
                 return
@@ -466,9 +465,14 @@ class MyGameOrchestrator extends CGFobject {
     move(x1, y1, x2, y2) {
         this.currMove = [];
         //
-        this.currMoves.push(new Move(0, x1, y2, x2, y2));
+        console.log("X1", x1);
+        console.log("Y1", y1);
+        console.log("X2", x2);
+        console.log("Y2", y2);
+        this.currMoves.push(new Move(0, x1, y1, x2, y2));
         //
         this.currMove.push(x1, y1, x2, y2);
+        
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             //console.log(this.boardState);
             //this.animator.calculate_animation(x1, y1, x2, y2);
