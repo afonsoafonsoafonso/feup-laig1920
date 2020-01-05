@@ -172,8 +172,8 @@ class MyGameOrchestrator extends CGFobject {
         if(this.totalSeconds == null)
             this.totalSeconds = 1;
         this.totalSeconds++;
-        var minute = Math.floor(totalSeconds / 60);
-        var seconds = totalSeconds - (minute * 60);
+        let minute = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds - (minute * 60);
         if(minute < 10)
             minute = "0" + minute;
         if(seconds < 10)
@@ -407,6 +407,7 @@ class MyGameOrchestrator extends CGFobject {
         if (this.movegames.length < 2)
             return;
         let previous = this.movegames.pop();
+        let piece;
         //console.log(previous);
         
         for(let i=1; i<=6; i++) {           
@@ -416,15 +417,15 @@ class MyGameOrchestrator extends CGFobject {
                 if(previous[i][j] != 0){
                     switch(previous[i][j]){
                         case 1:
-                            var piece = new MyPiece(this.scene, this.pieceModels, 1);
+                            piece = new MyPiece(this.scene, this.pieceModels, 1);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;
                         case 2:
-                            var piece = new MyPiece(this.scene,this.pieceModels, 2);
+                            piece = new MyPiece(this.scene,this.pieceModels, 2);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;
                         case 3:
-                            var piece = new MyPiece(this.scene,this.pieceModels, 3);
+                            piece = new MyPiece(this.scene,this.pieceModels, 3);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;     
                     }
@@ -622,10 +623,10 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     make_move() {
-        var x1 = this.currMove[0];
-        var y1 = this.currMove[1];
-        var x2 = this.currMove[2];
-        var y2 = this.currMove[3];
+        let x1 = this.currMove[0];
+        let y1 = this.currMove[1];
+        let x2 = this.currMove[2];
+        let y2 = this.currMove[3];
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                 this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
