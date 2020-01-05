@@ -22,6 +22,16 @@ class MyAnimator {
         this.currAnim = new KeyframeAnimation(this.scene, 'move', keyframes);
     }
 
+    calculate_animations(piece, moves) {
+        this.piece = piece;
+        this.running = true;
+        var keyframes = [];
+        var secondsSinceStart = (this.currTime - this.startTime)/10000;
+        for(let i=0; i<moves.length; i++) {
+            
+        }
+    }
+
     apply() {   
         if(this.currAnim!=null) this.currAnim.apply();
     }

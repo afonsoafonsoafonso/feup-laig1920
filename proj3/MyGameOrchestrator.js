@@ -310,9 +310,11 @@ class MyGameOrchestrator extends CGFobject {
             if(this.playerAturn) player=1;
             else player=2;
             this.updateBoardState();
-            valid_move(this.selectedTile.row, this.selectedTile.col-1, obj.row, obj.col-1, player, this.boardState, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
+            let len = this.chainMoves.length;
+            if(this.gameState != this.gameStates['Boost']) valid_move(this.selectedTile.row, this.selectedTile.col-1, obj.row, obj.col-1, player, this.boardState, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
+            else valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, player, this.boardState, 2, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
         }
-        else if(obj != this.selectedTile &&this.gameState == this.gameStates['Boost'] && obj.getPiece()!=null) {
+        else if(obj != this.selectedTile && this.gameState == this.gameStates['Boost'] && obj.getPiece()!=null) {
             let len = this.chainMoves.length;
             let P;
             if(this.playerAturn) P=1;
@@ -603,6 +605,7 @@ class MyGameOrchestrator extends CGFobject {
 
     reprogram_coordinates(data, x1, y1, x2, y2, x3, y3) {
         if(data.target.response==1) {
+            // NEW ANIM HERE
             this.currMoves.push(new Move(1, x1, y1, x2, y2, x3, y3));
             this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
             this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
@@ -620,6 +623,7 @@ class MyGameOrchestrator extends CGFobject {
 
     make_move_animation(data, x1, y1, x2, y2) {
         if(data.target.response==1) {
+            // NEW ANIM HERE
             this.gameState = this.gameStates['Animation'];
             this.printState();
             // Fazer a animação 
