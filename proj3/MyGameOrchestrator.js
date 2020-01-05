@@ -89,7 +89,7 @@ class MyGameOrchestrator extends CGFobject {
         this.boardSetup();
         this.initialboard = [];
 
-        var timerVar = setInterval(this.countTimer, 1000);
+        this.timerVar = setInterval(this.countTimer, 1000);
 
         this.initBuffers();
     }
@@ -117,6 +117,40 @@ class MyGameOrchestrator extends CGFobject {
         this.printState();
     }
 
+    restart(playerA, playerB){
+        this.clearAll();
+        this.playerA = playerA;
+        this.playerB = playerB;
+        this.boardSetup();
+        this.playerAturn = true;
+        if(this.playerA == this.playerType.Human) this.gameState = this.gameStates["Select Piece"];
+        else {
+            this.gameState = this.gameStates["CPU Turn"];
+            this.cpu_turn(false, 0);
+        }
+        this.scene.setCamera("playerA");
+        ping_server();
+        this.printState();
+    }
+
+    clearAll(){
+        this.movegames = [[]];
+        this.currMove=[];
+        this.theme = false;
+        this.chainMoves = [];
+        this.validChainMove = false;
+        this.cpu_moves = [];
+        this.animator = null;
+        this.boardState = [];
+        this.request = null;
+        this.selectedTile = null;
+
+        for(let i=0; i<=7; i++)
+            for(let j=1; j<=6; j++) 
+                if(this.tiles[i + '-' + j].getPiece()!=null)
+                    this.tiles[i + '-' + j].unsetPiece();       
+    }
+
     update(t) {
         if(this.animator!=null) this.animator.currTime = t;
         if(this.animator==null) {this.animator = new MyAnimator(this.scene, this, t);}
@@ -139,8 +173,8 @@ class MyGameOrchestrator extends CGFobject {
         if(this.totalSeconds == null)
             this.totalSeconds = 1;
         this.totalSeconds++;
-        var minute = Math.floor(totalSeconds / 60);
-        var seconds = totalSeconds - (minute * 60);
+        let minute = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds - (minute * 60);
         if(minute < 10)
             minute = "0" + minute;
         if(seconds < 10)
@@ -380,6 +414,7 @@ class MyGameOrchestrator extends CGFobject {
         if (this.movegames.length < 2)
             return;
         let previous = this.movegames.pop();
+        let piece;
         //console.log(previous);
         
         for(let i=1; i<=6; i++) {           
@@ -389,15 +424,15 @@ class MyGameOrchestrator extends CGFobject {
                 if(previous[i][j] != 0){
                     switch(previous[i][j]){
                         case 1:
-                            var piece = new MyPiece(this.scene, this.pieceModels, 1);
+                            piece = new MyPiece(this.scene, this.pieceModels, 1);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;
                         case 2:
-                            var piece = new MyPiece(this.scene,this.pieceModels, 2);
+                            piece = new MyPiece(this.scene,this.pieceModels, 2);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;
                         case 3:
-                            var piece = new MyPiece(this.scene,this.pieceModels, 3);
+                            piece = new MyPiece(this.scene,this.pieceModels, 3);
                             this.tiles[i + '-' + (j+1)].setPiece(piece);
                             break;     
                     }
@@ -598,10 +633,10 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     make_move() {
-        var x1 = this.currMove[0];
-        var y1 = this.currMove[1];
-        var x2 = this.currMove[2];
-        var y2 = this.currMove[3];
+        let x1 = this.currMove[0];
+        let y1 = this.currMove[1];
+        let x2 = this.currMove[2];
+        let y2 = this.currMove[3];
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
             if(this.tiles[x2 + '-' + y2].getPiece() == null) {
                 this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
