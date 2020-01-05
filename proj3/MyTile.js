@@ -11,7 +11,8 @@ class MyTile extends CGFobject{
         this.transparent.setAmbient(0, 0, 0, 0);
         this.transparent.setDiffuse(0, 0, 0, 0);
         this.transparent.setSpecular(0, 0, 0, 0);
-
+        this.transparent.loadTexture('scenes/images/transparent.png');
+        this.transparent.setTextureWrap('REPEAT','REPEAT');
         this.initBuffers();
     }
 
@@ -32,5 +33,6 @@ class MyTile extends CGFobject{
         this.transparent.apply();
         this.plane.display();
         if(this.piece!=null) this.piece.display();
+
     }
 }
