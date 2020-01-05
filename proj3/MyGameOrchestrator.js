@@ -14,6 +14,8 @@ class MyGameOrchestrator extends CGFobject {
         this.chainMoves = [];
         this.validChainMove = false;
 
+        this.cpu_moves = [];
+
         this.animator = null;
 
         this.boardState = [];
@@ -61,12 +63,15 @@ class MyGameOrchestrator extends CGFobject {
             'Choice' : 5,
             'Animation' : 6,
             'Check Win' : 7,
+            
             'Win' : 8,
 
             'Undo' : 9,
-            'Pause' :10,
-            'Boost' :11,
-            'Reprogram' :12
+            'Pause' : 10,
+            'Boost' : 11,
+            'Reprogram' : 12,
+
+            'CPU Turn' : 13
         }
 
         this.themes = {
@@ -75,8 +80,6 @@ class MyGameOrchestrator extends CGFobject {
         }
 
         this.gameState = this.gameStates.Menu;
-        this.playerA = this.playerType.Human;
-        this.playerB = this.playerType.Human;
         this.totalSeconds;
         this.playerAScore = 0;
         this.playerBScore = 0;
@@ -101,7 +104,12 @@ class MyGameOrchestrator extends CGFobject {
         this.playerA = playerA;
         this.playerB = playerB;
         this.boardSetup();
-        this.gameState = this.gameStates["Select Piece"];
+        if(this.playerA == this.playerType.Human) this.gameState = this.gameStates["Select Piece"];
+        else {
+            this.gameState = this.gameStates["CPU Turn"];
+            this.cpu_turn(false, 0);
+        }
+        this.scene.setCamera("playerA");
         this.playerAturn = true;
         ping_server();
         this.printState();
@@ -225,12 +233,18 @@ class MyGameOrchestrator extends CGFobject {
             return
         }
         this.playerAturn = !this.playerAturn;
-        if(this.playerAturn && this.playerA == this.playerType.Human)
+        if(this.playerAturn /*&& this.playerA == this.playerType.Human*/)
             this.scene.setCamera("playerA");
-        else if(!this.playerAturn && this.playerB == this.playerType.Human)
+        else if(!this.playerAturn /*&& this.playerB == this.playerType.Human*/)
             this.scene.setCamera("playerB");
         this.selectedTile = null;
-        this.gameState = this.gameStates["Select Piece"];
+        if((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human))
+                this.gameState = this.gameStates["Select Piece"];
+        else {
+            console.log("PAOWNDOAWNDOAWNODNAWOIDN");
+            this.gameState = this.gameStates["CPU Turn"];
+            this.cpu_turn(false, 0);
+        }
         this.movegames = [[]];
     }
 
@@ -260,6 +274,7 @@ class MyGameOrchestrator extends CGFobject {
             //if chain move is valid, pushes it to the array
             this.updateBoardState();
             let noPiece = false;
+            valid_rocket_boosts(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, P, this.boardState);
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
         }
         else if(obj != this.selectedTile &&this.gameState == this.gameStates['Boost'] && obj.getPiece()==null) {
@@ -273,6 +288,7 @@ class MyGameOrchestrator extends CGFobject {
             let noPiece = true;
             console.log("this.chainMoves[len-1][0]", this.chainMoves[len-1][0]);
             console.log("this.chainMoves[len-1][1]-1", this.chainMoves[len-1][1]-1);
+            valid_rocket_boosts(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, P, this.boardState);
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, noPiece));
         }
         else if(obj != this.selectedTile &&this.gameState == this.gameStates['Reprogram'] && obj.getPiece()==null) {
@@ -281,6 +297,7 @@ class MyGameOrchestrator extends CGFobject {
             else P=2;
             let len = this.chainMoves.length;
             this.updateBoardState();
+            valid_reprogram_coordinates(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, P, this.boardState);
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 1, data=>this.reprogram_coordinates(data, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
         }
         console.log("CHAIN MOVE ARRAY:", this.chainMoves);
@@ -387,6 +404,105 @@ class MyGameOrchestrator extends CGFobject {
             this.updateBoardState();
             // checks if move is valid. make_move then handles prolog request result
             valid_move(x1, y1-1, x2, y2-1, player, this.boardState, data => this.make_move_animation(data, x1, y1, x2, y2));
+        }
+    }
+
+    cpu_turn(done, chainmove) {
+        console.log("HERE1");
+        this.updateBoardState();
+        let P;
+        if(this.playerAturn) P=1;
+        else P=2;
+        if(chainmove==0) {
+            console.log("HERE2");
+            valid_moves(this.boardState, P, data=>this.cpu_move(data, 0));
+        }
+        else {
+            console.log("HERE3");
+            var choice = Math.round(Math.random()) + 1;
+            var lastMove = this.cpu_moves[this.cpu_moves.length-1];
+            console.log("CHOICE", choice);
+            console.log("LAST MOVE", lastMove);
+            if(choice==1) valid_reprogram_coordinates(this.cpu_moves[0][0], this.cpu_moves[0][1]-1, lastMove[0], lastMove[1]-1, P, this.boardState, data=>this.cpu_move(data, 1));
+            else if(choice==2) valid_rocket_boosts(this.cpu_moves[0][0], this.cpu_moves[0][1]-1, lastMove[0], lastMove[1]-1, P, this.boardState, data=>this.cpu_move(data, 2))
+        }
+    }
+
+    cpu_move(data, chainmove) {
+        if(data.target.response!=0) {
+            console.log("HERE4");
+            var moves = JSON.parse(data.target.response);
+            console.log("MOVES", moves);
+            var move = moves[Math.floor(Math.random()*moves.length)];
+            console.log("MOVE", move);
+
+            if(chainmove==0) {
+                console.log("HERE5");
+                this.cpu_moves.push([move[0], move[1]+1]);
+                this.cpu_moves.push([move[2], move[3]+1]);
+                if(this.tiles[move[2] + '-' + (move[3]+1)].getPiece()==null) {
+                        let x1 = move[0];
+                        let y1 = move[1]+1;
+                        console.log("X1", x1);
+                        console.log("Y1", y1);
+                        let x2 = move[2];
+                        let y2 = move[3]+1;
+                        this.currMove = [];
+                        this.currMove.push(x1, y1, x2, y2);
+                        this.gameState = this.gameStates['Animation'];
+                        this.printState();
+                        // Fazer a animação 
+                        this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
+                        this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
+                    
+                }
+                else {
+                    console.log("move2", move[2]);
+                    console.log("move3", move[3]);
+                    console.log("WTF1");
+                    this.cpu_turn(false, 1);
+                }
+            }
+            else {
+                console.log("HERE6");
+                if(chainmove==1) { // reprogram coordinates
+                    let x1 = this.cpu_moves[0][0];
+                    let y1 = this.cpu_moves[0][1];
+                    let x2 = this.cpu_moves[this.cpu_moves.length-1][0];
+                    let y2 = this.cpu_moves[this.cpu_moves.length-1][1];
+                    let x3 = move[0];
+                    let y3 = move[1]+1;
+                    this.cpu_moves.push(move[0], move[1]+1);
+                    this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
+                    this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
+                    this.tiles[x1 + '-' + y1].unsetPiece();
+                    /*this.gameState = this.gameStates["Check Win"];
+                    this.checkWin();
+                    this.gameState = this.gameStates["Next turn"];*/
+                }
+                else if(chainmove==2) {
+                    let x1 = this.cpu_moves[0][0];
+                    let y1 = this.cpu_moves[0][1];
+                    let x2 = this.cpu_moves[this.cpu_moves.length-1][0];
+                    let y2 = this.cpu_moves[this.cpu_moves.length-1][1];
+                    let x3 = move[0];
+                    let y3 = move[1]+1;
+                    this.cpu_moves.push(move[0], move[1]+1);
+                    if(this.tiles[x3 + '-' + y3].getPiece()==null) {
+                        this.currMove = [];
+                        this.currMove.push(x1, y1, x3, y3);
+                        this.gameState = this.gameStates['Animation'];
+                        this.printState();
+                        // Fazer a animação 
+                        this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
+                        this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
+                    }
+                    else {
+                        console.log("WTF2");
+                        this.cpu_turn(false, 1);
+                    }
+                }
+            }
         }
     }
 

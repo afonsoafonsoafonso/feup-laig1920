@@ -117,4 +117,10 @@ parse_input(end_game_A(B), 0).
 parse_input(end_game_B(B), 1):- end_game_B(B).
 parse_input(end_game_B(B), 0).
 
+parse_input(valid_moves(B, P, MoveList), MoveList):- valid_moves(B, P, MoveList).
+parse_input(valid_moves(B, P, MoveList), 0). % linha inutil (?)
+
+parse_input(valid_chain_moves(X1, Y1, X2, Y2, P, B, MoveList, Choice), MoveList):- valid_chain_moves(X1, Y1, X2, Y2, P, B, MoveList, Choice).
+parse_input(valid_chain_moves(_, _, _, _, _, _, _, _), 0). % linha inutil (?)
+
 parse_input(ping, yes).
