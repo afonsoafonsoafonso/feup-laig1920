@@ -89,7 +89,9 @@ class MyInterface extends CGFinterface {
         this.start = function(){
             this.scene.gameOrchestrator.start(this.playerTypeA, this.playerTypeB);
             folder.remove(start);
+            folder.remove(end);
             folder.add(this,'restart');
+            folder.add(this, 'endTurn');
             //console.log("Ragequit");
         }
 
@@ -108,7 +110,7 @@ class MyInterface extends CGFinterface {
         folder.add(this, 'theme', this.scene.gameOrchestrator.themes).name('Theme').onChange(theme => this.scene.setTheme(theme));
         folder.add(this,'undo');
         var start = folder.add(this,'start');
-        folder.add(this, 'endTurn');
+        var end = folder.add(this, 'endTurn');
         
     }
      /*
