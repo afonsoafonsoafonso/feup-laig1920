@@ -449,7 +449,13 @@ class MyGameOrchestrator extends CGFobject {
                 console.log("CHAINMOVE==0 (normal move)");
                 console.log("CPU MOVES LIST:", this.cpu_moves);
                 this.cpu_moves.push([move[0], move[1]+1]);
+                if(!Array.isArray(this.cpu_moves[this.cpu_moves.length-1])) {
+                    console.log("ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR");
+                }
                 this.cpu_moves.push([move[2], move[3]+1]);
+                if(!Array.isArray(this.cpu_moves[this.cpu_moves.length-1])) {
+                    console.log("ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR");
+                }
                 console.log("CPU MOVES LIST:", this.cpu_moves);
                 if(this.tiles[move[2] + '-' + (move[3]+1)].getPiece()==null) {
                         console.log("NORMAL MOVE GET_PIECE==NULL -> animation");
@@ -513,7 +519,7 @@ class MyGameOrchestrator extends CGFobject {
                     console.log("CASA DESTINO ROW:", x3);
                     console.log("CASA DESTINO COL:", y3);
                     console.log("CPU MOVES LIST:", this.cpu_moves);
-                    this.cpu_moves.push(move[0], move[1]+1);
+                    this.cpu_moves.push([move[0], move[1]+1]);
                     console.log("CPU MOVES LIST:", this.cpu_moves);
                     if(this.tiles[x3 + '-' + y3].getPiece()==null) {
                         console.log("CASA FINAL BOOST SEM PEÇA -> animation")
