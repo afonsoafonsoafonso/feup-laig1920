@@ -88,7 +88,7 @@ class MyGameOrchestrator extends CGFobject {
         this.boardSetup();
         this.initialboard = [];
 
-        var timerVar = setInterval(this.countTimer, 1000);
+        this.timerVar = setInterval(this.countTimer, 1000);
 
         this.initBuffers();
     }
@@ -114,6 +114,40 @@ class MyGameOrchestrator extends CGFobject {
         
         ping_server();
         this.printState();
+    }
+
+    restart(playerA, playerB){
+        this.clearAll();
+        this.playerA = playerA;
+        this.playerB = playerB;
+        this.boardSetup();
+        this.playerAturn = true;
+        if(this.playerA == this.playerType.Human) this.gameState = this.gameStates["Select Piece"];
+        else {
+            this.gameState = this.gameStates["CPU Turn"];
+            this.cpu_turn(false, 0);
+        }
+        this.scene.setCamera("playerA");
+        ping_server();
+        this.printState();
+    }
+
+    clearAll(){
+        this.movegames = [[]];
+        this.currMove=[];
+        this.theme = false;
+        this.chainMoves = [];
+        this.validChainMove = false;
+        this.cpu_moves = [];
+        this.animator = null;
+        this.boardState = [];
+        this.request = null;
+        this.selectedTile = null;
+
+        for(let i=0; i<=7; i++)
+            for(let j=1; j<=6; j++) 
+                if(this.tiles[i + '-' + j].getPiece()!=null)
+                    this.tiles[i + '-' + j].unsetPiece();       
     }
 
     update(t) {
