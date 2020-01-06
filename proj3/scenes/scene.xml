@@ -31,12 +31,12 @@
         <texture id="saturn-ring" file="scenes/images/saturn_ring.jpg" />
         <texture id="saturn-planet" file="scenes/images/saturn_planet.jpg" />
         <texture id="demoTexture" file="scenes/images/vidral.jpg" />
-        <texture id="skyBoxTop" file="scenes/images/up.jpg" />
-        <texture id="skyBoxDown" file="scenes/images/down.jpg" />
-        <texture id="skyBoxLeft" file="scenes/images/left.jpg" />
-        <texture id="skyBoxRight" file="scenes/images/right.jpg" />
-        <texture id="skyBoxBack" file="scenes/images/back.jpg" />
-        <texture id="skyBoxFront" file="scenes/images/front.jpg" />
+        <texture id="skyBoxTop" file="scenes/images/top.png" />
+        <texture id="skyBoxDown" file="scenes/images/bottom.png" />
+        <texture id="skyBoxLeft" file="scenes/images/left.png" />
+        <texture id="skyBoxRight" file="scenes/images/right.png" />
+        <texture id="skyBoxBack" file="scenes/images/back.png" />
+        <texture id="skyBoxFront" file="scenes/images/front.png" />
     </textures>
 
     <materials>
@@ -132,7 +132,8 @@
         <component id="skyBoxDown">
             <transformation>
                 <rotate axis= "x" angle="-90" />
-                <translate x="0" y="-2" z="-1" />
+                <rotate axis= "z" angle="90" />
+                <translate x="-2" y="0" z="-1" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -146,7 +147,8 @@
         <component id="skyBoxTop">
             <transformation>
                 <rotate axis= "x" angle="90" />
-                <translate x="0" y="2" z="-1" />
+                <rotate axis= "z" angle="-90" />
+                <translate x="-2" y="0" z="-1" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -160,6 +162,7 @@
         <component id="skyBoxLeft">
             <transformation>
                 <rotate axis= "x" angle="180" />
+                <rotate axis= "z" angle="-180" />
                 <translate x="0" y="0" z="-3" />
             </transformation>
             <materials>
