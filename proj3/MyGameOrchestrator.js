@@ -125,6 +125,7 @@ class MyGameOrchestrator extends CGFobject {
         this.boardSetup();
         this.playerAturn = true;
         document.getElementById("playerAScore").className = "turn";
+        document.getElementById("playerBScore").className = null;
         if(this.playerA == this.playerType.Human) this.gameState = this.gameStates["Select Piece"];
         else {
             this.gameState = this.gameStates["CPU Turn"];
