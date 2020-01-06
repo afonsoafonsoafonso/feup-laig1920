@@ -11,7 +11,7 @@ class MyGameOrchestrator extends CGFobject {
         this.movegames = [[]];
         this.currMove=[];
         this.currMoves = [];
-        this.theme = false;
+        this.theme = "space";
         this.chainMoves = [];
         this.validChainMove = false;
 

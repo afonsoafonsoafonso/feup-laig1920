@@ -9,12 +9,25 @@ class MyTile extends CGFobject{
         this.selected = false;
         this.boosted = false
 
-        this.transparent = new CGFappearance(scene);
-        this.transparent.setAmbient(0, 0, 0, 0);
-        this.transparent.setDiffuse(0, 0, 0, 0);
-        this.transparent.setSpecular(0, 0, 0, 0);
-        this.transparent.loadTexture('scenes/images/transparent.png');
-        this.transparent.setTextureWrap('REPEAT','REPEAT');
+        if((this.row + this.col) % 2 == 0) {
+            this.transparent = new CGFappearance(scene);
+            this.transparent.setAmbient(0, 0, 0, 0);
+            this.transparent.setDiffuse(0, 0, 0, 0);
+            this.transparent.setSpecular(0, 0, 0, 0);
+            this.transparent.loadTexture('scenes/images/darkwood.jpg');
+            this.transparent.setTextureWrap('REPEAT','REPEAT');
+        } else {
+            this.transparent = new CGFappearance(scene);
+            this.transparent.setAmbient(1, 1, 1, 0);
+            this.transparent.setDiffuse(1, 1, 1, 0);
+            this.transparent.setSpecular(1, 1, 1, 0);
+            this.transparent.loadTexture('scenes/images/lightwood.jpg');
+            this.transparent.setTextureWrap('REPEAT','REPEAT');
+        }
+        this.black = new CGFappearance(scene);
+        this.black.setAmbient(0, 0, 0, 0);
+        this.black.setDiffuse(0, 0, 0, 0);
+        this.black.setSpecular(0, 0, 0, 0);
 
         this.picked = new CGFappearance(scene);
         this.picked.setAmbient(1, 0, 0, 0);
@@ -45,7 +58,13 @@ class MyTile extends CGFobject{
     display() {
         if(this.selected) this.picked.apply();
         else if(this.boosted) this.boostedmat.apply();
-        else this.transparent.apply();
+        else {
+            if(this.scene.gameOrchestrator.theme == "TableTop") 
+            this.transparent.apply();
+            else
+            this.black.apply();
+        }
+        //console.log(this.scene.gameOrchestrator.theme)
         this.plane.display();
         if(this.piece!=null) this.piece.display();
 

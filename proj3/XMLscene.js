@@ -91,6 +91,7 @@ class XMLscene extends CGFscene {
     }*/
     setTheme(theme){
         var filename=getUrlVars()['file'] || (theme + ".xml");
+        this.gameOrchestrator.theme = theme;
 
 	    // create and load graph, and associate it to scene. 
         // Check console for loading errors
