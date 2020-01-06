@@ -51,12 +51,6 @@ class MyAnimator {
             var t = secondsSinceStart+2;
             var reprogramKeyframes = [];
             reprogramKeyframes.push(new Keyframe(t, 0, 0, 0, 0, 0, 0, 1, 1, 1));
-            keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
-            t+=0.5;
-            keyframes.push(new Keyframe(t, y2-y1, 1, x2-x1, 0, 0, 0, 1, 1, 1));
-            t+=0.5;
-            keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
-            t+=0.5;
             for(let i=0; i<moves.length; i++) {
                 x1 = moves[i].x1;
                 y1 = moves[i].y1;
@@ -81,20 +75,29 @@ class MyAnimator {
                 }
                 else {
                     if(moves[i].type==2) {
+                        keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        keyframes.push(new Keyframe(t, y2-y1, 1, x2-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
                         keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
                         t+=0.5;
                         keyframes.push(new Keyframe(t, y3-y1, 0, x3-x1, 0, 0, 0, 1, 1, 1));
                         t+=0.5;
                     }
                     else {
-                        
-                        console.log("")
-                        reprogramKeyframes.push(new Keyframe(t-0.2, (y3-y2)*0.4, 1, (x3-x2)*0.4, 0, 0, 0, 1, 1, 1));
                         keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
-                        reprogramKeyframes.push(new Keyframe(t-0.4, (y3-y2)*0.7, 1, (x3-x2)*0.7, 0, 0, 0, 1, 1, 1));
                         t+=0.5;
-                        keyframes.push(new Keyframe(t, y2-y1, 0, x2-x1, 0, 0, 0, 1, 1, 1));
-                        reprogramKeyframes.push(new Keyframe(t-0.4, y3-y2, 0, x3-x2, 0, 0, 0, 1, 1, 1));
+                        keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        keyframes.push(new Keyframe(t+1, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
+                        reprogramKeyframes.push(new Keyframe(t, (y3-y2)*0.7, 1, (x3-x2)*0.7, 0, 0, 0, 1, 1, 1));
+                        t+=0.5;
+                        keyframes.push(new Keyframe(t+1, y2-y1, 0, x2-x1, 0, 0, 0, 1, 1, 1));
+                        reprogramKeyframes.push(new Keyframe(t, y3-y2, 0, x3-x2, 0, 0, 0, 1, 1, 1));
                         t+=0.5;
                         this.reprogramAnim = new KeyframeAnimation(this.scene, 'reprogram', reprogramKeyframes);
                         //setting reprogram animation on piece
