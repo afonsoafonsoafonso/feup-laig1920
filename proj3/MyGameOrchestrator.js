@@ -132,7 +132,6 @@ class MyGameOrchestrator extends CGFobject {
         this.movegames = [[]];
         this.currMove=[];
         this.currMoves=[];
-        this.theme = false;
         this.chainMoves = [];
         this.validChainMove = false;
         this.cpu_moves = [];
