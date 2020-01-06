@@ -111,7 +111,7 @@
 
         <component id="mars">
             <transformation>
-                <translate x="-30" y="-20" z="-20" />
+                <translate x="-20" y="-20" z="-20" />
                 <scale x="3" y="3" z="3" />
             </transformation>
             <materials>
