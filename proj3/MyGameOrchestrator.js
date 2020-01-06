@@ -578,11 +578,18 @@ class MyGameOrchestrator extends CGFobject {
                     console.log("LAST MOVE COL:", y2);
                     console.log("CASA DESTINO PEÇA REPROGRAMADA ROW:", x3);
                     console.log("CASA DESTINO PEÇA REPROGRAMADA COL:", y3);
+                    // NEW ANIM HERE
+                    this.gameState = this.gameStates['Animation'];
+                    this.currMoves.push(new Move(1, x1, y1, x2, y2, x3, y3));
+                    this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(), this.currMoves);
+                    this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
+                    //
+                    /*
                     this.cpu_moves.push(move[0], move[1]+1);
                     this.cpu_moves = [];
                     this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
                     this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
-                    this.tiles[x1 + '-' + y1].unsetPiece();
+                    this.tiles[x1 + '-' + y1].unsetPiece();*/
                 }
                 else if(chainmove==2) {
                     console.log("CHAINMOVE==2 -> ROCKET BOOST");
@@ -610,11 +617,13 @@ class MyGameOrchestrator extends CGFobject {
                         this.printState();
                         this.cpu_moves = [];
                         // Fazer a animação 
-                        this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x3, y3);
+                        console.log("CURR MOVES", this.currMoves);
+                        this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(), this.currMoves);
                         this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
                     }
                     else {
                         console.log("CASA FINAL BOOST COM PEÇA -> cpu_turn(false, 1)");
+                        this.currMoves.push(new Move(2, x1, y1, x2, y2, x3, y3));
                         this.cpu_turn(false, 1);
                     }
                 }
