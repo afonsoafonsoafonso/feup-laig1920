@@ -79,7 +79,7 @@ class XMLscene extends CGFscene {
     setCamera(id) {
         this.sceneCam = this.graph.views[id];
         console.log("Camera ID: ", id);
-        this.interface.setActiveCamera(this.sceneCam);
+        //this.interface.setActiveCamera(this.sceneCam);
     }
 
     /**
