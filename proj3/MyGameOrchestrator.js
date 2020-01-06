@@ -146,11 +146,19 @@ class MyGameOrchestrator extends CGFobject {
         this.boardState = [];
         this.request = null;
         this.selectedTile = null;
-
+        this.clearSelects();
         for(let i=0; i<=7; i++)
             for(let j=1; j<=6; j++) 
                 if(this.tiles[i + '-' + j].getPiece()!=null)
                     this.tiles[i + '-' + j].unsetPiece();       
+    }
+
+    clearSelects(){
+        for(let i=0; i<=7; i++)
+            for(let j=1; j<=6; j++){
+                this.tiles[i + '-' + j].selected = false;
+                this.tiles[i + '-' + j].boosted = false;
+            }
     }
 
     update(t) {
@@ -266,9 +274,9 @@ class MyGameOrchestrator extends CGFobject {
     undo(){
         this.currMove = [];
         this.currMoves = [];
+        this.selectedTile = null;
         this.loadBoardState();
-        if (this.gameState == this.gameStates["Next turn"])
-            this.gameState = this.gameStates["Select Piece"];
+        this.gameState = this.gameStates["Select Piece"];
     }
     
     nextTurn(){
@@ -304,13 +312,17 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     clickHandler(obj, id) {
-        if(obj != this.selectedTile && this.selectedTile == null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
+        if(this.selectedTile == null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
             this.selectedTile = obj;
+            this.selectedTile.selected = true;
+            console.log("12");
+            console.log(obj);
             this.gameState = this.gameStates["Select Tile"];
             this.printState();
         }
         else if(obj != this.selectedTile &&this.selectedTile!=null && obj.getPiece()==null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]) {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
+            this.selectedTile.selected = false;
             this.selectedTile = null;
         }
         else if(this.selectedTile!=null && obj.getPiece()!=null) {
@@ -320,11 +332,11 @@ class MyGameOrchestrator extends CGFobject {
             this.updateBoardState();
             let len = this.chainMoves.length;
             if(this.gameState != this.gameStates['Boost']) { 
-                valid_move(this.selectedTile.row, this.selectedTile.col-1, obj.row, obj.col-1, player, this.boardState, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
+                valid_move(this.selectedTile.row, this.selectedTile.col-1, obj.row, obj.col-1, player, this.boardState, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, obj));
             }
             else {
                 this.currMoves.push(new Move(2, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
-                valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, player, this.boardState, 2, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col));
+                valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, player, this.boardState, 2, data => this.chain_choice(data, this.selectedTile.row, this.selectedTile.col, obj.row, obj.col, obj));
             }
         }
         else if(obj != this.selectedTile && this.gameState == this.gameStates['Boost'] && obj.getPiece()!=null) {
@@ -391,14 +403,18 @@ class MyGameOrchestrator extends CGFobject {
         this.printState();
     }
 
-    chain_choice(data, x1, y1, x2, y2) {
+    chain_choice(data, x1, y1, x2, y2, tile) {
         if(data.target.response==1) {
+            tile.boosted = true;
             console.log("Press M for Rocket Boost or J for Reprogram Coordinates");
             this.chainMoves.push([x1, y1]);
             this.chainMoves.push([x2,  y2]);
             this.gameState = this.gameStates.Choice;
         }
         else {
+            this.clearSelects();
+            this.selectedTile = null;
+            this.currMove = [];
             this.gameState = this.gameStates["Select Piece"];
         }
     }
@@ -613,9 +629,11 @@ class MyGameOrchestrator extends CGFobject {
                 this.currMove = [];
                 this.currMove.push(x1, y1, x3, y3);
                 this.currMoves.push(new Move(2, x1, y1, x2, y2, x3, y3));
+                this.clearSelects();
                 this.make_move_animation(data, x1, y1, x3, y3);
             }
         } else {
+            this.clearSelects();
             this.selectedTile = null;
             this.currMove = [];
             this.gameState = this.gameStates["Select Piece"];
@@ -629,6 +647,7 @@ class MyGameOrchestrator extends CGFobject {
             this.gameState = this.gameStates['Animation'];
             this.printState();
             this.currMoves.push(new Move(1, x1, y1, x2, y2, x3, y3));
+            this.clearSelects();
             this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(),this.currMoves);
             this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
             /*
@@ -637,6 +656,7 @@ class MyGameOrchestrator extends CGFobject {
             this.gameState = this.gameStates["Next turn"];
             */
         } else {
+            this.clearSelects();
             this.selectedTile = null;
             this.currMove = [];
             this.gameState = this.gameStates["Select Piece"];
@@ -647,6 +667,7 @@ class MyGameOrchestrator extends CGFobject {
     make_move_animation(data, x1, y1, x2, y2) {
         if(data.target.response==1) {
             // NEW ANIM HERE
+            this.clearSelects();
             this.gameState = this.gameStates['Animation'];
             this.printState();
             // Fazer a animação 
