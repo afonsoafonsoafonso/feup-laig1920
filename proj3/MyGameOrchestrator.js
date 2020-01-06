@@ -182,6 +182,13 @@ class MyGameOrchestrator extends CGFobject {
         this.setupPickableGrid();
     }
 
+    hideAlert(){
+        document.getElementById("alert").className = "hide";
+    }
+
+    showAlert(){
+        document.getElementById("alert").className = null;
+    }
     countTimer() {
         if(this.totalSeconds == null)
             this.totalSeconds = 1;
@@ -332,6 +339,7 @@ class MyGameOrchestrator extends CGFobject {
             let player;
             if(this.playerAturn) player=1;
             else player=2;
+            this.showAlert();
             this.updateBoardState();
             let len = this.chainMoves.length;
             if(this.gameState != this.gameStates['Boost']) { 
@@ -397,11 +405,13 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     chooseBoost(){
+        this.hideAlert();
         if(this.gameState == this.gameStates.Choice)
             this.gameState = this.gameStates.Boost; 
         this.printState();
     }
     chooseReprogram(){
+        this.hideAlert();
         if(this.gameState == this.gameStates.Choice)
             this.gameState = this.gameStates.Reprogram;
         this.printState();

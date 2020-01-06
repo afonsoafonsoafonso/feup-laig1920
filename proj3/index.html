@@ -60,6 +60,23 @@ canvas {
 .turn {
     border-bottom: 2px solid #efefef;
 }
+
+#alert {
+    font-size: larger;
+    color: white;
+    position: absolute;
+    background-color: black;
+    border: 2px solid rgb(150, 150, 150);
+    border-radius: 5px;
+    padding: 5px 10px;	
+    top: 50%;
+    left: 76%;
+    right: 10%;
+}
+
+.hide {
+    display: none;
+}
 </style>
 </head>
 <body>
@@ -70,6 +87,6 @@ canvas {
     <div id="timer">Timer: 00:01</div>
     <div id="playerBScore">PlayerB : 0</div>
 </div>
-
+<div class="hide" id="alert">Press M for Rocket Boost OR J for Reprogram Coordinates!</div>
 </body>
 </html>
