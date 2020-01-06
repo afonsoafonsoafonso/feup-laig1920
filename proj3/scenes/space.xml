@@ -1,0 +1,251 @@
+<lxs>
+    <scene root="demoRoot" axis_length="5"/>
+
+    <views default="playerA">
+        <perspective id="playerB" near="0.1" far="500" angle="45">
+            <from x="3" y="10" z="10" />
+            <to x="3" y="-5" z="0" />
+        </perspective>
+
+        <perspective id="playerA" near="0.1" far="500" angle="45">
+            <from x="3" y="10" z="-2" />
+            <to x="3" y="7" z="0" />
+        </perspective>
+    </views>
+
+    <globals>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </globals>
+
+    <lights>
+        <omni id="Light" enabled="1">
+            <location x="3" y="7" z="5" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="saturn-ring" file="scenes/images/saturn_ring.jpg" />
+        <texture id="saturn-planet" file="scenes/images/saturn_planet.jpg" />
+        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="skyBoxTop" file="scenes/images/top.png" />
+        <texture id="skyBoxDown" file="scenes/images/bottom.png" />
+        <texture id="skyBoxLeft" file="scenes/images/left.png" />
+        <texture id="skyBoxRight" file="scenes/images/right.png" />
+        <texture id="skyBoxBack" file="scenes/images/back.png" />
+        <texture id="skyBoxFront" file="scenes/images/front.png" />
+    </textures>
+
+    <materials>
+        <material id="demoMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="demoTransform">
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+    </transformations>
+
+    <animations>
+
+    </animations>
+
+    <primitives>
+        <primitive id="demoRectangle">
+            <rectangle x1="-1" y1="-1" x2="1" y2="1" />
+        </primitive>
+        <primitive id="sphere">
+            <sphere radius="1" slices="28" stacks="10"/>
+        </primitive>
+        <primitive id="torus">
+            <torus inner="0.1" outer="0.9" slices="20" loops="40"/>
+        </primitive>
+    </primitives>
+
+    <components>
+
+        <component id="rect">
+            <transformation>
+            </transformation>
+            <animationref id="anim"/>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="saturn">
+            <transformation>
+                <translate x="15" y="-20" z="6" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="saturn-sphere" />
+                <componentref id="saturn-ring" />
+            </children>
+        </component>
+
+        <component id="saturn-sphere">
+            <transformation>
+                <scale x="5" y="5" z="5" />
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="saturn-planet" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+
+        <component id="saturn-ring">
+            <transformation>
+                <rotate axis="x" angle="90" />
+                <scale x="9" y="9" z="0.001" /> 
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="saturn-ring" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="torus" />
+            </children>
+        </component>
+
+        <component id="skyBoxDown">
+            <transformation>
+                <rotate axis= "x" angle="-90" />
+                <rotate axis= "z" angle="90" />
+                <translate x="-2" y="0" z="-1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="skyBoxDown" length_s="1.0" length_t="1" />
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBoxTop">
+            <transformation>
+                <rotate axis= "x" angle="90" />
+                <rotate axis= "z" angle="-90" />
+                <translate x="-2" y="0" z="-1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="skyBoxTop" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBoxLeft">
+            <transformation>
+                <rotate axis= "x" angle="180" />
+                <rotate axis= "z" angle="-180" />
+                <translate x="0" y="0" z="-3" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="skyBoxLeft" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBoxBack">
+            <transformation>
+                <translate x="1" y="0" z="2" />
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="skyBoxBack" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBoxRight">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="skyBoxRight" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBoxFront">
+            <transformation>
+                <translate x="-1" y="0" z="2" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="skyBoxFront" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="skyBox">
+            <transformation>
+                <scale x="40" y="40" z="40" />
+                <translate x="0" y="-1" z="-2" />
+                <translate x="0" y="1" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="skyBoxFront" />
+                <componentref id="skyBoxRight" />
+                <componentref id="skyBoxBack" />
+                <componentref id="skyBoxLeft" />
+                <componentref id="skyBoxTop" />
+                <componentref id="skyBoxDown" />
+            </children>
+        </component>
+
+        <component id="demoRoot">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="skyBox" />
+                <componentref id="saturn" />
+            </children>
+        </component>
+    </components>
+</lxs>

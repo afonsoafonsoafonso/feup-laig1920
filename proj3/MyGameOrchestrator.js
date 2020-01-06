@@ -76,8 +76,8 @@ class MyGameOrchestrator extends CGFobject {
         }
 
         this.themes = {
-            'Scene' : "Scene",
-            'Scene2' : "Scene2"
+            'Space' : "Space",
+            'TableTop' : "TableTop"
         }
 
         this.gameState = this.gameStates.Menu;

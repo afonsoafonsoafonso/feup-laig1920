@@ -100,7 +100,7 @@ class MyInterface extends CGFinterface {
             //console.log("acabei.");
         }
 
-        this.theme = this.scene.gameOrchestrator.themes.Scene;
+        this.theme = this.scene.gameOrchestrator.themes.Space;
         this.playerTypeA = 0;
         this.playerTypeB = 0;
         var folder = this.gui.addFolder("Game");
