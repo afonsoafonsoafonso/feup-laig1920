@@ -39,7 +39,8 @@ class MyPieceModel extends CGFobject {
         this.scene.pushMatrix();
         this.mat.apply();
         this.scene.scale(0.0005,0.0005,0.0005);
-
+        if(!this.scene.gameOrchestrator.playerAturn)
+            this.scene.rotate(Math.PI,1,0,0);
         this.cenas.display();
         /*this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.side.display();

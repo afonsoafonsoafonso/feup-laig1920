@@ -48,7 +48,7 @@ class MyGameOrchestrator extends CGFobject {
             }
         }
 
-        this.playerAturn = false;
+        this.playerAturn = true;
 
         this.playerType = {
             'Human' : 0,
