@@ -37,6 +37,7 @@
         <texture id="skyBoxRight" file="scenes/images/right.png" />
         <texture id="skyBoxBack" file="scenes/images/back.png" />
         <texture id="skyBoxFront" file="scenes/images/front.png" />
+        <texture id="mars" file="scenes/images/mars.jpg" />
     </textures>
 
     <materials>
@@ -98,6 +99,20 @@
             <children>
                 <componentref id="saturn-sphere" />
                 <componentref id="saturn-ring" />
+            </children>
+        </component>
+
+        <component id="mars">
+            <transformation>
+                <translate x="-30" y="-20" z="-20" />
+                <scale x="3" y="3" z="3" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="mars" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="sphere" />
             </children>
         </component>
 
@@ -245,6 +260,7 @@
             <children>
                 <componentref id="skyBox" />
                 <componentref id="saturn" />
+                <componentref id="mars" />
             </children>
         </component>
     </components>
