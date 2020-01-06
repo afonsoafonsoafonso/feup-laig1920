@@ -12,14 +12,14 @@ class MyPieceModel extends CGFobject {
         //proj3\models\ship\[.obj] (Sh3d adapted)\Arc170.obj
         if(level==3) {
             this.mat = new CGFappearance(scene);
-            this.mat.setAmbient(65/255, 35/255, 35/255, 1.0);
+            this.mat.setAmbient(200/255, 35/255, 35/255, 1.0);
             this.mat.setDiffuse(35/255, 5/255, 5/255, 1.0);
             this.mat.setSpecular(90/255, 75/255, 75/255, 1.0);
             this.mat.setShininess(10.0);
         }
         else if(level==2) {
             this.mat = new CGFappearance(scene);
-            this.mat.setAmbient(35/255, 35/255, 0/255, 1.0);
+            this.mat.setAmbient(200/255, 200/255, 0/255, 1.0);
             this.mat.setDiffuse(35/255, 35/255, 0/255, 1.0);
             this.mat.setSpecular(100/255, 100/255, 90/255, 1.0);
             this.mat.setShininess(10.0);
