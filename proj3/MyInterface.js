@@ -79,7 +79,6 @@ class MyInterface extends CGFinterface {
     createGameInterface() {
         this.undo = function(){
             this.scene.gameOrchestrator.undo();
-            //console.log("Fiz merda, volta atrás crl! *Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z**Ctrl+Z*");
         }
 
         this.restart = function(){
@@ -92,12 +91,10 @@ class MyInterface extends CGFinterface {
             folder.remove(end);
             folder.add(this,'restart');
             folder.add(this, 'endTurn');
-            //console.log("Ragequit");
         }
 
         this.endTurn = function(){
             this.scene.gameOrchestrator.nextTurn();
-            //console.log("acabei.");
         }
 
         this.theme = this.scene.gameOrchestrator.themes.Space;

@@ -9,11 +9,9 @@ class MyAnimator {
         this.currTime;
         this.piece = null;
         this.reprogramPiece = null;
-        //console.log(t);
     }
 
     calculate_animations(piece, moves) {
-        console.log("NEEEEEWE ANIMAAATIOOOOOOOONS\n");
         this.piece = piece;
         this.running = true;
         var keyframes = [];
@@ -21,7 +19,6 @@ class MyAnimator {
         keyframes.push(new Keyframe(secondsSinceStart, 0, 0, 0, 0, 0, 0, 1, 1, 1));
         
         if(moves.length==1 && moves[0].type==0) {
-            console.log("MOVE NORMAL");
             var x1 = moves[0].x1;
             var y1 = moves[0].y1;
             var x2 = moves[0].x2;
@@ -51,14 +48,7 @@ class MyAnimator {
                 y2 = moves[i].y2;
                 x3 = moves[i].x3;
                 y3 = moves[i].y3;
-                console.log("X1", x1);
-                console.log("Y1", y1);
-                console.log("X2", x2);
-                console.log("Y2", y2);
-                console.log("X3", x3);
-                console.log("Y3", y3);
                 if(i!=moves.length-1) {
-                    console.log("NOT LAST ITEM OF ARRAY");
                     keyframes.push(new Keyframe(t, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
                     t+=0.5;
                     keyframes.push(new Keyframe(t, y2-y1, 1, x2-x1, 0, 0, 0, 1, 1, 1));
@@ -130,7 +120,6 @@ class MyAnimator {
     }
 
     endAnimation() {
-        console.log("CURR MOVESSSS", this.orchestrator.currMoves);
         if(this.piece!=null) this.piece.animation = null;
         if(this.reprogramPiece!=null) this.reprogramPiece.reprogramAnim = null;
         this.reprogramAnim = null;

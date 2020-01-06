@@ -64,7 +64,6 @@ class MyTile extends CGFobject{
             else
             this.black.apply();
         }
-        //console.log(this.scene.gameOrchestrator.theme)
         this.plane.display();
         if(this.piece!=null) this.piece.display();
 

@@ -30,29 +30,11 @@ function valid_moves(b, p, replyHandler) {
 }
 
 function valid_rocket_boosts(x1, y1, x2, y2, p, b, replyHandler) {
-    console.log("INFO VALID_ROCKET_BOOST");
-    console.log("~~");
-    console.log("X1", x1);
-    console.log("y1", y1);
-    console.log("X2", x2);
-    console.log("Y2", y2);
-    console.log("P", p);
-    console.log("B", b);
-    console.log("~~");
     var requestString = 'valid_chain_moves(' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + ',' + p + ',' + JSON.stringify(b) + ',' + 'MoveList' + ',' + 2 + ')';
     makeRequest(requestString, replyHandler);
 }
 
 function valid_reprogram_coordinates(x1, y1, x2, y2, p, b, replyHandler) {
-    console.log("INFO VALID_REPROGRAM_COORDINATES");
-    console.log("~~");
-    console.log("X1", x1);
-    console.log("y1", y1);
-    console.log("X2", x2);
-    console.log("Y2", y2);
-    console.log("P", p);
-    console.log("B", b);
-    console.log("~~");
     var requestString = 'valid_chain_moves(' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + ',' + p + ',' + JSON.stringify(b) + ',' + 'MoveList' + ',' + 1 + ')';
     makeRequest(requestString, replyHandler);
 }

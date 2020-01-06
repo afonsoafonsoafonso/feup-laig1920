@@ -29,13 +29,11 @@ class MyGameOrchestrator extends CGFobject {
         for(let i=1; i<=6; i++) {
             var currTile = new MyTile(scene, 0, i);
             var key = 0 + '-' + i;
-            //console.log(key);
             this.tiles[key] = currTile;
         }
         for(let i=1; i<=6; i++) {
             var currTile = new MyTile(scene, 7, i);
             var key = 7 + '-' + i;
-            //console.log(key);
             this.tiles[key] = currTile;
         }
 
@@ -43,7 +41,6 @@ class MyGameOrchestrator extends CGFobject {
             for(let j=1; j<=6; j++) {
                 var currTile = new MyTile(scene, i, j);
                 var key = i + '-' + j;
-                //console.log(key);
                 this.tiles[key] = currTile;
             }
         }
@@ -86,7 +83,7 @@ class MyGameOrchestrator extends CGFobject {
         this.playerAScore = 0;
         this.playerBScore = 0;
 
-        this.printState();
+        
         this.boardSetup();
         this.initialboard = [];
 
@@ -96,10 +93,6 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     orchestrate(){
-    }
-
-    printState(){
-        console.log("currently in ", this.gameState);
     }
 
     start(playerA, playerB){
@@ -116,7 +109,6 @@ class MyGameOrchestrator extends CGFobject {
         this.scene.setCamera("playerA");
         
         ping_server();
-        this.printState();
     }
 
     restart(playerA, playerB){
@@ -134,7 +126,6 @@ class MyGameOrchestrator extends CGFobject {
         }
         this.scene.setCamera("playerA");
         ping_server();
-        this.printState();
     }
 
     clearAll(){
@@ -275,10 +266,6 @@ class MyGameOrchestrator extends CGFobject {
         //
         piece = new MyPiece(this.scene, this.pieceModels, 1);
         this.tiles['6-6'].setPiece(piece);
-
-        //this.updateBoardState();
-        //this.initialboard = this.boardState.slice();
-        //console.log(this.initialboard);
     }
 
     undo(){
@@ -295,7 +282,6 @@ class MyGameOrchestrator extends CGFobject {
             this.currMove = [];
             this.currMoves=[];
             if(((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human)) && this.movegames.length < 2) {
-                console.log("Joga primeiro Boi, Ainda é a tua vez, conas.")
                 return
             }
             this.playerAturn = !this.playerAturn;
@@ -313,7 +299,6 @@ class MyGameOrchestrator extends CGFobject {
             if((this.playerAturn && this.playerA == this.playerType.Human) || (!this.playerAturn && this.playerB == this.playerType.Human))
                     this.gameState = this.gameStates["Select Piece"];
             else {
-                console.log("PAOWNDOAWNDOAWNODNAWOIDN");
                 this.gameState = this.gameStates["CPU Turn"];
                 this.cpu_turn(false, 0);
             }
@@ -325,10 +310,8 @@ class MyGameOrchestrator extends CGFobject {
         if(this.selectedTile == null && obj.getPiece()!=null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"]  && this.gameState != this.gameStates["End Game"]) {
             this.selectedTile = obj;
             this.selectedTile.selected = true;
-            console.log("12");
-            console.log(obj);
             this.gameState = this.gameStates["Select Tile"];
-            this.printState();
+            
         }
         else if(obj != this.selectedTile &&this.selectedTile!=null && obj.getPiece()==null && this.gameState != this.gameStates["Boost"] && this.gameState != this.gameStates["Reprogram"] && this.gameState != this.gameStates["End Game"]) {
             this.move(this.selectedTile.row, this.selectedTile.col, obj.row, obj.col);
@@ -358,7 +341,6 @@ class MyGameOrchestrator extends CGFobject {
             //if chain move is valid, pushes it to the array
             this.updateBoardState();
             let noPiece = false;
-            console.log("Push aqui alooooooooooooooooooooooooooooooooooo??");
             this.currMoves.push(new Move(2, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col));
             valid_chain_move(this.selectedTile.row, this.selectedTile.col-1, this.chainMoves[len-1][0], this.chainMoves[len-1][1]-1, obj.row, obj.col-1, P, this.boardState, 2, data=>this.rocket_boost(data, this.selectedTile.row, this.selectedTile.col, this.chainMoves[len-1][0], this.chainMoves[len-1][1], obj.row, obj.col, noPiece));
         }
@@ -391,7 +373,6 @@ class MyGameOrchestrator extends CGFobject {
 
     game_over(player,data) {
         if(data.target.response==1) {
-            console.log("GAME OVER BOYS");
             this.gameState = this.gameStates["End Game"];
             this.updateScore(player);
         } else this.movegames.pop();
@@ -408,13 +389,13 @@ class MyGameOrchestrator extends CGFobject {
         this.hideAlert();
         if(this.gameState == this.gameStates.Choice)
             this.gameState = this.gameStates.Boost; 
-        this.printState();
+        
     }
     chooseReprogram(){
         this.hideAlert();
         if(this.gameState == this.gameStates.Choice)
             this.gameState = this.gameStates.Reprogram;
-        this.printState();
+        
     }
 
     chain_choice(data, x1, y1, x2, y2, tile) {
@@ -453,21 +434,16 @@ class MyGameOrchestrator extends CGFobject {
             this.boardState.push(currRow);
         }
         this.movegames.push(this.boardState);
-        //console.log(this.boardState);
     }
 
     loadBoardState() {
-        //console.log("Moves: ", this.movegames);
         if (this.movegames.length < 2)
             return;
         let previous = this.movegames.pop();
         let piece;
-        //console.log(previous);
         
         for(let i=1; i<=6; i++) {           
             for(let j=0; j<=5; j++) {
-                //console.log(i,j,previous[i][j]);
-                //this.tiles[i + '-' + j].unsetPiece();
                 if(previous[i][j] != 0){
                     switch(previous[i][j]){
                         case 1:
@@ -491,20 +467,10 @@ class MyGameOrchestrator extends CGFobject {
 
     move(x1, y1, x2, y2) {
         this.currMove = [];
-        //
-        console.log("X1", x1);
-        console.log("Y1", y1);
-        console.log("X2", x2);
-        console.log("Y2", y2);
         this.currMoves.push(new Move(0, x1, y1, x2, y2));
-        //
         this.currMove.push(x1, y1, x2, y2);
         
         if(this.tiles[x1 + '-' + y1].getPiece() != null) {
-            //console.log(this.boardState);
-            //this.animator.calculate_animation(x1, y1, x2, y2);
-            //this.animator.setAnimation(this.tiles[x1 + '-' + y1]);
-            
             let player = 1;
             if (!this.playerAturn)  player = 2;
             // y's subtraidos por um pois no prolog as colunas começam a zero, mesmo na playable área
@@ -515,21 +481,16 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     cpu_turn(done, chainmove) {
-        console.log("CPU_TURN BEGIN");
         this.updateBoardState();
         let P;
         if(this.playerAturn) P=1;
         else P=2;
         if(chainmove==0) {
-            console.log("CHAIN_MOVE=0 -> next: valid_moves");
             valid_moves(this.boardState, P, data=>this.cpu_move(data, 0));
         }
         else {
-            console.log("CHAIN_MOVE!=0");
             var choice = Math.round(Math.random()) + 1;
             var lastMove = this.cpu_moves[this.cpu_moves.length-1];
-            console.log("LAST MOVE:", lastMove);
-            console.log("CHAIN MOVE CHOICE:", choice);
             if(choice==1) valid_reprogram_coordinates(this.cpu_moves[0][0], this.cpu_moves[0][1]-1, lastMove[0], lastMove[1]-1, P, this.boardState, data=>this.cpu_move(data, 1));
             else if(choice==2) valid_rocket_boosts(this.cpu_moves[0][0], this.cpu_moves[0][1]-1, lastMove[0], lastMove[1]-1, P, this.boardState, data=>this.cpu_move(data, 2))
         }
@@ -537,31 +498,20 @@ class MyGameOrchestrator extends CGFobject {
 
     cpu_move(data, chainmove) {
         if(data.target.response!=0) {
-            console.log("CPU_MOVE BEGIN");
             var moves = JSON.parse(data.target.response);
-            console.log("LIST OF POSSIBLE MOVES:", moves);
             var move = moves[Math.floor(Math.random()*moves.length)];
-            console.log("RANDOM CHOSEN MOVE (adicionar 1 a y aqui):", move);
             if(chainmove==0) {
-                console.log("CHAINMOVE==0 (normal move)");
-                console.log("CPU MOVES LIST:", this.cpu_moves);
                 this.cpu_moves.push([move[0], move[1]+1]);
                 this.cpu_moves.push([move[2], move[3]+1]);
-                console.log("CPU MOVES LIST:", this.cpu_moves);
                 if(this.tiles[move[2] + '-' + (move[3]+1)].getPiece()==null) {
-                        console.log("NORMAL MOVE GET_PIECE==NULL -> animation");
                         let x1 = move[0];
                         let y1 = move[1]+1;
-                        console.log("RANDOM CHOSEN MOVE ROW:", x1);
-                        console.log("RANDOM CHOSEN MOVE COL:", y1);
                         let x2 = move[2];
                         let y2 = move[3]+1;
-                        console.log("RANDOM CHOSEN MOVE DEST ROW:", x2);
-                        console.log("RANDOM CHOSEN MOVE DEST COL:", y2);
                         this.currMove = [];
                         this.currMove.push(x1, y1, x2, y2);
                         this.gameState = this.gameStates['Animation'];
-                        this.printState();
+                        
                         this.cpu_moves = [];
                         // Fazer a animação 
                         this.currMoves.push(new Move(0, x1, y1, x2, y2));
@@ -570,71 +520,42 @@ class MyGameOrchestrator extends CGFobject {
                     
                 }
                 else {
-                    console.log("NORMAL MOVE GET_PIECE!=NULL -> CPU_TURN(false, 1)");
                     this.cpu_turn(false, 1);
                 }
             }
             else {
-                console.log("CHAIN_MOVE!=0 -> ESTAMOS NUM CHAINMOVE");
                 if(chainmove==1) { // reprogram coordinates
-                    console.log("CHAINMOVE==1 -> REPROGRAM COORDINATES");
                     let x1 = this.cpu_moves[0][0];
                     let y1 = this.cpu_moves[0][1];
                     let x2 = this.cpu_moves[this.cpu_moves.length-1][0];
                     let y2 = this.cpu_moves[this.cpu_moves.length-1][1];
                     let x3 = move[0];
                     let y3 = move[1]+1;
-                    console.log("CASA ORINAL ROW:", x1);
-                    console.log("CASA ORIGINAL COL:", y1);
-                    console.log("LAST MOVE ROW (casa onde este reprogram ta a ser feito):", x2);
-                    console.log("LAST MOVE COL:", y2);
-                    console.log("CASA DESTINO PEÇA REPROGRAMADA ROW:", x3);
-                    console.log("CASA DESTINO PEÇA REPROGRAMADA COL:", y3);
-                    // NEW ANIM HERE
+
                     this.gameState = this.gameStates['Animation'];
                     this.currMoves.push(new Move(1, x1, y1, x2, y2, x3, y3));
                     this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(), this.currMoves);
                     this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
-                    //
-                    /*
-                    this.cpu_moves.push(move[0], move[1]+1);
-                    this.cpu_moves = [];
-                    this.tiles[x3 + '-' + y3].setPiece(this.tiles[x2 + '-' + y2].getPiece());
-                    this.tiles[x2 + '-' + y2].setPiece(this.tiles[x1 + '-' + y1].getPiece());
-                    this.tiles[x1 + '-' + y1].unsetPiece();*/
                 }
                 else if(chainmove==2) {
-                    console.log("CHAINMOVE==2 -> ROCKET BOOST");
                     let x1 = this.cpu_moves[0][0];
                     let y1 = this.cpu_moves[0][1];
                     let x2 = this.cpu_moves[this.cpu_moves.length-1][0];
                     let y2 = this.cpu_moves[this.cpu_moves.length-1][1];
                     let x3 = move[0];
                     let y3 = move[1]+1;
-                    console.log("CASA ORINAL ROW:", x1);
-                    console.log("CASA ORIGINAL COL:", y1);
-                    console.log("LAST MOVE ROW (casa onde este boost ta a ser feito):", x2);
-                    console.log("LAST MOVE COL:", y2);
-                    console.log("CASA DESTINO ROW:", x3);
-                    console.log("CASA DESTINO COL:", y3);
-                    console.log("CPU MOVES LIST:", this.cpu_moves);
                     this.cpu_moves.push([move[0], move[1]+1]);
-                    console.log("CPU MOVES LIST:", this.cpu_moves);
                     this.currMoves.push(new Move(2, x1, y1, x2, y2, x3, y3));
                     if(this.tiles[x3 + '-' + y3].getPiece()==null) {
-                        console.log("CASA FINAL BOOST SEM PEÇA -> animation")
                         this.currMove = [];
                         this.currMove.push(x1, y1, x3, y3);
                         this.gameState = this.gameStates['Animation'];
-                        this.printState();
+                        
                         this.cpu_moves = [];
-                        // Fazer a animação 
-                        console.log("CURR MOVES", this.currMoves);
                         this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(), this.currMoves);
                         this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
                     }
                     else {
-                        console.log("CASA FINAL BOOST COM PEÇA -> cpu_turn(false, 1)");
                         this.currMoves.push(new Move(2, x1, y1, x2, y2, x3, y3));
                         this.cpu_turn(false, 1);
                     }
@@ -663,7 +584,7 @@ class MyGameOrchestrator extends CGFobject {
             this.currMove = [];
             this.currMoves = [];
             this.gameState = this.gameStates["Select Piece"];
-            this.printState();
+            
         }
     }
 
@@ -671,7 +592,7 @@ class MyGameOrchestrator extends CGFobject {
         if(data.target.response==1) {
             // NEW ANIM HERE
             this.gameState = this.gameStates['Animation'];
-            this.printState();
+            
             this.currMoves.push(new Move(1, x1, y1, x2, y2, x3, y3));
             this.clearSelects();
             this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(),this.currMoves);
@@ -687,7 +608,7 @@ class MyGameOrchestrator extends CGFobject {
             this.currMove = [];
             this.currMoves = [];
             this.gameState = this.gameStates["Select Piece"];
-            this.printState();
+            
         }
     }
 
@@ -696,7 +617,7 @@ class MyGameOrchestrator extends CGFobject {
             // NEW ANIM HERE
             this.clearSelects();
             this.gameState = this.gameStates['Animation'];
-            this.printState();
+            
             // Fazer a animação 
             //this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
             this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(), this.currMoves);      
@@ -705,7 +626,7 @@ class MyGameOrchestrator extends CGFobject {
             this.currMove = [];
             this.currMoves = [];
             this.gameState = this.gameStates["Select Piece"];
-            this.printState();
+            
         }
     }
 
@@ -731,10 +652,10 @@ class MyGameOrchestrator extends CGFobject {
             this.tiles[x1 + '-' + y1].unsetPiece();
         }
         this.gameState = this.gameStates["Check Win"];
-        this.printState();
+        
         this.checkWin();
         this.gameState = this.gameStates["Next turn"];
-        this.printState();
+        
         this.animator = null;
     }
 }
