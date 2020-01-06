@@ -138,6 +138,7 @@ class MyGameOrchestrator extends CGFobject {
     clearAll(){
         this.movegames = [[]];
         this.currMove=[];
+        this.currMoves=[];
         this.theme = false;
         this.chainMoves = [];
         this.validChainMove = false;
@@ -638,6 +639,7 @@ class MyGameOrchestrator extends CGFobject {
             this.clearSelects();
             this.selectedTile = null;
             this.currMove = [];
+            this.currMoves = [];
             this.gameState = this.gameStates["Select Piece"];
             this.printState();
         }
@@ -661,6 +663,7 @@ class MyGameOrchestrator extends CGFobject {
             this.clearSelects();
             this.selectedTile = null;
             this.currMove = [];
+            this.currMoves = [];
             this.gameState = this.gameStates["Select Piece"];
             this.printState();
         }
@@ -678,6 +681,7 @@ class MyGameOrchestrator extends CGFobject {
             this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());      
         } else {
             this.currMove = [];
+            this.currMoves = [];
             this.gameState = this.gameStates["Select Piece"];
             this.printState();
         }
