@@ -14,21 +14,21 @@ class MyPieceModel extends CGFobject {
             this.mat = new CGFappearance(scene);
             this.mat.setAmbient(65/255, 35/255, 35/255, 1.0);
             this.mat.setDiffuse(35/255, 5/255, 5/255, 1.0);
-            this.mat.setSpecular(35/255, 5/255, 5/255, 1.0);
+            this.mat.setSpecular(90/255, 75/255, 75/255, 1.0);
             this.mat.setShininess(10.0);
         }
         else if(level==2) {
             this.mat = new CGFappearance(scene);
             this.mat.setAmbient(35/255, 35/255, 0/255, 1.0);
             this.mat.setDiffuse(35/255, 35/255, 0/255, 1.0);
-            this.mat.setSpecular(35/255, 35/255, 0/255, 1.0);
+            this.mat.setSpecular(100/255, 100/255, 90/255, 1.0);
             this.mat.setShininess(10.0);
         }
         else {
             this.mat = new CGFappearance(scene);
             this.mat.setAmbient(0/255, 56/255, 55/255, 1.0);
             this.mat.setDiffuse(0/255, 56/255, 55/255, 1.0);
-            this.mat.setSpecular(0/255, 56/255, 55/255, 1.0);
+            this.mat.setSpecular(100/255, 112/255, 110/255, 1.0);
             this.mat.setShininess(10.0);
         }
         
