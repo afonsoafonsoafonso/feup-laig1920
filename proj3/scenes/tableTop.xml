@@ -25,24 +25,6 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </omni>
-        <omni id="LightR" enabled="1">
-            <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
-            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
-        </omni>
-        <omni id="LightG" enabled="1">
-            <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
-            <specular r="0.0" g="1.0" b="0.0" a="1.0" />
-        </omni>
-        <omni id="LightB" enabled="1">
-            <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="0" g="0" b="0" a="1.0" />
-            <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
-            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
-        </omni>
         <spot id="Light2" enabled="1" angle="180" exponent="1">
             <location x="3" y="10" z="5" w="1.0" />
             <target x="3" y="0" z="3" />
