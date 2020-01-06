@@ -534,7 +534,8 @@ class MyGameOrchestrator extends CGFobject {
                         this.printState();
                         this.cpu_moves = [];
                         // Fazer a animação 
-                        this.animator.calculate_animation(this.tiles[x1 + '-' + y1].getPiece(), x1, y1, x2, y2);
+                        this.currMoves.push(new Move(0, x1, y1, x2, y2));
+                        this.animator.calculate_animations(this.tiles[x1 + '-' + y1].getPiece(), this.currMoves);
                         this.animator.setAnimation(this.tiles[x1 + '-' + y1].getPiece());
                     
                 }
@@ -582,6 +583,7 @@ class MyGameOrchestrator extends CGFobject {
                     console.log("CPU MOVES LIST:", this.cpu_moves);
                     this.cpu_moves.push([move[0], move[1]+1]);
                     console.log("CPU MOVES LIST:", this.cpu_moves);
+                    this.currMoves.push(new Move(2, x1, y1, x2, y2, x3, y3));
                     if(this.tiles[x3 + '-' + y3].getPiece()==null) {
                         console.log("CASA FINAL BOOST SEM PEÇA -> animation")
                         this.currMove = [];
