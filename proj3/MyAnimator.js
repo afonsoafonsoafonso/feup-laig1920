@@ -31,15 +31,18 @@ class MyAnimator {
         var keyframes = [];
         var secondsSinceStart = (this.currTime - this.startTime)/10000;
         keyframes.push(new Keyframe(secondsSinceStart, 0, 0, 0, 0, 0, 0, 1, 1, 1));
-        keyframes.push(new Keyframe(secondsSinceStart+0.5, 0, 2, 0, 0, 0, 0, 1, 1, 1));
         if(moves.length==1 && moves[0].type==0) {
             console.log("MOVE NORMAL");
             var x1 = moves[0].x1;
             var y1 = moves[0].y1;
             var x2 = moves[0].x2;
             var y2 = moves[0].y2;
-            keyframes.push(new Keyframe(secondsSinceStart+1, y2-y1, 2, x2-x1, 0, 0, 0, 1, 1, 1));
-            keyframes.push(new Keyframe(secondsSinceStart+1.5, y2-y1, 0, x2-x1, 0, 0, 0, 1, 1, 1));
+            keyframes.push(new Keyframe(secondsSinceStart+0.20, 0, 0.67, 0, 0, 0, 0, 1, 1, 1));
+            keyframes.push(new Keyframe(secondsSinceStart+0.40, (y2-y1)*0.25, 1.33, (x2-x1)*0.25, 0, 0, 0, 1, 1, 1));
+            keyframes.push(new Keyframe(secondsSinceStart+0.5, (y2-y1)*0.5, 2, (x2-x1)*0.5, 0, 0, 0, 1, 1, 1));
+            keyframes.push(new Keyframe(secondsSinceStart+0.6, (y2-y1)*0.75, 1.33, (x2-x1)*0.75, 0, 0, 0, 1, 1, 1));
+            keyframes.push(new Keyframe(secondsSinceStart+0.8, (y2-y1)*1, 0.67, (x2-x1)*1, 0, 0, 0, 1, 1, 1));
+            keyframes.push(new Keyframe(secondsSinceStart+1, (y2-y1), 0, (x2-x1), 0, 0, 0, 1, 1, 1));
         }
         else {
             var x1 = moves[0].x1;
@@ -51,6 +54,7 @@ class MyAnimator {
             var t = secondsSinceStart+2;
             var reprogramKeyframes = [];
             reprogramKeyframes.push(new Keyframe(t, 0, 0, 0, 0, 0, 0, 1, 1, 1));
+            keyframes.push(new Keyframe(secondsSinceStart+0.5, 0, 1, 0, 0, 0, 0, 1, 1, 1));
             for(let i=0; i<moves.length; i++) {
                 x1 = moves[i].x1;
                 y1 = moves[i].y1;
@@ -67,10 +71,13 @@ class MyAnimator {
                 if(i!=moves.length-1) {
                     console.log("NOT LAST ITEM OF ARRAY");
                     keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
+                    keyframes.push(new Keyframe(t+0.25, (y3-y1)*0.5, 2, (x3-x1)*0.5, 0, 0, 0, 1, 1, 1));
                     t+=0.5;
                     keyframes.push(new Keyframe(t, y3-y1, 1, x3-x1, 0, 0, 0, 1, 1, 1));
+                    keyframes.push(new Keyframe(t+0.25, (y3-y1)*0.5, 2, (x3-x1)*0.5, 0, 0, 0, 1, 1, 1));
                     t+=0.5;
                     keyframes.push(new Keyframe(t, y3-y1, 2, x3-x1, 0, 0, 0, 1, 1, 1));
+                    keyframes.push(new Keyframe(t+0.25, (y3-y1)*0.5, 2, (x3-x1)*0.5, 0, 0, 0, 1, 1, 1));
                     t+=0.5;
                 }
                 else {
